@@ -1,0 +1,71 @@
+name: Build ARM64 FFmpeg engine
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - native-android-v0.2
+    paths:
+      - '.github/workflows/build-arm64-engine.yml'
+
+jobs:
+  arm64:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y make
+      - name: Install Android NDK
+        run: |
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager 'ndk;28.2.13676358'
+      - name: Compile ARM64 FFmpeg and ffprobe
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT="$GITHUB_WORKSPACE"
+          BUILD="$ROOT/build/android-arm64"
+          OUT="$ROOT/android-engine-artifact/arm64-v8a"
+          NDK="$ANDROID_SDK_ROOT/ndk/28.2.13676358"
+          TC="$NDK/toolchains/llvm/prebuilt/linux-x86_64"
+          API=26
+          rm -rf "$BUILD"
+          mkdir -p "$BUILD" "$OUT"
+          cd "$BUILD"
+          "$ROOT/configure" \
+            --target-os=android \
+            --arch=aarch64 \
+            --enable-cross-compile \
+            --cc="$TC/bin/aarch64-linux-android${API}-clang" \
+            --cxx="$TC/bin/aarch64-linux-android${API}-clang++" \
+            --ar="$TC/bin/llvm-ar" \
+            --ranlib="$TC/bin/llvm-ranlib" \
+            --nm="$TC/bin/llvm-nm" \
+            --strip="$TC/bin/llvm-strip" \
+            --sysroot="$TC/sysroot" \
+            --disable-shared \
+            --enable-static \
+            --disable-doc \
+            --disable-debug \
+            --enable-jni \
+            --enable-mediacodec \
+            --enable-pic \
+            --extra-cflags='-fPIC' \
+            --extra-ldflags='-fPIE -pie'
+          make -j2 ffmpeg ffprobe
+          cp ffmpeg "$OUT/libffmpeg_exec.so"
+          cp ffprobe "$OUT/libffprobe_exec.so"
+          "$TC/bin/llvm-strip" "$OUT/libffmpeg_exec.so" || true
+          "$TC/bin/llvm-strip" "$OUT/libffprobe_exec.so" || true
+          test -s "$OUT/libffmpeg_exec.so"
+          test -s "$OUT/libffprobe_exec.so"
+      - name: Upload ARM64 engines
+        uses: actions/upload-artifact@v4
+        with:
+          name: FFmpegStudio-ARM64-engines-v0.2
+          path: android-engine-artifact
+          if-no-files-found: error
