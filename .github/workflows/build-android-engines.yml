@@ -1,0 +1,105 @@
+name: Build Android FFmpeg engines
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - native-android-v0.2
+    paths:
+      - '.github/workflows/build-android-engines.yml'
+      - 'configure'
+      - 'fftools/**'
+      - 'libavcodec/**'
+      - 'libavfilter/**'
+      - 'libavformat/**'
+      - 'libavutil/**'
+      - 'libswresample/**'
+      - 'libswscale/**'
+
+jobs:
+  build-engines:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install build prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y make nasm
+
+      - name: Install Android NDK
+        shell: bash
+        run: |
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager 'ndk;28.2.13676358'
+
+      - name: Build FFmpeg and ffprobe for Android
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT="$GITHUB_WORKSPACE"
+          FFMPEG_SRC="$ROOT"
+          OUT_ROOT="$ROOT/build/android-ffmpeg"
+          JNI_ROOT="$ROOT/android-engine-artifact"
+          API=26
+          NDK="$ANDROID_SDK_ROOT/ndk/28.2.13676358"
+          TOOLCHAIN="$NDK/toolchains/llvm/prebuilt/linux-x86_64"
+          JOBS=2
+
+          build_one() {
+            ABI="$1"
+            ARCH="$2"
+            TARGET="$3"
+            BUILD_DIR="$OUT_ROOT/$ABI"
+            PREFIX="$BUILD_DIR/install"
+            rm -rf "$BUILD_DIR"
+            mkdir -p "$BUILD_DIR" "$JNI_ROOT/$ABI"
+            cd "$BUILD_DIR"
+            "$FFMPEG_SRC/configure" \
+              --prefix="$PREFIX" \
+              --target-os=android \
+              --arch="$ARCH" \
+              --enable-cross-compile \
+              --cc="$TOOLCHAIN/bin/${TARGET}${API}-clang" \
+              --cxx="$TOOLCHAIN/bin/${TARGET}${API}-clang++" \
+              --ar="$TOOLCHAIN/bin/llvm-ar" \
+              --ranlib="$TOOLCHAIN/bin/llvm-ranlib" \
+              --nm="$TOOLCHAIN/bin/llvm-nm" \
+              --strip="$TOOLCHAIN/bin/llvm-strip" \
+              --sysroot="$TOOLCHAIN/sysroot" \
+              --disable-shared \
+              --enable-static \
+              --disable-doc \
+              --disable-debug \
+              --enable-jni \
+              --enable-mediacodec \
+              --enable-pic \
+              --extra-cflags='-fPIC' \
+              --extra-ldflags='-fPIE -pie'
+            make -j"$JOBS" ffmpeg ffprobe
+            cp -f ffmpeg "$JNI_ROOT/$ABI/libffmpeg_exec.so"
+            cp -f ffprobe "$JNI_ROOT/$ABI/libffprobe_exec.so"
+            "$TOOLCHAIN/bin/llvm-strip" "$JNI_ROOT/$ABI/libffmpeg_exec.so" || true
+            "$TOOLCHAIN/bin/llvm-strip" "$JNI_ROOT/$ABI/libffprobe_exec.so" || true
+          }
+
+          build_one arm64-v8a aarch64 aarch64-linux-android
+          build_one x86_64 x86_64 x86_64-linux-android
+
+          file "$JNI_ROOT/arm64-v8a/libffmpeg_exec.so"
+          file "$JNI_ROOT/arm64-v8a/libffprobe_exec.so"
+          file "$JNI_ROOT/x86_64/libffmpeg_exec.so"
+          file "$JNI_ROOT/x86_64/libffprobe_exec.so"
+          test -s "$JNI_ROOT/arm64-v8a/libffmpeg_exec.so"
+          test -s "$JNI_ROOT/arm64-v8a/libffprobe_exec.so"
+          test -s "$JNI_ROOT/x86_64/libffmpeg_exec.so"
+          test -s "$JNI_ROOT/x86_64/libffprobe_exec.so"
+
+      - name: Upload engines
+        uses: actions/upload-artifact@v4
+        with:
+          name: FFmpegStudio-Android-engines-v0.2
+          path: android-engine-artifact
+          if-no-files-found: error
