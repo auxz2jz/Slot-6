@@ -1,5 +1,48 @@
-const CACHE='openffmpeg-studio-v1';
-const APP=['./','./index.html','./style.css','./app.js','./manifest.webmanifest'];
-self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(c=>c.addAll(APP)).then(()=>self.skipWaiting())));
-self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
-self.addEventListener('fetch',event=>{if(event.request.method!=='GET')return;event.respondWith(caches.match(event.request).then(hit=>hit||fetch(event.request).then(resp=>{const copy=resp.clone();caches.open(CACHE).then(c=>c.put(event.request,copy));return resp;})));});
+const CACHE='openffmpeg-studio-v2';
+const APP_SHELL=['./','./index.html','./style.css','./app.js','./manifest.webmanifest'];
+
+self.addEventListener('install',event=>{
+  event.waitUntil(
+    caches.open(CACHE)
+      .then(cache=>cache.addAll(APP_SHELL))
+      .then(()=>self.skipWaiting())
+  );
+});
+
+self.addEventListener('activate',event=>{
+  event.waitUntil(
+    caches.keys()
+      .then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key))))
+      .then(()=>self.clients.claim())
+  );
+});
+
+self.addEventListener('fetch',event=>{
+  const request=event.request;
+  if(request.method!=='GET')return;
+
+  const url=new URL(request.url);
+  if(url.origin!==self.location.origin)return;
+
+  event.respondWith((async()=>{
+    try{
+      // Network-first prevents an old app.js/style/runtime from masking a new GitHub Pages deployment.
+      const response=await fetch(request);
+      if(response&&response.ok){
+        const copy=response.clone();
+        event.waitUntil(caches.open(CACHE).then(cache=>cache.put(request,copy)));
+      }
+      return response;
+    }catch(error){
+      const cached=await caches.match(request);
+      if(cached)return cached;
+
+      // Keep navigation usable offline after the app shell has been installed.
+      if(request.mode==='navigate'){
+        const fallback=await caches.match('./index.html');
+        if(fallback)return fallback;
+      }
+      throw error;
+    }
+  })());
+});
