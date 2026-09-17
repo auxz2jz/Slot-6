@@ -1,0 +1,41 @@
+name: Vendor OpenFFmpeg Web Runtime
+
+on:
+  push:
+    paths:
+      - '.github/workflows/vendor-openffmpeg-web-runtime.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  vendor-runtime:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Slot-6
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Copy tested ffmpeg.wasm runtime into docs
+        run: |
+          set -euo pipefail
+          mkdir -p docs/vendor/ffmpeg
+          base='https://raw.githubusercontent.com/auxz2jz/Slot-5/main/vendor/ffmpeg'
+          for file in ffmpeg.js 814.ffmpeg.js ffmpeg-core.js ffmpeg-core.wasm VERSIONS.txt; do
+            curl -L --fail --retry 3 "$base/$file" -o "docs/vendor/ffmpeg/$file"
+          done
+
+      - name: Commit runtime files
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/vendor/ffmpeg
+          if git diff --cached --quiet; then
+            echo 'Runtime is already current.'
+          else
+            git commit -m 'Vendor local ffmpeg.wasm runtime for OpenFFmpeg Studio'
+            git push origin main
+          fi
