@@ -5,7 +5,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-arm64:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        abi: [arm64-v8a, x86_64]
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
@@ -19,10 +23,10 @@ jobs:
           API: 26
         run: |
           export ANDROID_NDK_HOME="$ANDROID_SDK_ROOT/ndk/29.0.14206865"
-          bash android-native/build_ffmpeg_android.sh arm64-v8a
+          bash android-native/build_ffmpeg_android.sh "${{ matrix.abi }}"
       - name: Upload native engine
         uses: actions/upload-artifact@v4
         with:
-          name: openffmpeg-native-arm64-v8a
-          path: android-native/output/arm64-v8a
+          name: openffmpeg-native-${{ matrix.abi }}
+          path: android-native/output/${{ matrix.abi }}
           if-no-files-found: error
