@@ -1,0 +1,27 @@
+name: Build Android FFmpeg Native Engine
+on:
+  push:
+    branches: [ android-native-build ]
+  workflow_dispatch:
+
+jobs:
+  build-arm64:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Android NDK r29
+        run: |
+          yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null || true
+          "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" "ndk;29.0.14206865"
+      - name: Build FFmpeg CLI shared library
+        env:
+          ANDROID_NDK_HOME: ${{ env.ANDROID_SDK_ROOT }}/ndk/29.0.14206865
+          API: 26
+        run: bash android-native/build_ffmpeg_android.sh arm64-v8a
+      - name: Upload native engine
+        uses: actions/upload-artifact@v4
+        with:
+          name: openffmpeg-native-arm64-v8a
+          path: android-native/output/arm64-v8a
+          if-no-files-found: error
