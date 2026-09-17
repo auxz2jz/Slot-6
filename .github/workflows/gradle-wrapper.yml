@@ -1,0 +1,30 @@
+name: Generate Gradle Wrapper
+on:
+  push:
+    branches: [ android-native-build ]
+    paths:
+      - '.github/workflows/gradle-wrapper.yml'
+  workflow_dispatch:
+
+jobs:
+  wrapper:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.6.0'
+      - name: Generate wrapper
+        run: |
+          rm -rf /tmp/openffmpeg-wrapper
+          mkdir -p /tmp/openffmpeg-wrapper
+          cd /tmp/openffmpeg-wrapper
+          printf 'rootProject.name = "wrapper"\n' > settings.gradle.kts
+          printf '' > build.gradle.kts
+          gradle wrapper --gradle-version 9.6.0 --distribution-type bin
+      - name: Upload wrapper jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: gradle-wrapper-9.6.0
+          path: /tmp/openffmpeg-wrapper/gradle/wrapper/gradle-wrapper.jar
+          if-no-files-found: error
