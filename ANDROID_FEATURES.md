@@ -1,326 +1,379 @@
-# OpenFFmpeg Android — Master Feature List
+# FFmpeg Studio Android — Master Roadmap
 
-This is the clean starting specification for rebuilding Slot-6 as a native Android application in Kotlin + Jetpack Compose while keeping the original FFmpeg codebase as the media-processing engine through Android NDK/JNI.
+This file is the **continuous master record** for the Slot-6 Android application. It tracks what is already working, what still needs to be implemented, and which work is likely to require rebuilding the native FFmpeg engine.
 
-## Already implemented in the previous Slot-6 application — carry forward
+## Roadmap maintenance rules
 
-### File handling and local processing
-- Choose a video, audio, or image file.
-- Display filename, size, media type, and duration.
-- Process media locally on the device.
-- Preserve an offline-first workflow with no upload required for normal conversion.
+1. **Keep this file current.** Whenever a roadmap feature is completed and verified, update this file in the same development cycle.
+2. **Do not delete completed features.** Move or mark them as completed so the repository retains a continuous record of progress.
+3. **Merge duplicates instead of creating repeated entries.** Keep the most complete wording and use sub-items for related capabilities.
+4. **Do not mark a feature complete just because code was written.** Mark it complete only after it has been built successfully and, when appropriate, tested on a physical Android device.
+5. **Record partial completion clearly.** Use `PARTIAL` when only part of a roadmap item is working.
+6. **Preserve the known-good app while developing.** Major native-engine changes should be isolated from the last verified working version until they have been tested.
+7. **Avoid unnecessary GitHub/native-engine work.** Android/Kotlin features should be implemented without rebuilding FFmpeg when the existing engine already supports them.
+8. **Use controlled GitHub operations.** When native-engine work is necessary, perform one deliberate change/build/check cycle at a time. Do not continuously poll workflows or automatically retry failed builds in a loop.
+9. **Update this roadmap after each verified feature completion** so future work can resume from the repository record without relying only on conversation history.
+10. **Keep status labels accurate:**
+   - `DONE` = implemented and verified.
+   - `PARTIAL` = some of the feature is implemented, but roadmap work remains.
+   - `TODO` = not yet implemented.
+   - `NATIVE BUILD` = likely requires rebuilding or expanding the native FFmpeg engine.
 
-### Existing output formats
-- MP4 using H.264/AAC.
-- MKV using H.264/AAC.
-- WebM using VP9/Opus.
-- MOV using H.264/AAC.
-- MP3 audio output.
-- WAV audio output.
-- FLAC audio output.
-- Animated GIF output.
+---
 
-### Existing encoding controls
-- Quality presets: High Quality, Balanced, Smaller File.
-- Resolution: Original, 2160p, 1440p, 1080p, 720p, 480p, 360p.
-- Frame rate: Original, 60, 30, 24, 15 FPS.
-- Audio bitrate: 96, 128, 160, 192, 256, 320 kbps.
-- Faster-encoding mode.
-- Fast remux / stream-copy mode when possible.
-- Preserve metadata toggle.
-- Custom output filename.
+# 1. Core native Android foundation
 
-### Existing editing controls
-- Trim start time.
-- Trim end time.
-- Rotate 90° clockwise.
-- Rotate 90° counterclockwise.
-- Rotate 180°.
-- Horizontal flip.
-- Vertical flip.
-- Playback speed: 0.5x, 0.75x, 1x, 1.25x, 1.5x, 2x.
-- Volume: 50%, 75%, 100%, 125%, 150%, 200%.
-- Remove audio / mute.
-- Grayscale filter.
+- `DONE` Native Kotlin Android application.
+- `DONE` Jetpack Compose user interface.
+- `DONE` Android Studio-ready Gradle project.
+- `DONE` Native FFmpeg and ffprobe engine packaged with the app for ARM64.
+- `DONE` Local/on-device processing with no normal media upload requirement.
+- `DONE` Android Storage Access Framework input selection.
+- `DONE` Output-file saving through Android storage APIs.
+- `DONE` Basic foreground conversion service.
+- `DONE` Conversion progress reporting.
+- `DONE` Conversion cancellation.
+- `DONE` Human-readable error display with expandable technical details.
+- `DONE` FFmpeg engine status display.
+- `DONE` Basic video conversion tested successfully on a physical Android phone.
+- `DONE` Hardware H.264/H.265 MediaCodec paths included in the current FFmpeg engine.
+- `DONE` Software MPEG-4 fallback available.
+- `DONE` Basic ffprobe/media inspection support.
+- `TODO` Share completed files directly with other Android apps.
+- `TODO` Native media preview/player improvements.
+- `TODO` Better memory handling for very large media files.
+- `TODO` Completion/failure notifications and richer background-job handling.
 
-### Existing advanced tools
-- Advanced FFmpeg arguments.
-- Generated FFmpeg command preview.
-- Copy generated command.
-- Activity/FFmpeg log.
-- Error logging.
+# 2. Smart target-file-size system
 
-### Existing job controls
-- Start conversion.
-- Cancel conversion.
-- Progress bar.
-- Progress percentage.
-- Processing status.
-- Result preview for video, audio, or image output.
-- Save/download finished result.
+- `TODO` Enter a desired final size such as 10 MB, 25 MB, 100 MB, 700 MB, or a custom value.
+- `TODO` Calculate available video bitrate automatically from duration and audio requirements.
+- `TODO` Analyze the input media before choosing settings.
+- `TODO` Automatically select a suitable codec, bitrate, resolution, frame rate, and audio configuration.
+- `TODO` User priorities:
+  - Best quality.
+  - Smallest file.
+  - Fastest conversion.
+  - Maximum compatibility.
+- `TODO` Quality safeguards that prevent unreasonable settings solely to hit an impossible size.
+- `TODO` Warn when a requested file size is unrealistic and recommend alternatives.
+- `TODO` Two-pass encoding when useful for more accurate size targeting.
+- `TODO` Estimated output size before encoding.
+- `TODO` Estimated size during encoding where practical.
 
-### Existing screenshot and inspection tools
-- Extract a PNG screenshot at a selected timestamp.
-- Screenshot sizing: Original, up to 1920 px, 1280 px, or 854 px wide.
-- Basic media information panel.
-- FFmpeg engine status display.
+# 3. Expanded codec and container support
 
-## Planned features — implement in the native Android version
+## Video codecs
+- `DONE` H.264 / AVC through Android MediaCodec where supported.
+- `DONE` H.265 / HEVC through Android MediaCodec where supported.
+- `DONE` MPEG-4 software encoding.
+- `DONE` Stream copy / remux option.
+- `TODO` MPEG-2.
+- `TODO` MJPEG.
+- `TODO` FFV1 / lossless archival video.
+- `TODO` ProRes-style workflows where supported.
+- `NATIVE BUILD` VP8 / VP9 using a suitable encoder such as libvpx where needed.
+- `NATIVE BUILD` AV1 using a suitable encoder such as libaom or another practical Android encoder.
+- `NATIVE BUILD` libx264 software H.264 encoding.
+- `NATIVE BUILD` libx265 software HEVC encoding.
 
-### Architecture and Android foundation
-- Native Android application written in Kotlin.
-- Jetpack Compose user interface.
-- Android Studio-ready Gradle project.
-- Keep the original FFmpeg source as the primary media engine.
-- Compile FFmpeg for Android with the Android NDK.
-- JNI/native bridge between Kotlin and FFmpeg.
-- Software FFmpeg encoding fallback.
-- Use supported Android hardware-accelerated codec paths where practical.
-- No internet connection required for normal encoding/editing.
-- Android Storage Access Framework file picker.
-- Select input files and output locations.
-- Save directly to Android storage.
-- Share completed files with other Android apps.
-- Native media preview/player.
-- Better memory handling for large media files.
-- Background encoding jobs where Android permits.
-- Encoding-progress notifications.
-- Completion/failure notifications.
+## Audio codecs
+- `DONE` AAC support in the current application workflow.
+- `DONE` FLAC option.
+- `DONE` PCM option.
+- `DONE` Audio stream copy.
+- `DONE` No-audio output option.
+- `TODO` MP3.
+- `TODO` ALAC.
+- `TODO` AC-3.
+- `TODO` E-AC-3.
+- `TODO` Additional PCM/WAV formats.
+- `NATIVE BUILD` Opus through libopus where needed.
+- `NATIVE BUILD` Vorbis or other external audio codec libraries if needed.
 
-### Expanded codec and format support
-- H.264 / AVC.
-- H.265 / HEVC.
-- AV1 using suitable FFmpeg-supported encoders where practical.
-- VP9.
-- Opus.
-- AAC.
-- MP3.
-- FLAC.
-- WAV / PCM.
-- ProRes where practical.
-- Additional FFmpeg-supported image formats.
-- Broader FFmpeg-supported containers beyond the initial MP4/MKV/WebM/MOV set.
-- User-selectable codec and encoder options.
+## Containers and compatibility
+- `DONE` Basic MP4/MKV-style conversion workflow.
+- `TODO` Broader support for MOV, WebM, AVI, MPEG-TS, M4A, OGG, FLV, and other useful FFmpeg-supported containers.
+- `TODO` Automatically detect codec/container incompatibilities.
+- `TODO` Show only sensible combinations in Beginner mode.
+- `TODO` Expose broader combinations in Advanced mode.
+- `TODO` Detect available hardware encoders on the device and display only usable choices.
+- `TODO` Automatic software fallback when a hardware encoder fails.
 
-### Visual trim and timeline editing
-- Video preview while editing.
-- Draggable trim-start handle.
-- Draggable trim-end handle.
-- Timeline-style clip cutter.
-- Frame-accurate or near-frame-accurate seeking where practical.
-- Split one video into multiple clips.
-- Merge clips.
-- Join multiple videos.
-- Join video and audio files.
+# 4. Visual trimming and editing
 
-### Visual crop and geometry tools
-- Draggable crop rectangle over video preview.
-- Crop presets.
-- Resize.
-- Pad / letterbox.
-- Aspect-ratio conversion.
-- Custom dimensions.
-- Vertical 1080x1920 preset.
-- Square 1080x1080 preset.
-- 4K / 2160p preset.
-- 1440p preset.
-- 1080p preset.
-- 720p preset.
-- 480p preset.
+- `PARTIAL` Trim start/end currently available through entered values.
+- `TODO` Visual video timeline.
+- `TODO` Draggable trim-start handle.
+- `TODO` Draggable trim-end handle.
+- `TODO` Preview while seeking/trimming.
+- `TODO` Frame-accurate or near-frame-accurate seeking where practical.
+- `TODO` Draggable crop rectangle over video preview.
+- `DONE` Basic resize/resolution selection.
+- `TODO` Custom dimensions.
+- `TODO` Aspect-ratio conversion.
+- `TODO` Pad / letterbox controls.
+- `TODO` Frame-rate selection and conversion.
+- `TODO` Rotate 90° clockwise/counterclockwise and 180°.
+- `TODO` Horizontal and vertical flip.
+- `TODO` Split one video into multiple clips.
+- `TODO` Merge/join videos.
+- `TODO` Join video and audio files.
+- `TODO` Reorder clips before joining.
+- `TODO` Basic transitions where practical.
 
-### Time and motion tools
-- Playback-speed changes.
-- Slow motion.
-- Time lapse.
-- Reverse video where practical.
-- Reverse audio where practical.
-- Video fade in.
-- Video fade out.
-- Audio fade in.
-- Audio fade out.
+# 5. Time and motion tools
 
-### Compression and advanced encoding
-- Manual bitrate controls.
-- Constant-quality controls.
-- Frame-rate conversion.
-- Two-pass encoding.
-- Target-file-size encoding.
-- Preset target sizes such as 10 MB, 25 MB, and 100 MB.
-- Custom target size.
-- Automatic bitrate calculation from desired size and duration.
-- Estimated output size where practical.
-- Estimated time remaining where practical.
-- Audio-only extraction.
-- Video-only output.
-- Fast stream copy / remux.
-- Reusable custom FFmpeg presets.
+- `TODO` Playback-speed changes.
+- `TODO` Slow motion.
+- `TODO` Time lapse.
+- `TODO` Reverse video where practical.
+- `TODO` Reverse audio where practical.
+- `TODO` Video fade in/out.
+- `TODO` Audio fade in/out.
 
-### Batch processing and queue
-- Select multiple files.
-- Batch conversion queue.
-- Per-file status.
-- Per-file progress.
-- Cancel individual jobs.
-- Pause/resume queue where technically practical.
-- Apply one preset to all selected files.
-- Assign different presets to individual files.
-- Completed-job history.
-- Repeat previous job.
-- Retry failed jobs.
+# 6. Batch processing and queue
 
-### Preset library
-- Phone preset.
-- TV preset.
-- Archive preset.
-- Discord preset.
-- Email attachment preset.
-- YouTube preset.
-- Social-media presets.
-- Save custom presets.
-- Favorite/pinned presets.
-- Recent presets.
+- `TODO` Select multiple files.
+- `TODO` Batch conversion queue.
+- `TODO` Reorder queued jobs.
+- `TODO` Per-file status and progress.
+- `TODO` Cancel individual jobs.
+- `TODO` Pause/resume queue where technically practical.
+- `TODO` Apply one preset to all selected files.
+- `TODO` Assign different settings to individual files.
+- `TODO` Retry failed jobs.
+- `TODO` Completed-job history.
+- `TODO` Repeat/re-run previous jobs.
+- `TODO` Overall queue progress.
 
-### Video filters
-- Brightness.
-- Contrast.
-- Saturation.
-- Hue.
-- Sharpen.
-- Blur.
-- Denoise.
-- Grayscale.
-- Deinterlace.
-- Color temperature where practical.
-- Gamma.
-- Simple color-correction presets.
+# 7. Presets and automatic recommendations
 
-### Audio tools
-- Volume adjustment.
-- Loudness normalization.
-- Peak normalization.
-- EQ controls.
-- Bass controls.
-- Treble controls.
-- Noise reduction where practical.
-- Trim silence.
-- Stereo-to-mono conversion.
-- Mono-to-stereo conversion where useful.
-- Channel selection.
-- Sample-rate conversion.
-- Audio bitrate selection.
-- Replace audio track.
-- Mix multiple audio sources.
-- Add background music.
-- Audio fades.
+- `TODO` Phone preset.
+- `TODO` TV preset.
+- `TODO` Archive preset.
+- `TODO` Discord/messaging preset.
+- `TODO` Email attachment preset.
+- `TODO` YouTube/video-sharing preset.
+- `TODO` Social-media presets.
+- `TODO` High-quality preset.
+- `TODO` Small-file preset.
+- `TODO` Fast-encode preset.
+- `TODO` Maximum-compatibility preset.
+- `TODO` Save custom presets.
+- `TODO` Favorite/pinned presets.
+- `TODO` Recent presets.
+- `TODO` Remember previous settings.
+- `TODO` Analyze the source file and recommend sensible settings.
+- `TODO` Automatically identify when re-encoding is unnecessary.
+- `TODO` Auto codec/settings mode tied to target-size and user priorities.
 
-### Watermarks, text, and overlays
-- Image/logo watermark.
-- Text overlay.
-- Date/time overlay.
-- Custom captions.
-- Picture-in-picture.
-- Position controls.
-- Opacity controls.
-- Overlay start time.
-- Overlay end time.
+# 8. Audio tools
 
-### Subtitle tools
-- Burn subtitles into video.
-- Add subtitle streams.
-- Remove subtitle streams.
-- Extract subtitle streams.
-- Convert supported subtitle formats.
-- Select subtitle language/track.
-- Style burned subtitles where supported.
+- `DONE` Extract audio.
+- `DONE` Remove audio.
+- `TODO` Replace audio track.
+- `TODO` Select among multiple audio tracks.
+- `TODO` Audio bitrate controls.
+- `TODO` Volume adjustment.
+- `TODO` Loudness normalization.
+- `TODO` Peak normalization.
+- `TODO` EQ controls.
+- `TODO` Bass and treble controls.
+- `TODO` Noise reduction where practical.
+- `TODO` Trim silence.
+- `TODO` Stereo-to-mono conversion.
+- `TODO` Mono-to-stereo conversion where useful.
+- `TODO` Channel selection.
+- `TODO` Sample-rate conversion.
+- `TODO` Mix multiple audio sources.
+- `TODO` Add background music.
+- `TODO` Audio fades.
+- `TODO` Preserve/copy the original audio without re-encoding when appropriate.
 
-### Image, frame, and GIF tools
-- Extract a single screenshot.
-- Extract frames every X seconds.
-- Export full image sequences.
-- Thumbnail generator.
-- Contact-sheet generator.
-- Animated GIF creator.
-- GIF start/end selection.
-- GIF FPS control.
-- GIF size controls.
-- GIF quality controls.
+# 9. Subtitle tools
 
-### Detailed media inspector
-- Container information.
-- Video codec.
-- Audio codec.
-- Subtitle tracks.
-- Resolution.
-- Frame rate.
-- Duration.
-- Bitrate.
-- Color information where available.
-- Track/stream information.
+- `TODO` Detect subtitle tracks.
+- `TODO` Select subtitle tracks.
+- `TODO` Remove subtitle streams.
+- `TODO` Extract subtitle streams.
+- `TODO` Add external subtitle files.
+- `TODO` Burn subtitles permanently into video.
+- `TODO` Copy compatible subtitles into a new container.
+- `TODO` Convert supported subtitle formats.
+- `TODO` Select subtitle language/track.
+- `TODO` Style burned subtitles where supported.
+- `TODO` Basic subtitle metadata handling.
 
-### Metadata editor
-- Title.
-- Artist.
-- Album.
-- Comment.
-- Copyright.
-- Cover art where supported.
-- Preserve metadata.
-- Remove metadata.
+# 10. Video filters, watermarks, text, and overlays
 
-### Streaming output
-- HLS output.
-- .m3u8 playlist generation.
-- Segment creation.
-- Web-friendly MP4 output.
-- WebM output.
-- Streaming-oriented presets.
+- `TODO` Brightness.
+- `TODO` Contrast.
+- `TODO` Saturation.
+- `TODO` Hue.
+- `TODO` Sharpen.
+- `TODO` Blur.
+- `TODO` Denoise.
+- `TODO` Grayscale.
+- `TODO` Deinterlace.
+- `TODO` Color temperature where practical.
+- `TODO` Gamma.
+- `TODO` Simple color-correction presets.
+- `TODO` Image/logo watermark.
+- `TODO` Text overlay.
+- `TODO` Date/time overlay.
+- `TODO` Custom captions.
+- `TODO` Picture-in-picture.
+- `TODO` Overlay position and size controls.
+- `TODO` Overlay opacity controls.
+- `TODO` Overlay start/end times.
+- `TODO` Preview overlays before processing where practical.
 
-### Android user-interface improvements
-- Clean mobile-first dashboard.
-- Beginner mode.
-- Advanced mode.
-- Light theme.
-- Dark theme.
-- Searchable tools panel.
-- Favorites / pinned tools.
-- Settings page.
-- Better validation.
-- Human-readable error explanations.
-- Better progress display.
-- Estimated output size.
-- Estimated time remaining.
-- Visual FFmpeg command builder.
-- Human-readable explanation of the generated FFmpeg command.
-- Full FFmpeg log for troubleshooting.
+# 11. Image, frame, thumbnail, and GIF tools
 
-### Repository and build requirements
-- Keep the original FFmpeg source available as the native media engine.
-- Record the upstream FFmpeg commit used for each build.
-- Automated Android builds.
-- Codec build profiles.
-- Release APK artifacts.
-- Version numbers.
-- Changelog.
-- Android/NDK build documentation.
-- License notices for bundled codec libraries.
-- Automated build/smoke tests.
+- `PARTIAL` Basic GIF creation is available.
+- `TODO` Improved GIF start/end selection.
+- `TODO` GIF FPS controls.
+- `TODO` GIF size/resolution controls.
+- `TODO` GIF quality controls.
+- `TODO` Extract a single frame/screenshot at a selected timestamp.
+- `TODO` Extract frames every X seconds.
+- `TODO` Export full image sequences.
+- `TODO` Thumbnail generator.
+- `TODO` Contact-sheet generator.
 
-## Recommended development order
-1. Native Android project shell: Kotlin + Jetpack Compose + NDK/JNI bridge.
-2. Build original FFmpeg for Android and prove a basic conversion.
-3. Port all features that already existed in the previous Slot-6 app.
-4. Visual trimming.
-5. Visual cropping.
-6. Batch conversion queue.
-7. Merge / join.
-8. Target-file-size compression.
-9. Subtitle tools.
-10. Expanded codec support.
-11. Watermarks and overlays.
-12. Audio cleanup tools.
-13. Preset library.
-14. Detailed metadata/stream inspector.
-15. Hardware-accelerated paths and further optimization.
+# 12. Detailed media inspector and metadata
 
-## Core project rule
-Kotlin + Jetpack Compose is the Android interface. The original FFmpeg source remains the primary media-processing engine through Android NDK/JNI rather than being replaced by an unrelated encoding library.
+- `PARTIAL` Basic ffprobe/media inspection exists.
+- `TODO` Container information.
+- `TODO` Video codec/profile/level details.
+- `TODO` Audio codec details.
+- `TODO` Subtitle-track details.
+- `TODO` Resolution.
+- `TODO` Frame rate.
+- `TODO` Duration.
+- `TODO` Bitrate.
+- `TODO` Color information where available.
+- `TODO` Full track/stream information.
+- `TODO` Metadata viewer.
+- `TODO` Metadata editor for title, artist, album, comments, copyright, etc.
+- `TODO` Cover art where supported.
+- `TODO` Preserve metadata option.
+- `TODO` Remove metadata option.
+- `TODO` Keep technical information accessible without cluttering Beginner mode.
+
+# 13. Output and file-management improvements
+
+- `PARTIAL` Output-file selection and saving are working.
+- `TODO` Better automatic output filenames.
+- `TODO` Custom filename templates.
+- `TODO` Output-folder controls.
+- `TODO` Avoid accidental overwrites.
+- `TODO` Automatically suggest the correct extension.
+- `TODO` Free-space checks.
+- `TODO` Estimated output file size.
+- `TODO` Convenient access to completed files.
+- `TODO` Share finished files with other Android apps.
+- `TODO` Conversion history.
+- `TODO` Re-run a previous job.
+
+# 14. Progress, performance, and reliability
+
+- `DONE` Basic conversion progress percentage.
+- `DONE` Cancellation.
+- `DONE` Human-readable errors plus technical details.
+- `TODO` Elapsed time.
+- `TODO` Estimated time remaining.
+- `TODO` Encoding speed display.
+- `TODO` Estimated final file size during encoding.
+- `TODO` Hardware-encoder capability detection.
+- `TODO` Automatic software fallback when hardware encoding fails.
+- `TODO` Recovery from failed jobs without losing the batch queue.
+- `TODO` Better validation before conversion starts.
+- `TODO` Better handling of very large files.
+
+# 15. Beginner and Advanced modes
+
+- `PARTIAL` Advanced raw FFmpeg arguments already exist.
+- `TODO` Beginner mode with simplified plain-English choices.
+- `TODO` Hide unnecessary codec/technical details in Beginner mode.
+- `TODO` Auto recommendations.
+- `TODO` Advanced codec details, profiles, levels, bitrates, and technical settings.
+- `TODO` Generated FFmpeg command preview.
+- `TODO` Copy generated FFmpeg command.
+- `TODO` Human-readable explanation of the generated command.
+- `TODO` Warnings for incompatible or unreasonable setting combinations.
+- `TODO` Searchable tools panel.
+- `TODO` Favorites/pinned tools.
+
+# 16. Streaming and specialized output
+
+- `TODO` HLS output.
+- `TODO` .m3u8 playlist generation.
+- `TODO` Segment creation.
+- `TODO` MPEG transport-stream output.
+- `TODO` Web-friendly MP4 output.
+- `TODO` WebM output.
+- `TODO` Streaming-oriented presets.
+- `TODO` Appropriate segmented-output controls.
+
+# 17. UI and usability polishing
+
+- `TODO` Better media previews.
+- `TODO` Cleaner navigation as the feature set grows.
+- `TODO` Light/dark appearance improvements.
+- `TODO` Better status screens.
+- `TODO` Easier settings organization.
+- `TODO` Explanations/tooltips for unfamiliar codec terminology.
+- `TODO` Keep common tasks simple while preserving expert controls.
+- `TODO` Settings page improvements.
+
+# 18. Native-engine and build work
+
+These items are the work most likely to require GitHub Actions / Android NDK builds. They should be done in controlled batches after the Android-side features are defined.
+
+- `DONE` Current ARM64 FFmpeg/ffprobe Android engine build pipeline.
+- `DONE` Current engine includes Android MediaCodec support.
+- `NATIVE BUILD` Add libx264 if desired.
+- `NATIVE BUILD` Add libx265 if desired.
+- `NATIVE BUILD` Add libvpx for VP8/VP9 where needed.
+- `NATIVE BUILD` Add an AV1 encoder library such as libaom or another suitable option.
+- `NATIVE BUILD` Add libopus and other useful external audio libraries where needed.
+- `NATIVE BUILD` Expand Android MediaCodec support where practical.
+- `NATIVE BUILD` Add additional CPU architectures such as x86_64 if needed.
+- `NATIVE BUILD` Record the upstream FFmpeg commit used for each engine build.
+- `NATIVE BUILD` Maintain codec build profiles and license notices for bundled libraries.
+- `NATIVE BUILD` Automated build/smoke-test improvements.
+- `NATIVE BUILD` Release APK artifacts when appropriate.
+- `NATIVE BUILD` Consider a future full JNI/shared-library FFmpeg integration only if the current executable-based integration becomes limiting.
+
+# Recommended development order
+
+The current priority is to build out Android-side features while leaving the verified native engine alone whenever possible.
+
+1. Smart target-file-size system and automatic settings.
+2. Expanded ffprobe/media inspection.
+3. Presets and Auto mode.
+4. Batch conversion queue.
+5. Visual trimming/cropping/resizing improvements.
+6. Merge/split/join tools.
+7. Audio tools.
+8. Subtitle tools.
+9. History, estimates, reliability, and output-management improvements.
+10. Beginner/Advanced mode and broader UI polish.
+11. One controlled native-engine expansion phase for additional codecs/libraries.
+12. Further hardware acceleration and optimization.
+
+# Development-track guidance
+
+## Usually does NOT require a GitHub/native FFmpeg rebuild
+
+Target-file-size logic, automatic bitrate calculations, media-inspection UI, presets, batch queues, timeline/crop UI, merge/split orchestration, history, metadata UI, file-management improvements, progress estimates, Beginner/Advanced modes, and most features that can be expressed through capabilities already present in the packaged FFmpeg engine.
+
+## Likely DOES require a GitHub/native FFmpeg rebuild
+
+Adding external native libraries such as x264, x265, libvpx, AV1 encoders, libopus, additional CPU architectures, major MediaCodec changes, or replacing the current FFmpeg executable integration with a different native architecture.
+
+# Core project rule
+
+Kotlin + Jetpack Compose is the Android interface. FFmpeg remains the primary media-processing engine. The current working version should remain the known-good baseline while new functionality is added incrementally and verified.
