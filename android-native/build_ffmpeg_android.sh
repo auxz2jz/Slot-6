@@ -43,7 +43,7 @@ if needle not in s:
 replacement = r'''void ffmpeg_android_cancel(void)
 {
     received_sigterm = SIGINT;
-    received_nb_signals = 1;
+    received_nb_signals = 2;
 }
 
 int ffmpeg_main(int argc, char **argv)
