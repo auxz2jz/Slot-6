@@ -1,41 +1,56 @@
-name: Vendor OpenFFmpeg Web Runtime
+name: Verify OpenFFmpeg Web Runtime
 
 on:
   push:
     paths:
       - '.github/workflows/vendor-openffmpeg-web-runtime.yml'
+      - 'docs/vendor/ffmpeg/**'
+  pull_request:
+    paths:
+      - '.github/workflows/vendor-openffmpeg-web-runtime.yml'
+      - 'docs/vendor/ffmpeg/**'
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  vendor-runtime:
+  verify-runtime:
     runs-on: ubuntu-latest
     steps:
       - name: Check out Slot-6
         uses: actions/checkout@v4
-        with:
-          ref: main
 
-      - name: Copy tested ffmpeg.wasm runtime into docs
+      - name: Verify bundled ffmpeg.wasm runtime
+        shell: bash
         run: |
           set -euo pipefail
-          mkdir -p docs/vendor/ffmpeg
-          base='https://raw.githubusercontent.com/auxz2jz/Slot-5/main/vendor/ffmpeg'
-          for file in ffmpeg.js 814.ffmpeg.js ffmpeg-core.js ffmpeg-core.wasm VERSIONS.txt; do
-            curl -L --fail --retry 3 "$base/$file" -o "docs/vendor/ffmpeg/$file"
+
+          runtime='docs/vendor/ffmpeg'
+          required=(
+            ffmpeg.js
+            814.ffmpeg.js
+            ffmpeg-core.js
+            ffmpeg-core.wasm
+            VERSIONS.txt
+          )
+
+          for file in "${required[@]}"; do
+            if [[ ! -s "$runtime/$file" ]]; then
+              echo "Missing or empty runtime file: $runtime/$file" >&2
+              exit 1
+            fi
           done
 
-      - name: Commit runtime files
-        run: |
-          set -euo pipefail
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add docs/vendor/ffmpeg
-          if git diff --cached --quiet; then
-            echo 'Runtime is already current.'
-          else
-            git commit -m 'Vendor local ffmpeg.wasm runtime for OpenFFmpeg Studio'
-            git push origin main
+          grep -Fxq 'ffmpeg wrapper: 0.12.15' "$runtime/VERSIONS.txt"
+          grep -Fxq 'ffmpeg core: 0.12.10' "$runtime/VERSIONS.txt"
+
+          wasm_size=$(stat -c%s "$runtime/ffmpeg-core.wasm")
+          if (( wasm_size < 10000000 )); then
+            echo "ffmpeg-core.wasm is unexpectedly small: ${wasm_size} bytes" >&2
+            exit 1
           fi
+
+          echo "Bundled OpenFFmpeg runtime is present and pinned."
+          cat "$runtime/VERSIONS.txt"
+          echo "ffmpeg-core.wasm size: ${wasm_size} bytes"
