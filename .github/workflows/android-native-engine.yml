@@ -16,9 +16,10 @@ jobs:
           "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" "ndk;29.0.14206865"
       - name: Build FFmpeg CLI shared library
         env:
-          ANDROID_NDK_HOME: ${{ env.ANDROID_SDK_ROOT }}/ndk/29.0.14206865
           API: 26
-        run: bash android-native/build_ffmpeg_android.sh arm64-v8a
+        run: |
+          export ANDROID_NDK_HOME="$ANDROID_SDK_ROOT/ndk/29.0.14206865"
+          bash android-native/build_ffmpeg_android.sh arm64-v8a
       - name: Upload native engine
         uses: actions/upload-artifact@v4
         with:
