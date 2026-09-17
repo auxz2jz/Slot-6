@@ -14,11 +14,12 @@ if [[ ! -d "$TOOLCHAIN" ]]; then
   exit 2
 fi
 
+EXTRA_CONFIG=()
 case "$ABI" in
   arm64-v8a)
     ARCH=aarch64; CPU=armv8-a; TRIPLE=aarch64-linux-android ;;
   x86_64)
-    ARCH=x86_64; CPU=x86-64; TRIPLE=x86_64-linux-android ;;
+    ARCH=x86_64; CPU=x86-64; TRIPLE=x86_64-linux-android; EXTRA_CONFIG+=(--disable-x86asm) ;;
   armeabi-v7a)
     ARCH=arm; CPU=armv7-a; TRIPLE=armv7a-linux-androideabi ;;
   *) echo "Unsupported ABI: $ABI" >&2; exit 2 ;;
@@ -40,7 +41,10 @@ s = p.read_text()
 needle = 'int main(int argc, char **argv)\n{'
 if needle not in s:
     raise SystemExit('Could not find ffmpeg main()')
-replacement = r'''void ffmpeg_android_cancel(void)
+replacement = r'''void ffmpeg_android_cancel(void);
+int ffmpeg_main(int argc, char **argv);
+
+void ffmpeg_android_cancel(void)
 {
     received_sigterm = SIGINT;
     received_nb_signals = 2;
@@ -94,6 +98,7 @@ CXX="$TOOLCHAIN/bin/${TRIPLE}${API}-clang++"
   --enable-ffmpeg \
   --disable-autodetect \
   --disable-network \
+  "${EXTRA_CONFIG[@]}" \
   --extra-cflags="-O2 -fPIC" \
   --extra-ldflags="-Wl,-z,max-page-size=16384 -Wl,-z,common-page-size=16384"
 
