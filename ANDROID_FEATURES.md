@@ -165,6 +165,13 @@ This file is the **continuous master record** for the Slot-6 Android application
 - `TODO` Recent presets.
 - `TODO` Remember previous settings.
 - `TODO` Analyze the source file and recommend sensible settings.
+- `TODO` Quick Recommendation analysis using ffprobe/FFmpeg source information such as codec, bitrate, resolution, frame rate, duration, audio bitrate, stream layout, and other useful characteristics.
+- `TODO` Identify practical ways to make the file smaller while minimizing visible quality loss, including codec, bitrate, resolution, frame-rate, and audio recommendations.
+- `TODO` Explain each recommendation in plain English, including the expected tradeoff in size, quality, speed, and compatibility.
+- `TODO` Detect when the source is already efficiently compressed and warn when re-encoding is unlikely to help or could reduce quality.
+- `TODO` Optional Deep Analysis mode that sample-encodes representative portions of the video and compares candidate settings before recommending an encode.
+- `TODO` Quality-comparison metrics for Deep Analysis, using SSIM/PSNR where available and VMAF if a future native build includes suitable support.
+- `TODO` Use the analysis results with Target File Size mode to say whether a requested size is realistic before encoding.
 - `TODO` Automatically identify when re-encoding is unnecessary.
 - `TODO` Auto codec/settings mode tied to target-size and user priorities.
 
@@ -282,9 +289,13 @@ This file is the **continuous master record** for the Slot-6 Android application
 - `DONE` Basic conversion progress percentage.
 - `DONE` Cancellation.
 - `DONE` Human-readable errors plus technical details.
-- `TODO` Elapsed time.
+- `DONE` Current FFmpeg processed-media timestamp is displayed during conversion (currently shown as raw seconds, e.g. `Processed 1233.5 s`).
+- `DONE` Encoding speed display verified on a physical device (for example `7.38x`).
+- `TODO` Show the current processed media position in human-readable time, such as `00:20:33` instead of only raw seconds.
+- `TODO` Show current processed media position together with the source video's total duration, such as `00:20:33 / 01:20:00`.
+- `TODO` Keep encoding speed beside the time/progress display.
+- `TODO` Elapsed real-world conversion time.
 - `TODO` Estimated time remaining.
-- `TODO` Encoding speed display.
 - `TODO` Estimated final file size during encoding.
 - `TODO` Hardware-encoder capability detection.
 - `TODO` Automatic software fallback when hardware encoding fails.
