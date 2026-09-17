@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <title>OpenFFmpeg Studio</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.webmanifest">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">FF</div>
+      <div><strong>OpenFFmpeg Studio</strong><span>Browser interface for your Slot-6 FFmpeg mirror</span></div>
+    </div>
+    <div class="engine-status"><span id="statusDot" class="dot"></span><span id="statusText">Engine not loaded</span><button id="loadBtn" class="primary small">Load Engine</button></div>
+  </header>
+
+  <main class="shell">
+    <section class="hero card">
+      <div>
+        <h1>Convert, edit and inspect media locally</h1>
+        <p>Your media stays on this device. The browser loads the FFmpeg WebAssembly runtime from this repository and processes files locally.</p>
+      </div>
+      <div class="privacy-pill">Local processing</div>
+    </section>
+
+    <div id="localWarning" class="warning hidden">This app should be opened through GitHub Pages or another HTTP/HTTPS web server. Browser security can block WebAssembly workers when opened directly as a local file.</div>
+
+    <section class="workspace">
+      <aside class="sidebar card">
+        <button class="nav active" data-tab="convert">Convert & Edit</button>
+        <button class="nav" data-tab="frame">Screenshot</button>
+        <button class="nav" data-tab="info">Media Info</button>
+        <button class="nav" data-tab="log">Activity Log</button>
+        <button class="nav" data-tab="more">More Tools</button>
+      </aside>
+
+      <div class="content">
+        <section id="tab-convert" class="tab card active">
+          <div class="section-head"><div><h2>Convert & Edit</h2><p>Choose a file, set the options you want, then convert.</p></div></div>
+
+          <label id="dropZone" class="drop-zone">
+            <input id="fileInput" type="file" accept="video/*,audio/*,image/*">
+            <span class="drop-icon">＋</span>
+            <strong>Choose a media file</strong>
+            <span>or drag and drop it here</span>
+          </label>
+
+          <div id="fileInfo" class="file-summary hidden">
+            <div><span>Name</span><strong id="fileName">—</strong></div>
+            <div><span>Size</span><strong id="fileSize">—</strong></div>
+            <div><span>Type</span><strong id="fileType">—</strong></div>
+            <div><span>Duration</span><strong id="fileDuration">—</strong></div>
+          </div>
+
+          <div class="form-grid">
+            <label>Output format
+              <select id="format">
+                <optgroup label="Video">
+                  <option value="mp4">MP4 · H.264/AAC</option>
+                  <option value="mkv">MKV · H.264/AAC</option>
+                  <option value="webm">WebM · VP9/Opus</option>
+                  <option value="mov">MOV · H.264/AAC</option>
+                </optgroup>
+                <optgroup label="Audio">
+                  <option value="mp3">MP3</option>
+                  <option value="wav">WAV</option>
+                  <option value="flac">FLAC</option>
+                </optgroup>
+                <optgroup label="Animation">
+                  <option value="gif">Animated GIF</option>
+                </optgroup>
+              </select>
+            </label>
+            <label>Quality
+              <select id="quality">
+                <option value="high">High quality</option>
+                <option value="balanced" selected>Balanced</option>
+                <option value="small">Smaller file</option>
+              </select>
+            </label>
+            <label>Resolution
+              <select id="resolution">
+                <option value="original">Original</option>
+                <option value="2160">Up to 2160p</option>
+                <option value="1440">Up to 1440p</option>
+                <option value="1080">Up to 1080p</option>
+                <option value="720">Up to 720p</option>
+                <option value="480">Up to 480p</option>
+                <option value="360">Up to 360p</option>
+              </select>
+            </label>
+            <label>Frame rate
+              <select id="fps">
+                <option value="original">Original</option>
+                <option value="60">60 fps</option>
+                <option value="30">30 fps</option>
+                <option value="24">24 fps</option>
+                <option value="15">15 fps</option>
+              </select>
+            </label>
+            <label>Rotate / flip
+              <select id="rotate">
+                <option value="none">No change</option>
+                <option value="cw">Rotate 90° clockwise</option>
+                <option value="ccw">Rotate 90° counter-clockwise</option>
+                <option value="180">Rotate 180°</option>
+                <option value="hflip">Flip horizontally</option>
+                <option value="vflip">Flip vertically</option>
+              </select>
+            </label>
+            <label>Audio bitrate
+              <select id="audioRate">
+                <option value="96">96 kbps</option>
+                <option value="128">128 kbps</option>
+                <option value="160">160 kbps</option>
+                <option value="192" selected>192 kbps</option>
+                <option value="256">256 kbps</option>
+                <option value="320">320 kbps</option>
+              </select>
+            </label>
+            <label>Playback speed
+              <select id="speed">
+                <option value="0.5">0.5×</option>
+                <option value="0.75">0.75×</option>
+                <option value="1" selected>1× normal</option>
+                <option value="1.25">1.25×</option>
+                <option value="1.5">1.5×</option>
+                <option value="2">2×</option>
+              </select>
+            </label>
+            <label>Volume
+              <select id="volume">
+                <option value="0.5">50%</option>
+                <option value="0.75">75%</option>
+                <option value="1" selected>100%</option>
+                <option value="1.25">125%</option>
+                <option value="1.5">150%</option>
+                <option value="2">200%</option>
+              </select>
+            </label>
+            <label>Trim start
+              <input id="trimStart" placeholder="00:00:00 or seconds">
+            </label>
+            <label>Trim end
+              <input id="trimEnd" placeholder="00:00:30 or seconds">
+            </label>
+            <label class="wide">Output filename
+              <input id="outputName" placeholder="Leave blank to generate automatically">
+            </label>
+          </div>
+
+          <div class="checks">
+            <label><input id="mute" type="checkbox"> Remove audio</label>
+            <label><input id="grayscale" type="checkbox"> Grayscale</label>
+            <label><input id="fastMode" type="checkbox" checked> Faster encoding</label>
+            <label><input id="preserveMeta" type="checkbox" checked> Preserve metadata</label>
+            <label><input id="streamCopy" type="checkbox"> Fast remux / copy streams</label>
+          </div>
+
+          <details class="advanced">
+            <summary>Advanced FFmpeg arguments</summary>
+            <p>Optional arguments are inserted before the output filename. Use this only when you know the FFmpeg option you need.</p>
+            <input id="extraArgs" placeholder="Example: -metadata title=My Video">
+          </details>
+
+          <div class="command-box">
+            <div class="command-head"><span>Command preview</span><button id="copyCommand" class="ghost small">Copy</button></div>
+            <code id="commandPreview">Choose a file to build the command.</code>
+          </div>
+
+          <div class="actions">
+            <button id="convertBtn" class="primary" disabled>Convert File</button>
+            <button id="cancelBtn" class="danger" disabled>Cancel</button>
+          </div>
+
+          <div class="progress-wrap">
+            <div class="progress-line"><span id="progressLabel">Ready</span><strong id="progressPct">0%</strong></div>
+            <div class="progress"><div id="progressBar"></div></div>
+          </div>
+
+          <div id="resultBox" class="result hidden">
+            <div class="result-head"><div><span>Finished</span><strong id="resultMeta">—</strong></div><button id="downloadBtn" class="primary">Download Result</button></div>
+            <video id="videoPreview" class="preview hidden" controls></video>
+            <audio id="audioPreview" class="preview hidden" controls></audio>
+            <img id="imagePreview" class="preview hidden" alt="Converted output preview">
+          </div>
+        </section>
+
+        <section id="tab-frame" class="tab card">
+          <h2>Capture a Screenshot</h2>
+          <p>Extract a single PNG frame from the selected video.</p>
+          <div class="form-grid compact">
+            <label>Time in video<input id="frameTime" value="00:00:01" placeholder="00:00:05"></label>
+            <label>Screenshot size<select id="frameSize"><option value="original">Original</option><option value="1920">Up to 1920 px wide</option><option value="1280">Up to 1280 px wide</option><option value="854">Up to 854 px wide</option></select></label>
+          </div>
+          <button id="frameBtn" class="primary" disabled>Capture PNG</button>
+          <div id="frameResult" class="result hidden"><img id="framePreview" class="preview" alt="Captured frame"><button id="frameDownload" class="primary">Download PNG</button></div>
+        </section>
+
+        <section id="tab-info" class="tab card">
+          <h2>Media Info</h2>
+          <p>Basic information is read locally from the browser as soon as you choose a file.</p>
+          <div id="mediaInfoPanel" class="info-grid"><div><span>Status</span><strong>No file selected</strong></div></div>
+        </section>
+
+        <section id="tab-log" class="tab card">
+          <div class="section-head"><div><h2>Activity Log</h2><p>FFmpeg output and errors appear here.</p></div><button id="clearLog" class="ghost small">Clear</button></div>
+          <pre id="log">Ready. Load the engine, then choose a media file.</pre>
+        </section>
+
+        <section id="tab-more" class="tab card">
+          <h2>More FFmpeg tools we can add</h2>
+          <div class="feature-grid">
+            <article><strong>Merge / join videos</strong><span>Combine clips and audio files into one output.</span></article>
+            <article><strong>Batch conversion</strong><span>Queue multiple files and process them with one preset.</span></article>
+            <article><strong>Watermarks & overlays</strong><span>Add logos, text, timestamps or picture-in-picture.</span></article>
+            <article><strong>Subtitle tools</strong><span>Burn subtitles into video or extract supported subtitle streams.</span></article>
+            <article><strong>Audio cleanup</strong><span>Normalize loudness, EQ, fade, trim silence and mix tracks.</span></article>
+            <article><strong>Crop & aspect tools</strong><span>Center crop, letterbox, pad and resize for social media.</span></article>
+            <article><strong>Compress to target size</strong><span>Estimate bitrate for a desired output file size.</span></article>
+            <article><strong>Frame extraction</strong><span>Export image sequences, thumbnails or contact sheets.</span></article>
+            <article><strong>Metadata editor</strong><span>Change title, artist, album, comments and other tags.</span></article>
+            <article><strong>HLS / streaming output</strong><span>Create segmented media and playlists for web streaming.</span></article>
+            <article><strong>Audio/video replace</strong><span>Swap a soundtrack or combine video from one file with audio from another.</span></article>
+            <article><strong>Preset library</strong><span>Save reusable presets for phone, TV, archive, Discord and more.</span></article>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer>OpenFFmpeg Studio UI · FFmpeg remains a separate open-source project under its applicable licenses.</footer>
+  <script src="app.js"></script>
+</body>
+</html>
