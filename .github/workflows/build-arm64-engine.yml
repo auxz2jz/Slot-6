@@ -15,14 +15,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
       - name: Install prerequisites
         run: |
           sudo apt-get update
           sudo apt-get install -y make
+
       - name: Install Android NDK
         run: |
           yes | sdkmanager --licenses >/dev/null || true
           sdkmanager 'ndk;28.2.13676358'
+
       - name: Compile ARM64 FFmpeg and ffprobe
         shell: bash
         run: |
@@ -63,6 +69,9 @@ jobs:
           "$TC/bin/llvm-strip" "$OUT/libffprobe_exec.so" || true
           test -s "$OUT/libffmpeg_exec.so"
           test -s "$OUT/libffprobe_exec.so"
+          file "$OUT/libffmpeg_exec.so"
+          file "$OUT/libffprobe_exec.so"
+
       - name: Upload ARM64 engines
         uses: actions/upload-artifact@v4
         with:
