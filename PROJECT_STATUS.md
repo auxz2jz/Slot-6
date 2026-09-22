@@ -4,8 +4,26 @@
 **Repository:** auxz2jz/Slot-6  
 **Android branch:** native-android-v0.2  
 **Current verified app line:** v0.8.9 (versionCode 18)
+**Current unverified candidate:** v0.9.0 (versionCode 19), awaiting device verification
+**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.0-split-candidate.zip`
+**Candidate SHA-256:** `3bc36bcc7619f1fd9962e700e41d1fe84945f5daca564d57369eb1a1a4bc6304`
 
 This file records the current state that should be carried into a new chat.
+
+## v0.9.0 candidate status
+
+A v0.9.0 source candidate has been created directly from the exact verified v0.8.9 source ZIP.
+
+Implemented in the candidate, but **not DONE until verified on-device**:
+- one cut point -> two MKV files using lossless stream copy;
+- output-folder selection for the two generated files;
+- service/state/diagnostic support for both split outputs;
+- suppress video/keyframe warnings for audio-only outputs;
+- allow short outputs (>=3 s with recurring keyframes) to receive the container random-seek probe;
+- preserve the verified H.264 hardware -> MKV seek-index finalization/remux path;
+- three v0.9.0 Build Tests: Split, Audio Diagnostics, and H.264 Seek Regression.
+
+The packaged native FFmpeg/ffprobe binaries are unchanged from v0.8.9. A full Android compile was not available in the candidate-creation environment, so Android Studio compile/install plus physical phone verification are the current task.
 
 ## Current working product
 
@@ -159,19 +177,19 @@ Audio-only estimate verified:
 
 ## Current known defects / cleanup items
 
-### 1. Audio-only false seek warning
+### 1. Audio-only false seek warning — candidate fix awaiting verification
 The v0.8.9 audio-only report still emitted:
 "no useful recurring keyframes"
 
 This is meaningless for an audio-only file.
 
-**Fix next:** if finished output has no video stream:
+**v0.9.0 candidate implementation:** if finished output has no video stream:
 - skip video keyframe observation rules;
 - skip H.264/HEVC NAL expectations;
 - do not phrase missing keyframes as a seeking failure;
 - keep audio-relevant diagnostics only.
 
-### 2. Short-clip seek probe threshold
+### 2. Short-clip seek probe threshold — candidate fix awaiting verification
 The 10-second Fast Trim output had valid recurring IDRs, but the container seek probe was skipped.
 
 Consider lowering/changing the rule so short trim/split clips can still get useful seek probes when duration/keyframe count is sufficient.
@@ -182,11 +200,11 @@ Direct encoding works, but exact target-size math is not yet reliable. Preserve 
 ### 4. HEVC hardware forced keyframes
 Do not assume `-force_key_frames` is honored by the hardware HEVC path. Diagnostics must continue measuring actual output rather than claiming success based on the requested command.
 
-## Current feature to build next
+## Current feature to verify next
 
-**Split**
+**Split — v0.9.0 candidate**
 
-This was selected as the next feature immediately before the prior chat was stopped.
+This candidate is implemented at source level and now requires Android Studio/device verification before the roadmap advances.
 
 Recommended first Split implementation:
 - keep it independent from Join/Merge;
