@@ -2,6 +2,25 @@
 
 This is the compact Android-app release history used for handoff. The detailed FFmpeg upstream changelog in the repository is unrelated to these Android app versions.
 
+## v0.9.0 — Split candidate
+
+**Candidate only — not yet verified on-device. v0.8.9 remains the latest verified release.**
+
+- versionCode 19.
+- One cut point splits one source into two MKV files.
+- Stream-copy/segment-muxer workflow; no video/audio re-encode for the initial Split implementation.
+- User selects one output folder; the app creates Part 1 and Part 2.
+- Service/state/diagnostics support both generated outputs.
+- Audio-only jobs no longer run video/keyframe seek analysis in the candidate.
+- Short outputs with recurring keyframes can run container seek probes from 3 seconds upward.
+- Build Test coverage includes Split, Audio Diagnostics, and an H.264/MKV seek-regression test.
+- Verified H.264 hardware -> MKV automatic lossless seek-index finalization/remux remains preserved for the normal encode path.
+- Native FFmpeg/ffprobe binaries are unchanged from v0.8.9.
+- Candidate ZIP: `FFmpegStudioAndroid-native-v0.9.0-split-candidate.zip`
+- Candidate SHA-256: `3bc36bcc7619f1fd9962e700e41d1fe84945f5daca564d57369eb1a1a4bc6304`
+- Full Android Studio/device verification is still required before marking any v0.9.0 item DONE.
+
+
 ## v0.8.9 — Fast Trim / estimator / test-dialog fixes
 Verified on-device.
 - Fast Start/End stream-copy trim.
