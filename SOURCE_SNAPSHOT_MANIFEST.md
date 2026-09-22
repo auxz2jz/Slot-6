@@ -16,6 +16,30 @@ SHA-256 of source ZIP:
 
 The package is about 44 MB because it contains the FFmpeg source tree and packaged ARM64 binaries.
 
+## Current unverified candidate package
+
+Artifact filename:
+`FFmpegStudioAndroid-native-v0.9.0-split-candidate.zip`
+
+App version:
+- versionName: `0.9.0`
+- versionCode: `19`
+
+SHA-256 of candidate source ZIP:
+`3bc36bcc7619f1fd9962e700e41d1fe84945f5daca564d57369eb1a1a4bc6304`
+
+Base verified v0.8.9 ZIP SHA-256:
+`58eec16e582e9e41a19aae48aab07c68958efb815ad69cbc505d70a91d7e14be`
+
+Status:
+- source candidate created directly from the verified v0.8.9 package;
+- native FFmpeg and ffprobe binaries remain byte-identical to v0.8.9;
+- implements one-point Split -> two MKV files, audio-only video-diagnostic suppression, and short-clip seek-probe eligibility;
+- includes v0.9.0 Build Tests for Split, audio diagnostics, and H.264/MKV seek regression;
+- **not yet verified on-device**;
+- full Android compile was not available in the candidate-creation environment, so Android Studio compile/install and physical verification are still required.
+
+
 ## Packaged native binaries
 
 These binaries were intentionally kept unchanged across the recent Kotlin/UI releases.
@@ -109,7 +133,13 @@ Before editing in a new chat:
 
 ## Next source change
 
-Next planned release should begin from the v0.8.9 behavior and implement **Split**, plus:
-- suppress video/keyframe warnings for audio-only outputs;
-- improve short-clip seek-probe eligibility.
+The next action is to **verify the v0.9.0 candidate**, not to start another feature.
+
+Required verification:
+- compile/install in Android Studio;
+- run the Split Build Test and inspect both outputs;
+- run the Audio Diagnostics Build Test and confirm the false video/keyframe warning is gone;
+- run the H.264/MKV seek-regression Build Test and confirm the verified seek-index finalization still works.
+
+Only after Split is physically verified should the project move to **Join/Merge**.
 
