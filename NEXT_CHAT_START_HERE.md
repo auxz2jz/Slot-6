@@ -11,6 +11,21 @@ This file is the handoff entry point for the Android FFmpeg Studio project in **
 - Current source package name from the development session: `FFmpegStudioAndroid-native-v0.8.9-fast-trim.zip`
 - Current native FFmpeg/ffprobe ARM64 binaries have intentionally remained unchanged through the recent Kotlin/UI feature releases.
 
+## Current unverified candidate — v0.9.0
+
+A source candidate has been created from the exact verified v0.8.9 ZIP.
+
+- Candidate version: **v0.9.0 (versionCode 19)**
+- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.0-split-candidate.zip`
+- Candidate SHA-256: `3bc36bcc7619f1fd9962e700e41d1fe84945f5daca564d57369eb1a1a4bc6304`
+- Base source SHA-256: `58eec16e582e9e41a19aae48aab07c68958efb815ad69cbc505d70a91d7e14be`
+- Native FFmpeg/ffprobe binaries are unchanged from v0.8.9.
+- Candidate work: one-cut-point Split -> two MKV files using stream copy, two-output diagnostics, audio-only video/keyframe-warning suppression, and short-clip seek-probe eligibility.
+- This candidate is **not yet verified on-device** and must not replace v0.8.9 as the verified baseline until the phone tests pass.
+- A full Android compile was not available in the creation environment; source structure and FFmpeg split behavior were checked, but Android Studio/device verification is still required.
+- Next action: run the v0.9.0 Test This Build tests. Do **not** begin Join/Merge until Split is physically verified.
+
+
 ## Read these files first in a new chat
 
 1. `NEXT_CHAT_START_HERE.md` — this file.
@@ -103,7 +118,7 @@ Also consider allowing short trimmed/split clips to run the container random-see
 
 ## Next roadmap feature
 
-The next feature selected before the previous chat was stopped is **Split**.
+The **v0.9.0 Split candidate now exists and is awaiting device verification**. Split remains the active feature until its controlled phone tests pass.
 
 Recommended scope:
 - implement Split as its own small release;
