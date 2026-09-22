@@ -1,6 +1,6 @@
 # FFmpeg Studio Android — Master Roadmap
 
-> **Checkpoint 2026-09-22:** Current verified app line is **v0.8.9 (versionCode 18)**. Read `NEXT_CHAT_START_HERE.md` and `PROJECT_STATUS.md` before resuming development in a new chat.
+> **Checkpoint 2026-09-22:** Current verified app line is **v0.8.9 (versionCode 18)**. A **v0.9.0 (versionCode 19) Split candidate** exists and is awaiting Android Studio/device verification. Read `NEXT_CHAT_START_HERE.md` and `PROJECT_STATUS.md` before resuming development in a new chat.
 
 This file is the **continuous master record** for the Slot-6 Android application. It tracks what is already working, what still needs to be implemented, and which work is likely to require rebuilding the native FFmpeg engine.
 
@@ -118,7 +118,7 @@ This file is the **continuous master record** for the Slot-6 Android application
 - `TODO` Frame-rate selection and conversion.
 - `TODO` Rotate 90° clockwise/counterclockwise and 180°.
 - `TODO` Horizontal and vertical flip.
-- `TODO` Split one video into multiple clips.
+- `PARTIAL` Split one video at one cut point into two MKV files using stream copy is implemented in the v0.9.0 candidate; Android Studio/device verification is pending. Multiple cut points and richer split UI remain TODO.
 - `TODO` Merge/join videos.
 - `TODO` Join video and audio files.
 - `TODO` Reorder clips before joining.
@@ -364,8 +364,8 @@ These items are the work most likely to require GitHub Actions / Android NDK bui
 
 The current priority is to build out Android-side features while leaving the verified native engine alone whenever possible.
 
-1. **Split** using a small, verified stream-copy workflow.
-2. **Join/Merge** after Split is physically verified.
+1. **Verify the v0.9.0 Split candidate on-device** using the controlled Build Tests.
+2. **Join/Merge** only after Split is physically verified.
 3. Improve trim/split visual controls and eventually timeline/waveform UI.
 4. Replace/select/mix audio tracks and broader audio tools.
 5. Subtitle tools.
@@ -400,10 +400,10 @@ Adding external native libraries such as x264, x265, libvpx, AV1 encoders, libop
 - `TODO` Continue adding tutorial coverage for new user-facing workflows without forcing one huge first-run sequence.
 - `TODO` Keep tutorials re-openable from Help/About or the relevant feature.
 
-# Known maintenance items at v0.8.9
+# Known maintenance items from v0.8.9
 
-- `TODO` Suppress video/keyframe seek warnings for audio-only outputs.
-- `TODO` Allow useful container seek probes for short trimmed/split clips when enough keyframes exist.
+- `PARTIAL` Suppress video/keyframe seek warnings for audio-only outputs — implemented in the v0.9.0 candidate, awaiting device/report verification.
+- `PARTIAL` Allow useful container seek probes for short trimmed/split clips when enough keyframes exist — implemented in the v0.9.0 candidate with a >=3 s eligibility threshold, awaiting device/report verification.
 - `DONE` Automatic H.264 hardware -> MKV lossless seek-index finalization/remux; physically verified and must be preserved.
 - `PARTIAL` Android VP8/VP9/AV1 direct bitrate control works, but exact target-size behavior remains approximate; Smart Target is guarded for these paths.
 
