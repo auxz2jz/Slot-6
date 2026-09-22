@@ -1,5 +1,7 @@
 # FFmpeg Studio Android — Master Roadmap
 
+> **Checkpoint 2026-09-22:** Current verified app line is **v0.8.9 (versionCode 18)**. Read `NEXT_CHAT_START_HERE.md` and `PROJECT_STATUS.md` before resuming development in a new chat.
+
 This file is the **continuous master record** for the Slot-6 Android application. It tracks what is already working, what still needs to be implemented, and which work is likely to require rebuilding the native FFmpeg engine.
 
 ## Roadmap maintenance rules
@@ -39,16 +41,16 @@ This file is the **continuous master record** for the Slot-6 Android application
 - `DONE` Hardware H.264/H.265 MediaCodec paths included in the current FFmpeg engine.
 - `DONE` Software MPEG-4 fallback available.
 - `DONE` Basic ffprobe/media inspection support.
-- `TODO` Share completed files directly with other Android apps.
-- `TODO` Native media preview/player improvements.
+- `DONE` Share completed files directly with other Android apps.
+- `PARTIAL` Native media preview/player support exists through Play converted; broader player/preview improvements remain.
 - `TODO` Better memory handling for very large media files.
 - `TODO` Completion/failure notifications and richer background-job handling.
 
 # 2. Smart target-file-size system
 
-- `TODO` Enter a desired final size such as 10 MB, 25 MB, 100 MB, 700 MB, or a custom value.
-- `TODO` Calculate available video bitrate automatically from duration and audio requirements.
-- `TODO` Analyze the input media before choosing settings.
+- `PARTIAL` Enter a desired final size and calculate a target bitrate; exact behavior is intentionally guarded for Android VP8/VP9/AV1 because tested MediaCodec rate control overshot estimates.
+- `DONE` Calculate available video bitrate from duration/audio reservation for supported target-size workflows.
+- `PARTIAL` Source ffprobe analysis is performed and feeds validation/estimation; full automatic setting selection remains TODO.
 - `TODO` Automatically select a suitable codec, bitrate, resolution, frame rate, and audio configuration.
 - `TODO` User priorities:
   - Best quality.
@@ -56,10 +58,10 @@ This file is the **continuous master record** for the Slot-6 Android application
   - Fastest conversion.
   - Maximum compatibility.
 - `TODO` Quality safeguards that prevent unreasonable settings solely to hit an impossible size.
-- `TODO` Warn when a requested file size is unrealistic and recommend alternatives.
+- `PARTIAL` Unrealistic/low-bitrate/encoder-limit warnings exist; broader recommendation logic remains.
 - `TODO` Two-pass encoding when useful for more accurate size targeting.
-- `TODO` Estimated output size before encoding.
-- `TODO` Estimated size during encoding where practical.
+- `DONE` Estimated output size before encoding, including corrected audio-only estimates.
+- `DONE` Live projected final size during encoding with telemetry/report capture.
 
 # 3. Expanded codec and container support
 
@@ -72,8 +74,8 @@ This file is the **continuous master record** for the Slot-6 Android application
 - `TODO` MJPEG.
 - `TODO` FFV1 / lossless archival video.
 - `TODO` ProRes-style workflows where supported.
-- `NATIVE BUILD` VP8 / VP9 using a suitable encoder such as libvpx where needed.
-- `NATIVE BUILD` AV1 using a suitable encoder such as libaom or another practical Android encoder.
+- `DONE` VP8 / VP9 Android MediaCodec encoding on capable devices; `NATIVE BUILD` libvpx remains an optional future software path.
+- `DONE` AV1 Android MediaCodec encoding on capable devices; `NATIVE BUILD` dedicated software AV1 remains optional future work.
 - `NATIVE BUILD` libx264 software H.264 encoding.
 - `NATIVE BUILD` libx265 software HEVC encoding.
 
@@ -88,21 +90,21 @@ This file is the **continuous master record** for the Slot-6 Android application
 - `TODO` AC-3.
 - `TODO` E-AC-3.
 - `TODO` Additional PCM/WAV formats.
-- `NATIVE BUILD` Opus through libopus where needed.
+- `DONE` Opus through the packaged FFmpeg native encoder for verified mono/stereo workflows; external libopus remains optional future native work if needed.
 - `NATIVE BUILD` Vorbis or other external audio codec libraries if needed.
 
 ## Containers and compatibility
 - `DONE` Basic MP4/MKV-style conversion workflow.
-- `TODO` Broader support for MOV, WebM, AVI, MPEG-TS, M4A, OGG, FLV, and other useful FFmpeg-supported containers.
-- `TODO` Automatically detect codec/container incompatibilities.
-- `TODO` Show only sensible combinations in Beginner mode.
+- `PARTIAL` Broader container support now includes verified WebM and MPEG-TS plus existing MP4/MKV/MOV-family workflows; AVI/FLV/other containers remain.
+- `DONE` Container-aware codec/audio compatibility filtering and start validation for the currently exposed normal workflows.
+- `PARTIAL` Normal dropdowns filter incompatible combinations; a distinct finished Beginner mode is still TODO.
 - `TODO` Expose broader combinations in Advanced mode.
-- `TODO` Detect available hardware encoders on the device and display only usable choices.
+- `DONE` Device MediaCodec capability probing/preflight is used for exposed Android encoders, including bitrate/resolution/rate-control limits.
 - `TODO` Automatic software fallback when a hardware encoder fails.
 
 # 4. Visual trimming and editing
 
-- `PARTIAL` Trim start/end currently available through entered values.
+- `DONE` Basic Start/End fast stream-copy trim is implemented and physically verified; visual/frame-exact trimming remains future work.
 - `TODO` Visual video timeline.
 - `TODO` Draggable trim-start handle.
 - `TODO` Draggable trim-end handle.
@@ -160,10 +162,10 @@ This file is the **continuous master record** for the Slot-6 Android application
 - `TODO` Small-file preset.
 - `TODO` Fast-encode preset.
 - `TODO` Maximum-compatibility preset.
-- `TODO` Save custom presets.
+- `DONE` Save custom personal presets with load/update/rename/duplicate/delete and persistence across restart.
 - `TODO` Favorite/pinned presets.
 - `TODO` Recent presets.
-- `TODO` Remember previous settings.
+- `PARTIAL` Saved Presets persist reusable configurations; general automatic last-setting restore remains TODO.
 - `TODO` Analyze the source file and recommend sensible settings.
 - `TODO` Quick Recommendation analysis using ffprobe/FFmpeg source information such as codec, bitrate, resolution, frame rate, duration, audio bitrate, stream layout, and other useful characteristics.
 - `TODO` Identify practical ways to make the file smaller while minimizing visible quality loss, including codec, bitrate, resolution, frame-rate, and audio recommendations.
@@ -181,7 +183,7 @@ This file is the **continuous master record** for the Slot-6 Android application
 - `DONE` Remove audio.
 - `TODO` Replace audio track.
 - `TODO` Select among multiple audio tracks.
-- `TODO` Audio bitrate controls.
+- `DONE` Audio bitrate controls for supported re-encode/extraction workflows.
 - `TODO` Volume adjustment.
 - `TODO` Loudness normalization.
 - `TODO` Peak normalization.
@@ -189,9 +191,9 @@ This file is the **continuous master record** for the Slot-6 Android application
 - `TODO` Bass and treble controls.
 - `TODO` Noise reduction where practical.
 - `TODO` Trim silence.
-- `TODO` Stereo-to-mono conversion.
+- `DONE` Mono/stereo channel-layout conversion options are available in supported audio workflows.
 - `TODO` Mono-to-stereo conversion where useful.
-- `TODO` Channel selection.
+- `PARTIAL` Output channel-layout selection supports Keep/Mono/Stereo and additional layouts where codec support permits; per-source-channel routing remains TODO.
 - `TODO` Sample-rate conversion.
 - `TODO` Mix multiple audio sources.
 - `TODO` Add background music.
@@ -278,7 +280,7 @@ This file is the **continuous master record** for the Slot-6 Android application
 - `TODO` Avoid accidental overwrites.
 - `TODO` Automatically suggest the correct extension.
 - `TODO` Free-space checks.
-- `TODO` Estimated output file size.
+- `DONE` Estimated output file size, including live projection during processing and audio-only estimate correction.
 - `TODO` Convenient access to completed files.
 - `TODO` Share finished files with other Android apps.
 - `TODO` Conversion history.
@@ -291,16 +293,16 @@ This file is the **continuous master record** for the Slot-6 Android application
 - `DONE` Human-readable errors plus technical details.
 - `DONE` Current FFmpeg processed-media timestamp is displayed during conversion (currently shown as raw seconds, e.g. `Processed 1233.5 s`).
 - `DONE` Encoding speed display verified on a physical device (for example `7.38x`).
-- `TODO` Show the current processed media position in human-readable time, such as `00:20:33` instead of only raw seconds.
-- `TODO` Show current processed media position together with the source video's total duration, such as `00:20:33 / 01:20:00`.
+- `DONE` Show current processed media position in human-readable time.
+- `DONE` Show current processed media position together with total duration.
 - `TODO` Keep encoding speed beside the time/progress display.
-- `TODO` Elapsed real-world conversion time.
-- `TODO` Estimated time remaining.
-- `TODO` Estimated final file size during encoding.
-- `TODO` Hardware-encoder capability detection.
+- `DONE` Elapsed real-world conversion time.
+- `DONE` Estimated time remaining.
+- `DONE` Estimated/projected final file size during encoding.
+- `DONE` Hardware/software MediaCodec capability detection and resolution/rate-mode preflight.
 - `TODO` Automatic software fallback when hardware encoding fails.
 - `TODO` Recovery from failed jobs without losing the batch queue.
-- `TODO` Better validation before conversion starts.
+- `PARTIAL` Preflight validation now covers encoder dimensions/capabilities, container compatibility, trim ranges, source-audio requirements, and diagnostic-test requirements; continue expanding.
 - `TODO` Better handling of very large files.
 
 # 15. Beginner and Advanced modes
@@ -322,9 +324,9 @@ This file is the **continuous master record** for the Slot-6 Android application
 - `TODO` HLS output.
 - `TODO` .m3u8 playlist generation.
 - `TODO` Segment creation.
-- `TODO` MPEG transport-stream output.
+- `DONE` MPEG transport-stream output verified with H.264/AAC.
 - `TODO` Web-friendly MP4 output.
-- `TODO` WebM output.
+- `DONE` WebM output verified with VP9+Opus and AV1+Opus.
 - `TODO` Streaming-oriented presets.
 - `TODO` Appropriate segmented-output controls.
 
@@ -335,9 +337,9 @@ This file is the **continuous master record** for the Slot-6 Android application
 - `TODO` Light/dark appearance improvements.
 - `TODO` Better status screens.
 - `TODO` Easier settings organization.
-- `TODO` Explanations/tooltips for unfamiliar codec terminology.
+- `DONE` Compact inline info controls with option-specific explanations for major settings.
 - `TODO` Keep common tasks simple while preserving expert controls.
-- `TODO` Settings page improvements.
+- `PARTIAL` Settings includes diagnostic-preset visibility and advanced controls; continue polishing.
 
 # 18. Native-engine and build work
 
@@ -349,7 +351,7 @@ These items are the work most likely to require GitHub Actions / Android NDK bui
 - `NATIVE BUILD` Add libx265 if desired.
 - `NATIVE BUILD` Add libvpx for VP8/VP9 where needed.
 - `NATIVE BUILD` Add an AV1 encoder library such as libaom or another suitable option.
-- `NATIVE BUILD` Add libopus and other useful external audio libraries where needed.
+- `PARTIAL` Current engine already provides an Opus encoder used successfully for mono/stereo; external libopus/other libraries remain optional if future requirements exceed current support.
 - `NATIVE BUILD` Expand Android MediaCodec support where practical.
 - `NATIVE BUILD` Add additional CPU architectures such as x86_64 if needed.
 - `NATIVE BUILD` Record the upstream FFmpeg commit used for each engine build.
@@ -362,18 +364,16 @@ These items are the work most likely to require GitHub Actions / Android NDK bui
 
 The current priority is to build out Android-side features while leaving the verified native engine alone whenever possible.
 
-1. Smart target-file-size system and automatic settings.
-2. Expanded ffprobe/media inspection.
-3. Presets and Auto mode.
-4. Batch conversion queue.
-5. Visual trimming/cropping/resizing improvements.
-6. Merge/split/join tools.
-7. Audio tools.
-8. Subtitle tools.
-9. History, estimates, reliability, and output-management improvements.
-10. Beginner/Advanced mode and broader UI polish.
-11. One controlled native-engine expansion phase for additional codecs/libraries.
-12. Further hardware acceleration and optimization.
+1. **Split** using a small, verified stream-copy workflow.
+2. **Join/Merge** after Split is physically verified.
+3. Improve trim/split visual controls and eventually timeline/waveform UI.
+4. Replace/select/mix audio tracks and broader audio tools.
+5. Subtitle tools.
+6. Batch conversion queue and history.
+7. Smart Target / automatic recommendation refinement and MediaCodec calibration.
+8. Beginner/Advanced mode and broader UI polish.
+9. One controlled native-engine expansion phase only when existing packaged capabilities are insufficient.
+10. Further hardware acceleration and optimization.
 
 # Development-track guidance
 
@@ -384,6 +384,28 @@ Target-file-size logic, automatic bitrate calculations, media-inspection UI, pre
 ## Likely DOES require a GitHub/native FFmpeg rebuild
 
 Adding external native libraries such as x264, x265, libvpx, AV1 encoders, libopus, additional CPU architectures, major MediaCodec changes, or replacing the current FFmpeg executable integration with a different native architecture.
+
+# Development-only test system
+
+- `DONE` Per-build **Test This Build** guide with exact instructions and automatic test-setting application.
+- `DONE` Build tests can declare **NO ENCODE REQUIRED**.
+- `DONE` BUILD TEST ACTIVE card keeps instructions visible during a controlled run.
+- `PARTIAL` Long Test This Build dialog was made scrollable in v0.8.9; preserve and continue verifying small-screen behavior.
+- `DONE` Diagnostic reports carry build-test names plus Run ID/report fingerprints for duplicate recognition.
+- `TODO` Remove/disable development-only testing UI for the finished production release.
+
+# Tutorials
+
+- `PARTIAL` Spotlight/coach-mark tutorial foundation exists: dim screen and highlight relevant controls.
+- `TODO` Continue adding tutorial coverage for new user-facing workflows without forcing one huge first-run sequence.
+- `TODO` Keep tutorials re-openable from Help/About or the relevant feature.
+
+# Known maintenance items at v0.8.9
+
+- `TODO` Suppress video/keyframe seek warnings for audio-only outputs.
+- `TODO` Allow useful container seek probes for short trimmed/split clips when enough keyframes exist.
+- `DONE` Automatic H.264 hardware -> MKV lossless seek-index finalization/remux; physically verified and must be preserved.
+- `PARTIAL` Android VP8/VP9/AV1 direct bitrate control works, but exact target-size behavior remains approximate; Smart Target is guarded for these paths.
 
 # Core project rule
 
