@@ -3,10 +3,10 @@
 **Last checkpoint:** 2026-09-22  
 **Repository:** auxz2jz/Slot-6  
 **Android branch:** native-android-v0.2  
-**Current verified editor/media baseline:** v0.9.8.1 (versionCode 28), built/installed/used successfully on-device; this is the recovery baseline
-**Current unverified candidate:** None — development explicitly stopped at v0.9.8.1
-**Recovery artifact:** `FFmpegStudioAndroid-native-v0.9.8.1-compact-ui-ruler-compile-fix.zip`
-**Recovery SHA-256:** `445366602c6f44ed04c1237248dcee69b75ef25ddda971f863178d07cc59f7b5`
+**Current verified editor/media baseline:** v0.9.8.1 (versionCode 28), successful on-device recovery baseline
+**Current unverified candidate:** v0.9.9 (versionCode 29), Action Trace Recorder
+**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.9-action-trace-candidate.zip`
+**Candidate SHA-256:** `ca6c2ff7897613f7f0bf55097a8a9872175f3cb5ccba05d7c5f87e3b0add0cc6`
 
 This file records the current state that should be carried into a new chat.
 
@@ -337,9 +337,9 @@ Do not assume `-force_key_frames` is honored by the hardware HEVC path. Diagnost
 
 ## Current feature to verify next
 
-**None. Development is stopped at v0.9.8.1 until the user explicitly resumes it.**
+**v0.9.9 Action Trace Recorder**
 
-When resumed, prefer adding the Action Trace / UI Event Recorder before chasing the intermittent ffprobe error, unless the error becomes reproducible first.
+Build/install first. Then run the three no-encode tests in `V099_TEST_PLAN.md`: basic action capture/export, repeated ffprobe analysis, and navigation/rotation trace.
 
 ## Near-future roadmap order
 
@@ -475,5 +475,23 @@ Intermittent screenshot-only issue:
 Requested future diagnostic:
 - exportable Action Trace / UI Event Recorder for page transitions, button presses, file selection metadata, settings changes, dialogs/messages, orientation, exceptions/errors, and conversion lifecycle.
 - Status: **NOT IMPLEMENTED**.
+
+## v0.9.9 candidate status
+
+Implemented from v0.9.8.1:
+- rolling persistent Action Trace, recording ON by default;
+- page transitions and non-consuming raw touch-down coordinates;
+- tool/file/setting/dialog/error event logging;
+- app lifecycle and orientation/configuration events;
+- conversion lifecycle events;
+- ffprobe engine snapshots before every source analysis and on ProcessBuilder launch failure;
+- Settings panel with Export trace / Clear / Recording toggle;
+- privacy sanitization for content URIs and app-private paths;
+- rolling disk cap/rotation.
+
+Purpose:
+Capture the exact sequence surrounding rare failures, especially the one-off v0.9.8.1 ffprobe `error=2` screenshot, without guessing at a native-engine fix.
+
+No intended media-engine changes.
 
 ## Current working product
