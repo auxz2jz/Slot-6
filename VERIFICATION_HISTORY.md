@@ -227,3 +227,29 @@ This rule must be suppressed when there is no video stream.
 
 A short trim output with valid recurring keyframes also skipped the container seek probe because of the current eligibility threshold. Consider improving this for Split/Trim testing.
 
+
+## v0.9.0 Split phone verification
+
+Source:
+- 30.304 s Jellyfish H.264/AC3 MKV.
+- Build Test 0.9.0 - Split.
+- Requested cut point: 10.000 s.
+
+Result:
+- conversion completed;
+- Part 1: 10.677 s / 76.0 MB;
+- Part 2: 19.680 s / 123.8 MB;
+- original H.264 1920x1080 + AC3 5.1 retained in both outputs;
+- stream-copy segment muxer used;
+- Part 1: 11 H.264 keyframes / 11 IDR units;
+- Part 2: 21 H.264 keyframes / 21 IDR units;
+- the new short-clip container seek probe ran on both parts and found usable indexed/keyframe packets near all 10%, 50%, and 90% targets;
+- no automatic anomaly rules triggered.
+
+User feedback:
+- trim/seek behavior works well and should be preserved.
+
+Status:
+**One-point Split and short-output seek probing are physically verified. Preserve the compact Split workflow while adding the visual timeline.**
+
+The separate audio-only false-keyframe-warning cleanup in v0.9.0 still needs its dedicated audio-only report before that maintenance item is marked verified.
