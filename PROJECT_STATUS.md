@@ -3,10 +3,10 @@
 **Last checkpoint:** 2026-09-22  
 **Repository:** auxz2jz/Slot-6  
 **Android branch:** native-android-v0.2  
-**Current verified editor/media baseline:** v0.9.6 Single Unified Timeline Editor works on-device; compactness/orientation-state issues are the current usability target
-**Current unverified candidate:** v0.9.7 (versionCode 26), Compact Editor Layout + Rotation State
-**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.7-compact-editor-candidate.zip`
-**Candidate SHA-256:** `ef306a2ec27e164dcb49b508123c224fd70f26bb1bd48f4ca7be5c6cf69b27aa`
+**Current verified editor/media baseline:** v0.9.7 Compact Editor Layout + Rotation State; user reports all features working
+**Current unverified candidate:** v0.9.8 (versionCode 27), Unified Compact UI + Timeline Ruler
+**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.8-compact-ui-ruler-candidate.zip`
+**Candidate SHA-256:** `cfb2cba9c3181ca800c988313ed668a73cb35f0790c7b234345e12284265a27d`
 
 This file records the current state that should be carried into a new chat.
 
@@ -337,9 +337,9 @@ Do not assume `-force_key_frames` is honored by the hardware HEVC path. Diagnost
 
 ## Current feature to verify next
 
-**v0.9.7 Compact Editor Layout + Rotation State**
+**v0.9.8 Unified Compact UI + Timeline Ruler**
 
-Verify the flatter layout, smaller V1 strip, and portrait/landscape state preservation. No encoding is required for the controlled tests.
+Verify consistent compact styling across all pages, one-thumbnail V1 blocks, ruler alignment/runtime, and ruler behavior at 50%-400% zoom. No encoding is required.
 
 ## Near-future roadmap order
 
@@ -417,5 +417,30 @@ Implemented, awaiting phone verification:
 - A1 and Join source labels changed from bubbles to compact text;
 - orientation/screen-size configuration changes are handled without Activity recreation, preserving current Editor/project state;
 - media-processing engine and v0.9.5 decoder guard unchanged.
+
+## v0.9.7 phone verification
+
+User result:
+- compact Editor layout is liked;
+- orientation/state behavior and other existing features are working;
+- no media-engine regression reported.
+
+Status:
+**v0.9.7 is the verified baseline.**
+
+## v0.9.8 candidate status
+
+Implemented, awaiting phone verification:
+- compact visual language extended to Home, Tools, Settings, About, cards, and buttons;
+- FFmpeg Studio top branding retained on Home only;
+- short page titles elsewhere;
+- one thumbnail per V1 clip;
+- clean colored duration bar after each thumbnail;
+- no filename/time overlay on V1 blocks;
+- project runtime shown in V1 header;
+- zoom-aware total-project time ruler directly under V1;
+- ruler and V1 share horizontal scroll;
+- V1 reduced to 58 dp;
+- v0.9.7 rotation state and all media-processing behavior preserved.
 
 ## Current working product
