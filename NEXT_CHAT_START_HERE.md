@@ -7,34 +7,35 @@ This file is the handoff entry point for the Android FFmpeg Studio project in **
 - Repository: `auxz2jz/Slot-6`
 - Android working branch: `native-android-v0.2`
 - Upstream/main branch is primarily the FFmpeg source tree; do not treat `main` as the Android app source of truth.
-- Current verified editor/media baseline includes **v0.9.3 Visual Join/Merge**, which the user reported works well, plus verified v0.9.2 live scrubbing and earlier Trim/Split/seek behavior.
-- Current development source package: `FFmpegStudioAndroid-native-v0.9.4-multi-join-candidate.zip`
+- Current verified editor/media baseline includes **v0.9.4 multi-clip timeline scrubbing and three-clip Fast Join**, plus verified v0.9.3 two-clip Join, v0.9.2 live scrubbing, and earlier Trim/Split/seek behavior. v0.9.4 mixed-format Normalize & Join is **not** verified.
+- Current development source package: `FFmpegStudioAndroid-native-v0.9.5-unified-editor-candidate.zip`
 - Current native FFmpeg/ffprobe ARM64 binaries have intentionally remained unchanged through the recent Kotlin/UI feature releases.
 
-## Current unverified candidate — v0.9.4
+## Current unverified candidate — v0.9.5
 
-The active candidate is the first **multi-clip timeline + automatic Normalize & Join** release.
+The active candidate is **Unified Editor Timeline + Normalize Guard**.
 
-- Candidate version: **v0.9.4 (versionCode 23)**
-- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.4-multi-join-candidate.zip`
-- Candidate SHA-256: `2370a43a09f28ba4c5546b76b55022e2421ea4646082f52a054b614a634b3448`
-- Direct base: v0.9.3 Visual Join/Merge.
-- Join/Merge remains an individual tool.
-- The normal visual timeline now has **Add clip(s) / Join**, so multi-clip editing can be entered directly from the timeline too.
-- Join now accepts multiple clips, not just two.
-- The V1 timeline has one global scrub playhead; crossing a clip boundary switches the preview to the correct source file and local source time.
-- Matching clips use **Fast Join** with concat-demuxer stream copy.
-- Mismatched container/video codec/audio codec/resolution/frame rate inputs switch automatically to **Normalize & Join**.
-- Normalize & Join scales/pads all video to Clip 1 dimensions, normalizes frame rate, encodes H.264 hardware, normalizes audio to AAC 192 kbps stereo/48 kHz, and exports one MKV.
-- First normalization release requires every clip to contain both video and audio.
-- Diagnostic schema is **6** and records Clip 3+ source metadata.
-- Verified H.264/MKV seek-index finalization is preserved and applies to normalized H.264 Join output.
-- Native FFmpeg/ffprobe binaries are unchanged.
-- External FFmpeg checks passed for both three-clip fast Join and mixed-format normalization.
+- Candidate version: **v0.9.5 (versionCode 24)**
+- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.5-unified-editor-candidate.zip`
+- Candidate SHA-256: `bd01d729d06563691be76421828a79836a5356cfefe5f61544034d11c4b415b9`
+- Direct base: v0.9.4 Multi-clip Timeline + Normalize & Join.
+- The big **Main editor timeline** is now the shared visual workspace. When Join clips are added, Project V1 appears inside that same editor instead of creating a second independent Join timeline card.
+- Standalone quick Trim, Split, and Join/Merge tools remain available.
+- Cross-clip project scrubbing remains inside the Main editor.
+- In this release, the detailed Trim/Split range still targets Clip 1; project-aware per-clip cuts/reordering are the next timeline phase.
+- v0.9.4 phone logs showed that mixed-format normalization involving VP9/AV1 can fail in the packaged FFmpeg decoder path before useful progress.
+- v0.9.5 therefore preflight-blocks VP9/AV1 **Normalize & Join** before FFmpeg starts and gives a clear explanation instead of allowing code 69.
+- Fast Join remains available for already-compatible VP9/AV1 files because stream copy does not decode them.
+- Supported Normalize & Join remains available for reliable current decoder paths such as controlled H.264 mismatches.
+- Native FFmpeg/ffprobe binaries and the verified H.264/MKV seek-index finalization are unchanged.
 - Android Studio/device verification is still required.
 
-### v0.9.3 verification carried forward
-The user reported the v0.9.3 two-clip Join/Merge build **works good**. Preserve the standalone Join tool and the visual two-clip foundation while extending it to multiple clips.
+### v0.9.4 verification carried forward
+The user verified:
+- Test 1 multi-clip timeline scrubbing works;
+- Test 2 three-clip Fast Join works.
+
+Normalize & Join was **not** verified. Two mixed-format phone runs failed almost immediately. One included H.264 + AV1 + H.264; the other included VP9 + H.264 + AV1. Extended logs showed VP9 frame-header decode errors and AV1 hardware-decoder/pixel-format failures. Treat this as a decoder-path limitation discovered by device testing, not user error.
 
 
 ## Read these files first in a new chat
@@ -129,14 +130,14 @@ Also consider allowing short trimmed/split clips to run the container random-see
 
 ## Next roadmap feature
 
-The active feature is **v0.9.4 multi-clip timeline + mixed-format Join verification**.
+The active feature is **v0.9.5 Unified Editor Timeline + Normalize Guard verification**.
 
-After v0.9.4 passes:
-- add drag/reordering and clip removal/repositioning on V1;
+After v0.9.5 passes:
+- add project-aware per-clip Trim/Split and drag reordering/removal on V1;
 - add waveform-backed A1/A2/A3 tracks for source audio, music, and voiceover;
-- later add transitions and additional video tracks/overlays.
+- later add decoder fallback/engine expansion for VP9/AV1 normalization, transitions, and additional video tracks/overlays.
 
-Keep the standalone quick tools and visual timeline versions in parallel.
+Keep the standalone quick tools and their visual equivalents in the Main editor.
 
 ## UI direction
 
