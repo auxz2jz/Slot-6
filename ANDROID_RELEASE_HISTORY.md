@@ -2,9 +2,26 @@
 
 This is the compact Android-app release history used for handoff. The detailed FFmpeg upstream changelog in the repository is unrelated to these Android app versions.
 
-## v0.9.7 — Compact Editor Layout + Rotation State candidate
+## v0.9.8 — Unified Compact UI + Timeline Ruler candidate
 
 **Candidate — awaiting Android Studio/device verification.**
+- versionCode 27.
+- Compact UI language extended across all app pages and buttons.
+- FFmpeg Studio branding shown in top bar on Home only.
+- Compact non-Home page title bars.
+- One leading representative thumbnail per V1 clip.
+- Colored duration bar fills the remainder of each clip.
+- Removed filename/duration overlays from clip blocks.
+- Project runtime shown in V1 header.
+- Zoom-aware total-project time ruler directly under V1 and synchronized with timeline scrolling.
+- V1 height reduced to 58 dp.
+- Rotation-state behavior and media processing unchanged.
+- Candidate ZIP SHA-256: `cfb2cba9c3181ca800c988313ed668a73cb35f0790c7b234345e12284265a27d`.
+
+
+## v0.9.7 — Compact Editor Layout + Rotation State
+
+**Physically verified on-device. User likes the compact layout and reports all features working.**
 - versionCode 26.
 - Flatter divider-based Editor sections replace most rounded Editor cards.
 - Reduced Editor padding and vertical spacing.
