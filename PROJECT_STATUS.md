@@ -3,10 +3,10 @@
 **Last checkpoint:** 2026-09-22  
 **Repository:** auxz2jz/Slot-6  
 **Android branch:** native-android-v0.2  
-**Current verified editor/media baseline:** v0.9.3 Visual Join/Merge, plus verified v0.9.2 live scrubbing and earlier Split/Trim/seek behavior
-**Current unverified candidate:** v0.9.4 (versionCode 23), Multi-clip Timeline + Normalize & Join
-**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.4-multi-join-candidate.zip`
-**Candidate SHA-256:** `2370a43a09f28ba4c5546b76b55022e2421ea4646082f52a054b614a634b3448`
+**Current verified editor/media baseline:** v0.9.4 multi-clip scrub + three-clip Fast Join, plus earlier verified editor/Trim/Split/seek features; v0.9.4 mixed-format Normalize & Join remains unverified
+**Current unverified candidate:** v0.9.5 (versionCode 24), Unified Editor Timeline + Normalize Guard
+**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.5-unified-editor-candidate.zip`
+**Candidate SHA-256:** `bd01d729d06563691be76421828a79836a5356cfefe5f61544034d11c4b415b9`
 
 This file records the current state that should be carried into a new chat.
 
@@ -97,6 +97,40 @@ Implemented, awaiting phone verification:
 Command-level verification:
 - 3 matching clips -> expected combined duration with stream copy;
 - H.264/AAC MP4 + MPEG-4/MP3 AVI at different resolution/frame rate/sample rate -> one H.264/AAC MKV with the expected summed duration.
+
+## v0.9.4 phone verification / Normalize failure
+
+Verified by user:
+- multi-clip global timeline scrubbing works;
+- three-clip Fast Join works.
+
+Not verified:
+- mixed-format Normalize & Join.
+
+Two uploaded v0.9.4 failure reports showed immediate decoder-path failures:
+- H.264/AC3 1920x1080 + AV1/AAC 854x480 + H.264/AC3 1920x1080;
+- VP9/AAC + H.264/AAC MPEG-TS + AV1/Opus, all 854x480.
+
+The extended logs showed VP9 native frame-header errors and AV1 messages indicating hardware accelerated AV1 decoding is unsupported plus pixel-format/decoder submission failures. FFmpeg exited with code 69 before useful progress.
+
+Engineering decision:
+- do not label all mixed-format Join as broken;
+- preserve normalization for reliable decoder paths;
+- preflight-block VP9/AV1 Normalize & Join in the current packaged engine;
+- keep Fast Join for compatible VP9/AV1 files because stream copy does not decode them;
+- plan a later decoder fallback/native/media-stack phase.
+
+## v0.9.5 candidate status
+
+Implemented, awaiting phone verification:
+- multi-clip Project V1 is embedded inside the existing **Main editor timeline**;
+- no second independent Join timeline card;
+- standalone Trim, Split, and Join/Merge quick tools remain;
+- global cross-clip project scrubbing remains inside the Main editor;
+- Clip 1 detailed Trim/Split controls remain in the same editor;
+- VP9/AV1 Normalize & Join is blocked before FFmpeg starts with a clear explanation;
+- supported H.264 mismatch normalization remains available;
+- native binaries and H.264/MKV seek repair unchanged.
 
 ## Current working product
 
@@ -275,9 +309,9 @@ Do not assume `-force_key_frames` is honored by the hardware HEVC path. Diagnost
 
 ## Current feature to verify next
 
-**v0.9.4 Multi-clip Timeline + Normalize & Join**
+**v0.9.5 Unified Editor Timeline + Normalize Guard**
 
-Verify a 3-clip timeline scrub first, then a 3-clip Fast Join, then a mixed-format Normalize & Join run.
+Verify the unified 3-clip Main editor UI, verify the VP9/AV1 preflight guard without encoding, then run a controlled H.264 mismatch Normalize & Join and export Normal + Extended reports.
 
 ## Near-future roadmap order
 
