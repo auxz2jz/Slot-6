@@ -3,10 +3,10 @@
 **Last checkpoint:** 2026-09-22  
 **Repository:** auxz2jz/Slot-6  
 **Android branch:** native-android-v0.2  
-**Current verified editor/media baseline:** v0.9.4 multi-clip scrub + three-clip Fast Join, plus earlier verified editor/Trim/Split/seek features; v0.9.4 mixed-format Normalize & Join remains unverified
-**Current unverified candidate:** v0.9.5 (versionCode 24), Unified Editor Timeline + Normalize Guard
-**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.5-unified-editor-candidate.zip`
-**Candidate SHA-256:** `bd01d729d06563691be76421828a79836a5356cfefe5f61544034d11c4b415b9`
+**Current verified editor/media baseline:** v0.9.5 Unified Editor Timeline + Normalize Guard; all three v0.9.5 phone tests passed
+**Current unverified candidate:** v0.9.6 (versionCode 25), Single Unified Timeline Editor
+**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.6-single-timeline-candidate.zip`
+**Candidate SHA-256:** `2051f229ac8bf6d54c737828c15a2a47c1b8fa57fcd8f9d1af222d809a8e7ab9`
 
 This file records the current state that should be carried into a new chat.
 
@@ -132,7 +132,35 @@ Implemented, awaiting phone verification:
 - supported H.264 mismatch normalization remains available;
 - native binaries and H.264/MKV seek repair unchanged.
 
-## Current working product
+## v0.9.5 phone verification
+
+User reported:
+- Test 1 unified editor: passed;
+- Test 2 VP9/AV1 Normalize guard: passed, warning was clear;
+- Test 3 supported Normalize & Join: passed.
+
+Status:
+**v0.9.5 is the verified baseline.**
+
+## v0.9.6 candidate status
+
+Implemented, awaiting phone verification:
+- bottom navigation `Convert` renamed to `Editor`;
+- one project-aware large preview;
+- one horizontal V1 track for one or many clips;
+- additional clips extend V1 left-to-right instead of adding vertical editor sections;
+- one global project playhead and cross-clip scrubbing;
+- per-clip filmstrip imagery/name/duration/boundary;
+- 50%-400% timeline zoom;
+- project playback handoff between clips where Android preview supports it;
+- compact A1 clip audio row;
+- Trim/Split remain in this same editor and still target Clip 1 in this release;
+- Join/Merge uses the same V1 project;
+- Join source-detail area compacted;
+- Tools quick operations preserved;
+- v0.9.5 decoder guard and all media-processing logic preserved.
+
+
 
 FFmpeg Studio is a native Android Kotlin/Jetpack Compose media conversion/editing application using packaged FFmpeg/ffprobe executables.
 
@@ -309,9 +337,9 @@ Do not assume `-force_key_frames` is honored by the hardware HEVC path. Diagnost
 
 ## Current feature to verify next
 
-**v0.9.5 Unified Editor Timeline + Normalize Guard**
+**v0.9.6 Single Unified Timeline Editor**
 
-Verify the unified 3-clip Main editor UI, verify the VP9/AV1 preflight guard without encoding, then run a controlled H.264 mismatch Normalize & Join and export Normal + Extended reports.
+Verify one preview/one timeline, three clips end-to-end on V1, cross-clip scrubbing, zoom, and that the standalone quick tools remain separate under Tools.
 
 ## Near-future roadmap order
 
@@ -366,3 +394,4 @@ Last source package produced in the previous development chat:
 
 When moving to another chat, this repository documentation should be read first. If actual app source in the repository is older than the current package, the new chat must not silently overwrite newer behavior with an older branch copy; reconcile the source version before editing.
 
+## Current working product
