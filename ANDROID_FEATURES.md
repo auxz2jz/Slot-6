@@ -1,6 +1,6 @@
 # FFmpeg Studio Android — Master Roadmap
 
-> **Checkpoint 2026-09-22:** v0.9.0 one-point Split/short seek probing is physically verified. v0.9.1 Visual Timeline is present and generally working on-device, with stale/lagging paused scrub frames identified. A **v0.9.2 (versionCode 21) Live Timeline Scrubbing candidate** addresses that preview issue. Read `NEXT_CHAT_START_HERE.md` and `PROJECT_STATUS.md` before resuming development in a new chat.
+> **Checkpoint 2026-09-22:** v0.9.2 Live Timeline Scrubbing is physically verified. A **v0.9.3 (versionCode 22) Visual Join/Merge Foundation candidate** adds the first two-clip V1 Join workflow. Read `NEXT_CHAT_START_HERE.md` and `PROJECT_STATUS.md` before resuming development in a new chat.
 
 This file is the **continuous master record** for the Slot-6 Android application. It tracks what is already working, what still needs to be implemented, and which work is likely to require rebuilding the native FFmpeg engine.
 
@@ -105,10 +105,10 @@ This file is the **continuous master record** for the Slot-6 Android application
 # 4. Visual trimming and editing
 
 - `DONE` Basic Start/End fast stream-copy trim is implemented and physically verified; visual/frame-exact trimming remains future work.
-- `PARTIAL` Visual video timeline foundation is present on-device: embedded preview, thumbnails, playhead, trim range, V1/A1 rows, and Trim/Split integration. v0.9.2 improves live paused scrubbing after phone feedback that the displayed frame could lag by 1-2 seconds. Multi-clip tracks/zoom/waveforms remain.
-- `PARTIAL` Draggable visual trim In handle exists in the v0.9.1 candidate; device verification pending.
-- `PARTIAL` Draggable visual trim Out handle exists in the v0.9.1 candidate; device verification pending.
-- `PARTIAL` Embedded preview with play/pause and playhead seeking exists in the v0.9.1 candidate; device/format verification pending.
+- `PARTIAL` Visual video timeline foundation is present on-device: embedded preview, thumbnails, playhead, trim range, V1/A1 rows, Trim/Split integration, and verified live paused scrubbing. v0.9.3 extends V1 to a first two-clip Join/Merge view; clip reordering, more clips, zoom, and waveforms remain.
+- `PARTIAL` Draggable visual trim In handle exists and the overall timeline is working on-device; broader editor refinement remains.
+- `PARTIAL` Draggable visual trim Out handle exists and the overall timeline is working on-device; broader editor refinement remains.
+- `DONE` Embedded preview with play/pause and live paused playhead scrubbing is working on the physical test device as of v0.9.2.
 - `TODO` Frame-accurate or near-frame-accurate seeking where practical.
 - `TODO` Draggable crop rectangle over video preview.
 - `DONE` Basic resize/resolution selection.
@@ -119,9 +119,9 @@ This file is the **continuous master record** for the Slot-6 Android application
 - `TODO` Rotate 90° clockwise/counterclockwise and 180°.
 - `TODO` Horizontal and vertical flip.
 - `DONE` Split one video at one cut point into two MKV files using stream copy; physically verified on-device. Multiple cut points remain future work. The v0.9.1 timeline can feed the Split point visually.
-- `TODO` Merge/join videos — next major editor phase after v0.9.1 verification; implement as sequential/movable clips on the V1 timeline.
+- `PARTIAL` Merge/join videos — v0.9.3 candidate implements the first two-clip fixed-order V1 fast Join using MKV stream copy and compatibility validation; device verification pending. Reordering, more clips, and mismatched-input re-encode remain TODO.
 - `TODO` Join video and audio files.
-- `TODO` Reorder clips before joining.
+- `TODO` Reorder clips before joining — next increment after the first two-clip v0.9.3 Join path is verified.
 - `TODO` Basic transitions where practical.
 
 # 5. Time and motion tools
@@ -364,8 +364,8 @@ These items are the work most likely to require GitHub Actions / Android NDK bui
 
 The current priority is to build out Android-side features while leaving the verified native engine alone whenever possible.
 
-1. **Verify v0.9.2 Live Timeline Scrubbing** on-device.
-2. **Join/Merge** as multiple sequential/reorderable clips on the V1 timeline.
+1. **Verify v0.9.3 Visual Join/Merge Foundation** on-device.
+2. Add clip reordering and more-than-two-clip V1 editing.
 3. Add waveform-backed A1/A2/A3 audio tracks for source audio, music, and voiceover.
 4. Replace/select/mix audio tracks and broader audio tools.
 5. Subtitle tools.
