@@ -3,10 +3,10 @@
 **Last checkpoint:** 2026-09-22  
 **Repository:** auxz2jz/Slot-6  
 **Android branch:** native-android-v0.2  
-**Current verified editor/media baseline:** v0.9.2 Live Timeline Scrubbing, plus previously verified v0.9.0 Split/short seek probing
-**Current unverified candidate:** v0.9.3 (versionCode 22), Visual Join/Merge Foundation
-**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.3-visual-join-candidate.zip`
-**Candidate SHA-256:** `d5f3fa2e6ae1ffa696c72072fec310691cf26ef882585c89247f662619486ed8`
+**Current verified editor/media baseline:** v0.9.3 Visual Join/Merge, plus verified v0.9.2 live scrubbing and earlier Split/Trim/seek behavior
+**Current unverified candidate:** v0.9.4 (versionCode 23), Multi-clip Timeline + Normalize & Join
+**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.4-multi-join-candidate.zip`
+**Candidate SHA-256:** `2370a43a09f28ba4c5546b76b55022e2421ea4646082f52a054b614a634b3448`
 
 This file records the current state that should be carried into a new chat.
 
@@ -75,6 +75,28 @@ Implemented, awaiting device verification:
 - native FFmpeg/ffprobe binaries and H.264/MKV seek-index repair are unchanged.
 
 External FFmpeg testing of the join strategy produced the expected combined duration, near-sum output size, and valid random-seek results. Full Android Studio/device verification is still required.
+
+## v0.9.3 phone verification
+
+User feedback: the v0.9.3 two-clip Join/Merge build **works good**. Treat the first standalone two-clip Join path as verified and preserve it.
+
+## v0.9.4 candidate status
+
+Implemented, awaiting phone verification:
+- Join/Merge remains a standalone tool and is also accessible directly from the visual timeline via **Add clip(s) / Join**;
+- multiple Join inputs (Clip 1, Clip 2, Clip 3+);
+- horizontally scrollable multi-clip V1 blocks with clear clip boundaries;
+- one global playhead that scrubs across clips and retrieves the frame from the source under the playhead;
+- Fast Join for matching clips using concat-demuxer stream copy;
+- automatic Normalize & Join when formats/codecs/resolutions differ;
+- Normalize output: H.264 hardware + AAC 192 kbps stereo/48 kHz in MKV, using Clip 1 dimensions and normalized frame rate;
+- first normalization release requires audio in every clip;
+- diagnostics schema 6 records all Join sources;
+- native binaries unchanged and H.264/MKV seek-index repair preserved.
+
+Command-level verification:
+- 3 matching clips -> expected combined duration with stream copy;
+- H.264/AAC MP4 + MPEG-4/MP3 AVI at different resolution/frame rate/sample rate -> one H.264/AAC MKV with the expected summed duration.
 
 ## Current working product
 
@@ -253,9 +275,9 @@ Do not assume `-force_key_frames` is honored by the hardware HEVC path. Diagnost
 
 ## Current feature to verify next
 
-**v0.9.3 Visual Join/Merge Foundation**
+**v0.9.4 Multi-clip Timeline + Normalize & Join**
 
-First verify the two-clip V1 display with NO ENCODE REQUIRED. Then run Fast Join using two matching copies of the Jellyfish test clip and verify playback through the join plus random seeking.
+Verify a 3-clip timeline scrub first, then a 3-clip Fast Join, then a mixed-format Normalize & Join run.
 
 ## Near-future roadmap order
 
