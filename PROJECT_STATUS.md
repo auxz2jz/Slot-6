@@ -3,10 +3,10 @@
 **Last checkpoint:** 2026-09-22  
 **Repository:** auxz2jz/Slot-6  
 **Android branch:** native-android-v0.2  
-**Current verified editor/media baseline:** v0.9.7 Compact Editor Layout + Rotation State; user reports all features working
-**Current unverified candidate:** v0.9.8.1 (versionCode 28), compile fix for Unified Compact UI + Timeline Ruler
-**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.8.1-compact-ui-ruler-compile-fix.zip`
-**Candidate SHA-256:** `445366602c6f44ed04c1237248dcee69b75ef25ddda971f863178d07cc59f7b5`
+**Current verified editor/media baseline:** v0.9.8.1 (versionCode 28), built/installed/used successfully on-device; this is the recovery baseline
+**Current unverified candidate:** None — development explicitly stopped at v0.9.8.1
+**Recovery artifact:** `FFmpegStudioAndroid-native-v0.9.8.1-compact-ui-ruler-compile-fix.zip`
+**Recovery SHA-256:** `445366602c6f44ed04c1237248dcee69b75ef25ddda971f863178d07cc59f7b5`
 
 This file records the current state that should be carried into a new chat.
 
@@ -337,9 +337,9 @@ Do not assume `-force_key_frames` is honored by the hardware HEVC path. Diagnost
 
 ## Current feature to verify next
 
-**v0.9.8.1 compile fix**
+**None. Development is stopped at v0.9.8.1 until the user explicitly resumes it.**
 
-First confirm Android Studio builds successfully. Then repeat the v0.9.8 no-encode compact UI, one-thumbnail V1/ruler, zoom, and rotation checks.
+When resumed, prefer adding the Action Trace / UI Event Recorder before chasing the intermittent ffprobe error, unless the error becomes reproducible first.
 
 ## Near-future roadmap order
 
@@ -456,5 +456,24 @@ v0.9.8.1 fix:
 - change `.coerceAtLeast(1.0)` to `.coerceAtLeast(1f)`;
 - bump to versionName 0.9.8.1 / versionCode 28;
 - no intended UI/media behavior changes.
+
+## STOP / recovery checkpoint — v0.9.8.1
+
+User explicitly stopped development and asked to save/recover state.
+
+Last successful version:
+- v0.9.8.1 / versionCode 28;
+- compiled after the v0.9.8 Float/Double ruler fix;
+- installed and used successfully on the phone;
+- compact UI, simplified V1, ruler, rotation preservation, and existing media features were working.
+
+Intermittent screenshot-only issue:
+- Source analysis once displayed: cannot run packaged `libffprobe_exec.so`; Java/Android returned `error=2, No such file or directory`.
+- User attempted to recreate it with different clips/windows and could not reproduce it.
+- Treat as watch-list issue only. Do not claim root cause is proven.
+
+Requested future diagnostic:
+- exportable Action Trace / UI Event Recorder for page transitions, button presses, file selection metadata, settings changes, dialogs/messages, orientation, exceptions/errors, and conversion lifecycle.
+- Status: **NOT IMPLEMENTED**.
 
 ## Current working product
