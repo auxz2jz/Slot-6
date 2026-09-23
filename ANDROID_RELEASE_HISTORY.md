@@ -4,7 +4,7 @@ This is the compact Android-app release history used for handoff. The detailed F
 
 ## v0.9.8.1 — Compile fix
 
-**Candidate — awaiting Android Studio build/device verification.**
+**Built, installed, and used successfully on-device. This is the current recovery baseline.**
 - versionCode 28.
 - Fixes the v0.9.8 Kotlin compiler error in the project time ruler.
 - `coerceAtLeast(1.0)` -> `coerceAtLeast(1f)` where a Float is required.
