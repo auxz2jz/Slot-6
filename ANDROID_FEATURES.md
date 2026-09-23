@@ -1,6 +1,6 @@
 # FFmpeg Studio Android — Master Roadmap
 
-> **Checkpoint 2026-09-22:** v0.9.5 Unified Editor Timeline + Normalize Guard is physically verified. A **v0.9.6 (versionCode 25) Single Unified Timeline Editor candidate** rebuilds the Editor around one preview and one horizontal V1 project track.
+> **Checkpoint 2026-09-23:** v0.9.6 Single Unified Timeline Editor works on-device. A **v0.9.7 (versionCode 26) Compact Editor Layout + Rotation State candidate** reduces UI chrome/V1 size and preserves Editor/project state across orientation changes.
 
 This file is the **continuous master record** for the Slot-6 Android application. It tracks what is already working, what still needs to be implemented, and which work is likely to require rebuilding the native FFmpeg engine.
 
@@ -364,7 +364,7 @@ These items are the work most likely to require GitHub Actions / Android NDK bui
 
 The current priority is to build out Android-side features while leaving the verified native engine alone whenever possible.
 
-1. **Verify v0.9.6 Single Unified Timeline Editor** on-device.
+1. **Verify v0.9.7 Compact Editor Layout + Rotation State** on-device.
 2. Add project-aware per-clip Trim/Split plus drag reordering/removal on V1.
 3. Add waveform-backed A1/A2/A3 audio tracks for source audio, music, and voiceover.
 4. Replace/select/mix audio tracks and broader audio tools.
