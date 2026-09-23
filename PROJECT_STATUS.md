@@ -3,27 +3,46 @@
 **Last checkpoint:** 2026-09-22  
 **Repository:** auxz2jz/Slot-6  
 **Android branch:** native-android-v0.2  
-**Current verified app line:** v0.8.9 (versionCode 18)
-**Current unverified candidate:** v0.9.0 (versionCode 19), awaiting device verification
-**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.0-split-candidate.zip`
-**Candidate SHA-256:** `3bc36bcc7619f1fd9962e700e41d1fe84945f5daca564d57369eb1a1a4bc6304`
+**Current verified media baseline:** v0.8.9, plus v0.9.0 one-point Split/short seek probing physically verified on-device
+**Current unverified candidate:** v0.9.1 (versionCode 20), Visual Timeline Foundation
+**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.1-visual-timeline-candidate.zip`
+**Candidate SHA-256:** `66a89fba3995feffdecb46fb6e6b8108c53cf5c1367704955fc8315a466a253c`
 
 This file records the current state that should be carried into a new chat.
 
-## v0.9.0 candidate status
+## v0.9.0 Split status
 
 A v0.9.0 source candidate has been created directly from the exact verified v0.8.9 source ZIP.
 
-Implemented in the candidate, but **not DONE until verified on-device**:
-- one cut point -> two MKV files using lossless stream copy;
+Implemented in v0.9.0:
+- **DONE** one cut point -> two MKV files using lossless stream copy (physically verified);
 - output-folder selection for the two generated files;
 - service/state/diagnostic support for both split outputs;
-- suppress video/keyframe warnings for audio-only outputs;
-- allow short outputs (>=3 s with recurring keyframes) to receive the container random-seek probe;
+- suppress video/keyframe warnings for audio-only outputs (implementation present; dedicated audio-only report still pending);
+- **DONE** allow short outputs (>=3 s with recurring keyframes) to receive the container random-seek probe (verified on both split outputs);
 - preserve the verified H.264 hardware -> MKV seek-index finalization/remux path;
 - three v0.9.0 Build Tests: Split, Audio Diagnostics, and H.264 Seek Regression.
 
 The packaged native FFmpeg/ffprobe binaries are unchanged from v0.8.9. A full Android compile was not available in the candidate-creation environment, so Android Studio compile/install plus physical phone verification are the current task.
+
+## v0.9.1 candidate status
+
+The next bounded editor release has been created from the v0.9.0 Split source candidate.
+
+Implemented, awaiting device verification:
+- expandable Visual timeline inside Source media;
+- embedded video preview with Play/Pause and seeking;
+- eight local thumbnail positions;
+- V1 source-video track with playhead and visual trim boundaries;
+- draggable In/Out range plus Set In / Set Out;
+- visual range writes into the existing Fast Trim start/end settings;
+- playhead writes into the existing Split time setting;
+- A1 source-audio row establishes the multi-track editor structure;
+- compact typed Trim/Split controls remain available.
+
+The release deliberately does **not** change FFmpeg commands, native binaries, Split service/diagnostics, or the verified H.264/MKV seek-index finalization path.
+
+After v0.9.1 is verified, build Join/Merge as multiple clips on the timeline, then add waveforms and additional audio tracks for music/voiceover.
 
 ## Current working product
 
@@ -202,21 +221,9 @@ Do not assume `-force_key_frames` is honored by the hardware HEVC path. Diagnost
 
 ## Current feature to verify next
 
-**Split — v0.9.0 candidate**
+**v0.9.1 Visual Timeline Foundation**
 
-This candidate is implemented at source level and now requires Android Studio/device verification before the roadmap advances.
-
-Recommended first Split implementation:
-- keep it independent from Join/Merge;
-- begin with a simple stream-copy split;
-- preserve original video/audio when compatible;
-- use MKV as a safe first container;
-- validate cut time(s);
-- provide exact Test This Build instructions and auto-applied settings;
-- verify output duration/playback/seeking;
-- only after Split passes, implement Join/Merge in the next release.
-
-Do not begin Join/Merge at the same time unless Split is already verified.
+Verify preview/thumbnails/playhead/range behavior plus timeline-to-Trim and timeline-to-Split synchronization. The next implementation phase after that is Join/Merge on the same V1 timeline.
 
 ## Near-future roadmap order
 
