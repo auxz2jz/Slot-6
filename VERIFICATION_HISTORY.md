@@ -325,3 +325,23 @@ Decision for v0.9.5:
 - keep Fast Join for compatible VP9/AV1 streams;
 - keep supported Normalize & Join for reliable decoder paths;
 - plan a later decoder fallback/native/media-stack solution.
+
+
+## v0.9.5 Unified Editor phone verification
+
+User result:
+- Test 1 unified editor timeline: **passed**.
+- Test 2 VP9 / AV1 normalization guard: **passed**; the warning was clear enough.
+- Test 3 supported Normalize & Join: **passed**.
+
+Status:
+**v0.9.5 is physically verified. Preserve the decoder guard and successful supported-normalization behavior while redesigning the editor layout.**
+
+User design clarification after verification:
+- the main Editor must have one large preview only;
+- Trim, Split, Join/Merge, conversion, and future audio tools should share one visual workspace;
+- added videos should extend one horizontal V1 track rather than creating multiple vertical video/editor sections;
+- every clip should have a thumbnail/visual strip and clear boundary;
+- one global playhead should scrub across every clip;
+- the timeline needs zoom in/out;
+- standalone quick tools should remain in Tools.
