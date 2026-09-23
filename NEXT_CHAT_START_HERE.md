@@ -7,27 +7,32 @@ This file is the handoff entry point for the Android FFmpeg Studio project in **
 - Repository: `auxz2jz/Slot-6`
 - Android working branch: `native-android-v0.2`
 - Upstream/main branch is primarily the FFmpeg source tree; do not treat `main` as the Android app source of truth.
-- **STOP/RECOVERY CHECKPOINT:** The last successful on-device version is **v0.9.8.1 (versionCode 28)**. The user built, installed, and used it successfully. Do not resume from any hypothetical/later source unless a new version is deliberately created from this baseline.
-- Current development source package / recovery baseline: `FFmpegStudioAndroid-native-v0.9.8.1-compact-ui-ruler-compile-fix.zip`
+- Verified recovery baseline: **v0.9.8.1 (versionCode 28)**, built/installed/used successfully on-device. The user explicitly resumed development from this baseline.
+- Current development source package: `FFmpegStudioAndroid-native-v0.9.9-action-trace-candidate.zip`
 - Current native FFmpeg/ffprobe ARM64 binaries have intentionally remained unchanged through the recent Kotlin/UI feature releases.
 
-## Current recovery baseline — v0.9.8.1
+## Current unverified candidate — v0.9.9
 
-**v0.9.8.1 is the last successful version and the point to resume from.**
+The active candidate is **Action Trace Recorder**.
 
-- Version: **v0.9.8.1 (versionCode 28)**
-- Artifact: `FFmpegStudioAndroid-native-v0.9.8.1-compact-ui-ruler-compile-fix.zip`
-- SHA-256: `445366602c6f44ed04c1237248dcee69b75ef25ddda971f863178d07cc59f7b5`
-- Android Studio compile issue from v0.9.8 was fixed by changing `coerceAtLeast(1.0)` to `coerceAtLeast(1f)`.
-- User subsequently reported the app/UI features were working and supplied an on-device screenshot from v0.9.8.1.
-- One intermittent source-analysis error appeared in the screenshot: Java could not launch packaged `libffprobe_exec.so` and reported `error=2, No such file or directory`.
-- The user could not reproduce that failure despite changing clips/pages, so treat it as **intermittent / unconfirmed**, not as a reason to roll back v0.9.8.1.
-- Do not invent a fix until the issue is reproducible or stronger diagnostics identify the engine-path state.
-- Requested diagnostic improvement for a future version: an **Action Trace / UI Event Recorder** that logs user actions, page changes, button presses, file selections (safe metadata only), setting changes, dialogs/messages, orientation changes, errors/exceptions, and conversion lifecycle events into an exportable text report. This is **planned only; not implemented**.
-- Native FFmpeg/ffprobe binaries remain the known hashes documented below.
+- Candidate version: **v0.9.9 (versionCode 29)**
+- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.9-action-trace-candidate.zip`
+- Candidate SHA-256: `ca6c2ff7897613f7f0bf55097a8a9872175f3cb5ccba05d7c5f87e3b0add0cc6`
+- Direct base: successful v0.9.8.1 recovery source ZIP.
+- New `ActionTrace.kt` implements a rolling persistent UI/runtime trace, default ON.
+- Trace captures app lifecycle, page transitions, raw screen touch coordinates, tool selections, safe file names/counts, setting changes, dialogs/errors, orientation changes, conversion lifecycle, and engine checks.
+- Trace deliberately strips Android `content://` URIs and app-private absolute paths.
+- Settings now has **Action trace** controls: Recording On/Off, Export trace, Clear.
+- Trace is capped at about 2 MB and rotates automatically.
+- MediaProbe records an engine snapshot immediately before every ffprobe analysis and on ProcessBuilder launch failure.
+- This specifically targets the intermittent v0.9.8.1 screenshot where ffprobe launch returned `error=2, No such file or directory`.
+- ConversionManager records start/phase/cancel/complete/fail lifecycle events.
+- v0.9.8.1 compact UI, timeline ruler, rotation state handling, Trim/Split/Join, Normalize guard, diagnostics, and seek repair are intentionally preserved.
+- Native FFmpeg/ffprobe binaries are unchanged.
+- Android Studio compilation/device verification is still required.
 
-### Stop instruction
-The user explicitly asked to **stop and save all progress** because the prior chat behavior was looping. No source version after v0.9.8.1 should be assumed to exist or be valid.
+### v0.9.8.1 recovery baseline
+v0.9.8.1 remains the last physically successful build. The one-off ffprobe launch error remains unconfirmed because the user could not reproduce it. v0.9.9 adds instrumentation rather than changing the native engine path blindly.
 
 
 ## Read these files first in a new chat
@@ -122,12 +127,13 @@ Also consider allowing short trimmed/split clips to run the container random-see
 
 ## Next roadmap feature
 
-**Do not start automatically.** Resume only when the user asks.
+The active task is **build/verify v0.9.9 Action Trace Recorder**.
 
-When development resumes from v0.9.8.1:
-1. Consider the requested Action Trace / UI Event Recorder first so intermittent UI/engine failures can be reconstructed precisely.
-2. Keep the one-off ffprobe `error=2` issue on the watch list; investigate only if reproduced or if new trace data captures it.
-3. Then continue the editor roadmap: project-aware per-clip Trim/Split, remove/reorder on V1, then waveform-backed A1/A2/A3 music/voiceover tracks.
+After v0.9.9 passes:
+- use Action Trace reports for any intermittent ffprobe/UI failures;
+- add project-aware per-clip Trim/Split directly on V1;
+- add clip remove/reorder;
+- add waveform-backed A1/A2/A3 music/voiceover tracks.
 
 ## UI direction
 
