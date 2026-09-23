@@ -62,6 +62,28 @@ Status:
 - compact Trim/Split remain available;
 - awaiting Android Studio/phone verification.
 
+## Current v0.9.2 live scrub candidate
+
+Artifact filename:
+`FFmpegStudioAndroid-native-v0.9.2-live-scrub-candidate.zip`
+
+App version:
+- versionName: `0.9.2`
+- versionCode: `21`
+
+SHA-256:
+`573ed5499f6fa86253e24ea4d334b1974e2b9508d570fcdc4e36b902200bbb92`
+
+Direct base:
+- v0.9.1 Visual Timeline Foundation candidate SHA-256 `66a89fba3995feffdecb46fb6e6b8108c53cf5c1367704955fc8315a466a253c`.
+
+Status:
+- Android UI/timeline-only change;
+- paused scrub preview uses direct source-frame retrieval;
+- V1 filmstrip enlarged;
+- native binary hashes and processing commands preserved;
+- awaiting phone verification.
+
 ## Packaged native binaries
 
 These binaries were intentionally kept unchanged across the recent Kotlin/UI releases.
@@ -155,6 +177,6 @@ Before editing in a new chat:
 
 ## Next source change
 
-Verify **v0.9.1 Visual Timeline Foundation** on the phone using `V091_TEST_PLAN.md`.
+Verify **v0.9.2 Live Timeline Scrubbing** using `V092_TEST_PLAN.md`. The first check requires no encode.
 
-After that passes, build Join/Merge as multiple movable/sequential clips on the V1 timeline rather than as another isolated text-only tool. Then extend the same timeline with A2/A3 audio tracks, waveforms, music/voiceover, and later additional video tracks/overlays.
+After live scrubbing is accepted, continue with Join/Merge as multiple clips on the same V1 timeline, then waveform-backed audio tracks for music/voiceover.
