@@ -2,9 +2,27 @@
 
 This is the compact Android-app release history used for handoff. The detailed FFmpeg upstream changelog in the repository is unrelated to these Android app versions.
 
-## v0.9.2 — Live Timeline Scrubbing candidate
+## v0.9.3 — Visual Join/Merge Foundation candidate
 
-**Candidate — awaiting phone verification.**
+**Candidate — awaiting Android Studio/device verification.**
+- versionCode 22.
+- New Join / merge operation.
+- Two source clips in fixed V1 order: Clip 1 -> Clip 2.
+- V1 visual strip shows representative frames and proportional durations.
+- Fast Join uses FFmpeg concat demuxer + stream copy to MKV.
+- Preflight blocks incompatible clips and checks video codec/resolution/pixel format plus audio presence/codec/sample rate/channel count.
+- Secondary source has its own URI, ffprobe analysis, source summary, and report identity.
+- Diagnostic schema bumped to 5 with a Secondary Source Media section.
+- Combined expected duration/size shown where source data is available.
+- Existing fast Trim/Split, single-clip timeline, and verified live scrubbing are preserved.
+- Native FFmpeg/ffprobe binaries and H.264/MKV seek-index finalization remain unchanged.
+- External FFmpeg validation produced the expected combined duration, near-sum output size, and healthy random seeking.
+- Candidate ZIP SHA-256: `d5f3fa2e6ae1ffa696c72072fec310691cf26ef882585c89247f662619486ed8`.
+
+
+## v0.9.2 — Live Timeline Scrubbing
+
+**Physically verified on-device. User reported the live scrubbing fix worked great.**
 - versionCode 21.
 - While paused, moving the playhead now requests the actual nearby source frame with MediaMetadataRetriever.
 - Rapid scrubbing no longer depends on a stream of VideoView seek requests; the VideoView is moved to the final playhead position after release.
