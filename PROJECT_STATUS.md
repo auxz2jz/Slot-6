@@ -4,9 +4,9 @@
 **Repository:** auxz2jz/Slot-6  
 **Android branch:** native-android-v0.2  
 **Current verified media baseline:** v0.8.9, plus v0.9.0 one-point Split/short seek probing physically verified on-device
-**Current unverified candidate:** v0.9.1 (versionCode 20), Visual Timeline Foundation
-**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.1-visual-timeline-candidate.zip`
-**Candidate SHA-256:** `66a89fba3995feffdecb46fb6e6b8108c53cf5c1367704955fc8315a466a253c`
+**Current unverified candidate:** v0.9.2 (versionCode 21), Live Timeline Scrubbing
+**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.2-live-scrub-candidate.zip`
+**Candidate SHA-256:** `573ed5499f6fa86253e24ea4d334b1974e2b9508d570fcdc4e36b902200bbb92`
 
 This file records the current state that should be carried into a new chat.
 
@@ -25,11 +25,11 @@ Implemented in v0.9.0:
 
 The packaged native FFmpeg/ffprobe binaries are unchanged from v0.8.9. A full Android compile was not available in the candidate-creation environment, so Android Studio compile/install plus physical phone verification are the current task.
 
-## v0.9.1 candidate status
+## v0.9.1 timeline phone feedback
 
 The next bounded editor release has been created from the v0.9.0 Split source candidate.
 
-Implemented, awaiting device verification:
+Implemented in v0.9.1:
 - expandable Visual timeline inside Source media;
 - embedded video preview with Play/Pause and seeking;
 - eight local thumbnail positions;
@@ -42,7 +42,18 @@ Implemented, awaiting device verification:
 
 The release deliberately does **not** change FFmpeg commands, native binaries, Split service/diagnostics, or the verified H.264/MKV seek-index finalization path.
 
-After v0.9.1 is verified, build Join/Merge as multiple clips on the timeline, then add waveforms and additional audio tracks for music/voiceover.
+Phone feedback: the timeline is visible and generally works, but paused preview frames can lag/stick while the playhead moves by one or two seconds. This becomes the v0.9.2 usability fix.
+
+## v0.9.2 candidate status
+
+Implemented, awaiting device verification:
+- paused scrub preview uses MediaMetadataRetriever to fetch the actual nearby source frame;
+- preview refresh is decoupled from rapid VideoView seek requests;
+- the underlying player seeks to the final playhead position after release;
+- V1 filmstrip height increased from 72 dp to 96 dp;
+- compact Trim/Split controls and existing processing paths remain unchanged.
+
+The first v0.9.2 test is NO ENCODE REQUIRED.
 
 ## Current working product
 
@@ -221,9 +232,9 @@ Do not assume `-force_key_frames` is honored by the hardware HEVC path. Diagnost
 
 ## Current feature to verify next
 
-**v0.9.1 Visual Timeline Foundation**
+**v0.9.2 Live Timeline Scrubbing**
 
-Verify preview/thumbnails/playhead/range behavior plus timeline-to-Trim and timeline-to-Split synchronization. The next implementation phase after that is Join/Merge on the same V1 timeline.
+Verify that moving the paused playhead visibly updates the large preview to the corresponding source frame with much less sticking/lag. Then continue to Join/Merge on the same timeline.
 
 ## Near-future roadmap order
 
