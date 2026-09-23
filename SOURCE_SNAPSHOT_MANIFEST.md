@@ -157,6 +157,32 @@ Status:
 - native binary hashes preserved;
 - awaiting Android Studio/phone verification.
 
+## Current v0.9.6 single timeline candidate
+
+Artifact:
+`FFmpegStudioAndroid-native-v0.9.6-single-timeline-candidate.zip`
+
+App version:
+- versionName: `0.9.6`
+- versionCode: `25`
+
+SHA-256:
+`2051f229ac8bf6d54c737828c15a2a47c1b8fa57fcd8f9d1af222d809a8e7ab9`
+
+Direct base:
+- verified v0.9.5 Unified Editor Timeline + Normalize Guard.
+
+Status:
+- one large project-aware preview;
+- one horizontal V1 project track;
+- global cross-clip scrub;
+- 50%-400% horizontal zoom;
+- added clips no longer create vertical editor sections;
+- Join/Merge shares the same editor surface;
+- standalone quick tools preserved;
+- media-processing commands/native engine unchanged;
+- awaiting Android Studio/phone verification.
+
 ## Packaged native binaries
 
 These binaries were intentionally kept unchanged across the recent Kotlin/UI releases.
@@ -250,6 +276,6 @@ Before editing in a new chat:
 
 ## Next source change
 
-Verify **v0.9.5 Unified Editor Timeline + Normalize Guard** using `V095_TEST_PLAN.md`.
+Verify **v0.9.6 Single Unified Timeline Editor** using `V096_TEST_PLAN.md`.
 
-After it passes, implement project-aware per-clip Trim/Split and drag reordering/removal inside the unified Main editor. Then add waveform-backed music/voiceover tracks. A later decoder-engine/media-stack phase should address true VP9/AV1 normalization fallback.
+After it passes, implement project-aware per-clip Trim/Split and drag reordering/removal on V1. Then add waveform-backed music/voiceover tracks.
