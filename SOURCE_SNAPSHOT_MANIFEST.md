@@ -84,6 +84,31 @@ Status:
 - native binary hashes and processing commands preserved;
 - awaiting phone verification.
 
+## Current v0.9.3 visual join candidate
+
+Artifact filename:
+`FFmpegStudioAndroid-native-v0.9.3-visual-join-candidate.zip`
+
+App version:
+- versionName: `0.9.3`
+- versionCode: `22`
+
+SHA-256:
+`d5f3fa2e6ae1ffa696c72072fec310691cf26ef882585c89247f662619486ed8`
+
+Direct base:
+- v0.9.2 Live Timeline Scrubbing SHA-256 `573ed5499f6fa86253e24ea4d334b1974e2b9508d570fcdc4e36b902200bbb92`.
+
+Status:
+- first two-input Join/Merge candidate;
+- fixed order Clip 1 -> Clip 2 on V1;
+- MKV fast Join uses concat-demuxer stream copy;
+- compatibility validation blocks mismatched streams;
+- diagnostic schema 5 records both source files;
+- external FFmpeg join strategy validated for duration, size, and seeking;
+- native binary hashes preserved;
+- awaiting Android Studio/phone verification.
+
 ## Packaged native binaries
 
 These binaries were intentionally kept unchanged across the recent Kotlin/UI releases.
@@ -177,6 +202,8 @@ Before editing in a new chat:
 
 ## Next source change
 
-Verify **v0.9.2 Live Timeline Scrubbing** using `V092_TEST_PLAN.md`. The first check requires no encode.
+Verify **v0.9.3 Visual Join/Merge Foundation** using `V093_TEST_PLAN.md`.
 
-After live scrubbing is accepted, continue with Join/Merge as multiple clips on the same V1 timeline, then waveform-backed audio tracks for music/voiceover.
+First verify the two-clip V1 UI with no encode. Then join two matching Jellyfish clips and confirm the final MKV plays continuously through the boundary and seeks normally. Export Normal + Extended reports from the Join run.
+
+After v0.9.3 passes, add clip reordering and more-than-two-clip V1 editing, then waveform-backed A2/A3 music and voiceover tracks.
