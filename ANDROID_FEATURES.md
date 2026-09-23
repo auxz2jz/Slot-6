@@ -1,6 +1,6 @@
 # FFmpeg Studio Android — Master Roadmap
 
-> **Checkpoint 2026-09-22:** v0.9.3 two-clip Join/Merge is working on-device. A **v0.9.4 (versionCode 23) Multi-clip Timeline + Normalize & Join candidate** adds multiple files, cross-clip scrubbing, and mixed-format normalization.
+> **Checkpoint 2026-09-22:** v0.9.4 multi-clip timeline scrubbing and three-clip Fast Join are verified on-device. Mixed-format Normalize & Join exposed VP9/AV1 decoder failures. A **v0.9.5 (versionCode 24) Unified Editor Timeline + Normalize Guard candidate** embeds Project V1 in the Main editor and blocks the known decoder-failure path before FFmpeg starts.
 
 This file is the **continuous master record** for the Slot-6 Android application. It tracks what is already working, what still needs to be implemented, and which work is likely to require rebuilding the native FFmpeg engine.
 
@@ -105,7 +105,7 @@ This file is the **continuous master record** for the Slot-6 Android application
 # 4. Visual trimming and editing
 
 - `DONE` Basic Start/End fast stream-copy trim is implemented and physically verified; visual/frame-exact trimming remains future work.
-- `PARTIAL` Visual video timeline foundation is present on-device: embedded preview, thumbnails, playhead, trim range, V1/A1 rows, Trim/Split integration, and verified live paused scrubbing. v0.9.3 extends V1 to a first two-clip Join/Merge view; clip reordering, more clips, zoom, and waveforms remain.
+- `PARTIAL` Main visual editor timeline is working on-device with live scrubbing and multi-clip Project V1. v0.9.5 embeds multi-clip Join directly inside this same Main editor rather than a separate Join timeline card. Project-aware per-clip Trim/Split/reorder, zoom, and waveforms remain.
 - `PARTIAL` Draggable visual trim In handle exists and the overall timeline is working on-device; broader editor refinement remains.
 - `PARTIAL` Draggable visual trim Out handle exists and the overall timeline is working on-device; broader editor refinement remains.
 - `DONE` Embedded preview with play/pause and live paused playhead scrubbing is working on the physical test device as of v0.9.2.
@@ -119,9 +119,9 @@ This file is the **continuous master record** for the Slot-6 Android application
 - `TODO` Rotate 90° clockwise/counterclockwise and 180°.
 - `TODO` Horizontal and vertical flip.
 - `DONE` Split one video at one cut point into two MKV files using stream copy; physically verified on-device. Multiple cut points remain future work. The v0.9.1 timeline can feed the Split point visually.
-- `PARTIAL` Merge/join videos — v0.9.3 two-clip Join works on-device. v0.9.4 candidate supports multiple V1 clips plus Fast Join or automatic Normalize & Join for mismatched formats/codecs/resolutions. Drag reordering and more advanced clip editing remain TODO.
+- `PARTIAL` Merge/join videos — multi-clip Fast Join is verified. Mixed-format Normalize & Join works conceptually but current packaged FFmpeg cannot reliably decode tested VP9/AV1 sources; v0.9.5 blocks that path before start while keeping supported normalization and stream-copy Join. Per-clip reordering/removal remains TODO.
 - `TODO` Join video and audio files.
-- `TODO` Reorder clips before joining — next timeline increment after v0.9.4 verification.
+- `TODO` Reorder/remove clips before joining — next unified-timeline increment after v0.9.5 verification.
 - `TODO` Basic transitions where practical.
 
 # 5. Time and motion tools
@@ -364,8 +364,8 @@ These items are the work most likely to require GitHub Actions / Android NDK bui
 
 The current priority is to build out Android-side features while leaving the verified native engine alone whenever possible.
 
-1. **Verify v0.9.4 Multi-clip Timeline + Normalize & Join** on-device.
-2. Add drag reordering/removal and richer multi-clip V1 editing.
+1. **Verify v0.9.5 Unified Editor Timeline + Normalize Guard** on-device.
+2. Add project-aware per-clip Trim/Split plus drag reordering/removal on V1.
 3. Add waveform-backed A1/A2/A3 audio tracks for source audio, music, and voiceover.
 4. Replace/select/mix audio tracks and broader audio tools.
 5. Subtitle tools.
@@ -399,6 +399,11 @@ Adding external native libraries such as x264, x265, libvpx, AV1 encoders, libop
 - `PARTIAL` Spotlight/coach-mark tutorial foundation exists: dim screen and highlight relevant controls.
 - `TODO` Continue adding tutorial coverage for new user-facing workflows without forcing one huge first-run sequence.
 - `TODO` Keep tutorials re-openable from Help/About or the relevant feature.
+
+# Current decoder/editor maintenance
+
+- `PARTIAL` VP9/AV1 Normalize & Join decoder guard — v0.9.4 device logs proved the packaged FFmpeg decode path can fail immediately; v0.9.5 blocks this unsafe normalization path. A future decoder fallback/native/media-stack solution remains TODO.
+- `TODO` Project-aware per-clip Trim/Split/reordering inside the unified Main editor.
 
 # Known maintenance items from v0.8.9
 
