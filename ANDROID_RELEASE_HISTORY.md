@@ -2,9 +2,29 @@
 
 This is the compact Android-app release history used for handoff. The detailed FFmpeg upstream changelog in the repository is unrelated to these Android app versions.
 
-## v0.9.5 — Unified Editor Timeline + Normalize Guard candidate
+## v0.9.6 — Single Unified Timeline Editor candidate
 
 **Candidate — awaiting Android Studio/device verification.**
+- versionCode 25.
+- Bottom navigation label Convert -> Editor.
+- One large project-aware preview.
+- One horizontal V1 track for one or many clips.
+- Added clips extend V1 left-to-right rather than stacking editor sections vertically.
+- One global project playhead with cross-clip scrub preview.
+- Per-clip filmstrip imagery, file name, duration, and clear boundaries.
+- 50%-400% horizontal timeline zoom.
+- Best-effort preview playback handoff across clip boundaries.
+- Trim/Split remain in the same editor and still target Clip 1 in this release.
+- Join/Merge uses the same V1 project; standalone quick Join remains in Tools.
+- Join source details compacted to avoid vertical page growth.
+- v0.9.5 VP9/AV1 Normalize guard and all media-processing logic preserved.
+- Native binaries unchanged.
+- Candidate ZIP SHA-256: `2051f229ac8bf6d54c737828c15a2a47c1b8fa57fcd8f9d1af222d809a8e7ab9`.
+
+
+## v0.9.5 — Unified Editor Timeline + Normalize Guard
+
+**Physically verified on-device. All three controlled tests passed and the VP9/AV1 warning was clear.**
 - versionCode 24.
 - Multi-clip Project V1 is embedded inside the existing Main editor timeline.
 - Standalone Trim, Split, and Join/Merge quick tools remain available.
