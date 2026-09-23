@@ -7,27 +7,27 @@ This file is the handoff entry point for the Android FFmpeg Studio project in **
 - Repository: `auxz2jz/Slot-6`
 - Android working branch: `native-android-v0.2`
 - Upstream/main branch is primarily the FFmpeg source tree; do not treat `main` as the Android app source of truth.
-- Current verified editor/media baseline includes **v0.9.7 Compact Editor Layout + Rotation State**; the user likes the compact layout and reported all features working. Preserve all earlier verified Trim/Split/seek/Join/Normalize-guard behavior.
-- Current development source package: `FFmpegStudioAndroid-native-v0.9.8.1-compact-ui-ruler-compile-fix.zip`
+- **STOP/RECOVERY CHECKPOINT:** The last successful on-device version is **v0.9.8.1 (versionCode 28)**. The user built, installed, and used it successfully. Do not resume from any hypothetical/later source unless a new version is deliberately created from this baseline.
+- Current development source package / recovery baseline: `FFmpegStudioAndroid-native-v0.9.8.1-compact-ui-ruler-compile-fix.zip`
 - Current native FFmpeg/ffprobe ARM64 binaries have intentionally remained unchanged through the recent Kotlin/UI feature releases.
 
-## Current unverified candidate — v0.9.8.1
+## Current recovery baseline — v0.9.8.1
 
-The active candidate is the **v0.9.8 compile fix**.
+**v0.9.8.1 is the last successful version and the point to resume from.**
 
-- Candidate version: **v0.9.8.1 (versionCode 28)**
-- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.8.1-compact-ui-ruler-compile-fix.zip`
-- Candidate SHA-256: `445366602c6f44ed04c1237248dcee69b75ef25ddda971f863178d07cc59f7b5`
-- Direct base: v0.9.8 Unified Compact UI + Timeline Ruler candidate.
-- Android Studio reached `:app:compileDebugKotlin` and failed at `App.kt:1000:100` because `coerceAtLeast(1.0)` supplied a Double to a Float expression.
-- The compile fix changes only `coerceAtLeast(1.0)` -> `coerceAtLeast(1f)` in the project timeline ruler calculation.
-- versionName/versionCode bumped from 0.9.8/27 to 0.9.8.1/28 so the fixed package is unmistakable.
-- No intended UI, FFmpeg, Trim/Split/Join, normalization, seek, decoder-guard, or native-engine behavior changed.
-- Native FFmpeg/ffprobe hashes are unchanged.
-- Next action: build in Android Studio; if compilation succeeds, run the same no-encode v0.9.8 UI/ruler tests.
+- Version: **v0.9.8.1 (versionCode 28)**
+- Artifact: `FFmpegStudioAndroid-native-v0.9.8.1-compact-ui-ruler-compile-fix.zip`
+- SHA-256: `445366602c6f44ed04c1237248dcee69b75ef25ddda971f863178d07cc59f7b5`
+- Android Studio compile issue from v0.9.8 was fixed by changing `coerceAtLeast(1.0)` to `coerceAtLeast(1f)`.
+- User subsequently reported the app/UI features were working and supplied an on-device screenshot from v0.9.8.1.
+- One intermittent source-analysis error appeared in the screenshot: Java could not launch packaged `libffprobe_exec.so` and reported `error=2, No such file or directory`.
+- The user could not reproduce that failure despite changing clips/pages, so treat it as **intermittent / unconfirmed**, not as a reason to roll back v0.9.8.1.
+- Do not invent a fix until the issue is reproducible or stronger diagnostics identify the engine-path state.
+- Requested diagnostic improvement for a future version: an **Action Trace / UI Event Recorder** that logs user actions, page changes, button presses, file selections (safe metadata only), setting changes, dialogs/messages, orientation changes, errors/exceptions, and conversion lifecycle events into an exportable text report. This is **planned only; not implemented**.
+- Native FFmpeg/ffprobe binaries remain the known hashes documented below.
 
-### v0.9.8 compile result
-The original v0.9.8 ZIP is **not a valid test candidate** because Android Studio compilation failed before APK generation. Do not treat it as verified.
+### Stop instruction
+The user explicitly asked to **stop and save all progress** because the prior chat behavior was looping. No source version after v0.9.8.1 should be assumed to exist or be valid.
 
 
 ## Read these files first in a new chat
@@ -122,12 +122,12 @@ Also consider allowing short trimmed/split clips to run the container random-see
 
 ## Next roadmap feature
 
-The active task is **build/verify v0.9.8.1 compile fix**, then continue the v0.9.8 compact UI + timeline ruler checks.
+**Do not start automatically.** Resume only when the user asks.
 
-After that passes:
-- add project-aware per-clip Trim/Split directly on V1;
-- add drag reordering/removal;
-- add waveform-backed A1/A2/A3 tracks for source audio, music, and voiceover.
+When development resumes from v0.9.8.1:
+1. Consider the requested Action Trace / UI Event Recorder first so intermittent UI/engine failures can be reconstructed precisely.
+2. Keep the one-off ffprobe `error=2` issue on the watch list; investigate only if reproduced or if new trace data captures it.
+3. Then continue the editor roadmap: project-aware per-clip Trim/Split, remove/reorder on V1, then waveform-backed A1/A2/A3 music/voiceover tracks.
 
 ## UI direction
 
