@@ -2,9 +2,25 @@
 
 This is the compact Android-app release history used for handoff. The detailed FFmpeg upstream changelog in the repository is unrelated to these Android app versions.
 
-## v0.9.3 — Visual Join/Merge Foundation candidate
+## v0.9.4 — Multi-clip Timeline + Normalize & Join candidate
 
 **Candidate — awaiting Android Studio/device verification.**
+- versionCode 23.
+- Join/Merge remains a standalone tool and is also reachable directly from Visual Timeline.
+- Multiple Join clips supported.
+- Global timeline scrub crosses clip boundaries and previews the correct source/local time.
+- Fast Join for matching inputs.
+- Automatic Normalize & Join for mixed containers/codecs/resolutions/frame rates.
+- Normalize output is H.264 hardware + AAC stereo in MKV using Clip 1 frame size.
+- First normalization release requires video + audio in every clip.
+- Diagnostic schema 6 records Clip 3+ source metadata.
+- Native binaries unchanged.
+- Candidate ZIP SHA-256: `2370a43a09f28ba4c5546b76b55022e2421ea4646082f52a054b614a634b3448`.
+
+
+## v0.9.3 — Visual Join/Merge Foundation
+
+**Physically verified by user feedback: the two-clip Join/Merge build works well.**
 - versionCode 22.
 - New Join / merge operation.
 - Two source clips in fixed V1 order: Clip 1 -> Clip 2.
