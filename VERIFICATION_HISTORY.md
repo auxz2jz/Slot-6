@@ -379,3 +379,22 @@ Additional design requirements captured for v0.9.8:
 - filename/time text should not cover clip imagery;
 - the remainder of each clip should be a simple blue/gray duration bar;
 - a project-time ruler should sit directly below V1, represent total runtime, and scale/scroll with zoom.
+
+
+## v0.9.8 compile failure
+
+Android Studio build reached Kotlin compilation and failed before APK generation.
+
+Compiler message:
+`App.kt:1000:100 Argument type mismatch: actual type is Double, but Float was expected.`
+
+Root cause:
+The project time ruler used `.coerceAtLeast(1.0)` on a Float expression.
+
+v0.9.8.1 action:
+- changed literal to `1f`;
+- bumped versionName/versionCode to 0.9.8.1/28;
+- native engine and intended UI/media behavior unchanged.
+
+Status:
+**v0.9.8 is not a runnable verification build. Use v0.9.8.1 instead.**
