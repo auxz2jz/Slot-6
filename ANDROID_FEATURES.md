@@ -1,6 +1,6 @@
 # FFmpeg Studio Android — Master Roadmap
 
-> **Checkpoint 2026-09-22:** v0.9.2 Live Timeline Scrubbing is physically verified. A **v0.9.3 (versionCode 22) Visual Join/Merge Foundation candidate** adds the first two-clip V1 Join workflow. Read `NEXT_CHAT_START_HERE.md` and `PROJECT_STATUS.md` before resuming development in a new chat.
+> **Checkpoint 2026-09-22:** v0.9.3 two-clip Join/Merge is working on-device. A **v0.9.4 (versionCode 23) Multi-clip Timeline + Normalize & Join candidate** adds multiple files, cross-clip scrubbing, and mixed-format normalization.
 
 This file is the **continuous master record** for the Slot-6 Android application. It tracks what is already working, what still needs to be implemented, and which work is likely to require rebuilding the native FFmpeg engine.
 
@@ -119,9 +119,9 @@ This file is the **continuous master record** for the Slot-6 Android application
 - `TODO` Rotate 90° clockwise/counterclockwise and 180°.
 - `TODO` Horizontal and vertical flip.
 - `DONE` Split one video at one cut point into two MKV files using stream copy; physically verified on-device. Multiple cut points remain future work. The v0.9.1 timeline can feed the Split point visually.
-- `PARTIAL` Merge/join videos — v0.9.3 candidate implements the first two-clip fixed-order V1 fast Join using MKV stream copy and compatibility validation; device verification pending. Reordering, more clips, and mismatched-input re-encode remain TODO.
+- `PARTIAL` Merge/join videos — v0.9.3 two-clip Join works on-device. v0.9.4 candidate supports multiple V1 clips plus Fast Join or automatic Normalize & Join for mismatched formats/codecs/resolutions. Drag reordering and more advanced clip editing remain TODO.
 - `TODO` Join video and audio files.
-- `TODO` Reorder clips before joining — next increment after the first two-clip v0.9.3 Join path is verified.
+- `TODO` Reorder clips before joining — next timeline increment after v0.9.4 verification.
 - `TODO` Basic transitions where practical.
 
 # 5. Time and motion tools
@@ -364,8 +364,8 @@ These items are the work most likely to require GitHub Actions / Android NDK bui
 
 The current priority is to build out Android-side features while leaving the verified native engine alone whenever possible.
 
-1. **Verify v0.9.3 Visual Join/Merge Foundation** on-device.
-2. Add clip reordering and more-than-two-clip V1 editing.
+1. **Verify v0.9.4 Multi-clip Timeline + Normalize & Join** on-device.
+2. Add drag reordering/removal and richer multi-clip V1 editing.
 3. Add waveform-backed A1/A2/A3 audio tracks for source audio, music, and voiceover.
 4. Replace/select/mix audio tracks and broader audio tools.
 5. Subtitle tools.
