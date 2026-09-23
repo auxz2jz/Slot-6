@@ -398,3 +398,25 @@ v0.9.8.1 action:
 
 Status:
 **v0.9.8 is not a runnable verification build. Use v0.9.8.1 instead.**
+
+
+## v0.9.8.1 successful build / intermittent ffprobe screenshot
+
+Recovery status:
+- v0.9.8.1 compiled after the timeline-ruler Float/Double fix;
+- user installed and used it successfully;
+- user reported the features were working.
+
+One intermittent screenshot showed source analysis failure:
+`Cannot run program .../lib/arm64/libffprobe_exec.so ... error=2, No such file or directory`.
+
+Important limitation:
+- the user could not reproduce the error after trying different clips/pages;
+- therefore the exact trigger and root cause are not established;
+- do not downgrade v0.9.8.1 or modify native engine paths based only on this one occurrence.
+
+Future diagnostic request:
+Add an exportable action/event trace that records user interaction sequence and app events so rare bugs can be reconstructed. Planned only; not implemented at this checkpoint.
+
+Status:
+**v0.9.8.1 is the last successful recovery baseline. Development intentionally stopped here.**
