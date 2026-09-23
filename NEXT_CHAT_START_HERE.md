@@ -7,40 +7,37 @@ This file is the handoff entry point for the Android FFmpeg Studio project in **
 - Repository: `auxz2jz/Slot-6`
 - Android working branch: `native-android-v0.2`
 - Upstream/main branch is primarily the FFmpeg source tree; do not treat `main` as the Android app source of truth.
-- Current verified editor/media baseline includes **v0.9.5 Unified Editor Timeline + Normalize Guard**; the user reported all three v0.9.5 tests passed and the VP9/AV1 warning was clear. Preserve the earlier verified Trim/Split/seek/Fast Join behavior too.
-- Current development source package: `FFmpegStudioAndroid-native-v0.9.6-single-timeline-candidate.zip`
+- Current verified editor/media baseline includes **v0.9.6 Single Unified Timeline Editor** as functionally working on-device; user feedback identified excessive rounded-container spacing, oversized V1 thumbnails, and orientation-change state reset as the next usability issues. Preserve all earlier verified Trim/Split/seek/Join/Normalize-guard behavior.
+- Current development source package: `FFmpegStudioAndroid-native-v0.9.7-compact-editor-candidate.zip`
 - Current native FFmpeg/ffprobe ARM64 binaries have intentionally remained unchanged through the recent Kotlin/UI feature releases.
 
-## Current unverified candidate — v0.9.6
+## Current unverified candidate — v0.9.7
 
-The active candidate is **Single Unified Timeline Editor**.
+The active candidate is **Compact Editor Layout + Rotation State Preservation**.
 
-- Candidate version: **v0.9.6 (versionCode 25)**
-- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.6-single-timeline-candidate.zip`
-- Candidate SHA-256: `2051f229ac8bf6d54c737828c15a2a47c1b8fa57fcd8f9d1af222d809a8e7ab9`
-- Direct base: verified v0.9.5.
-- Bottom navigation label changes from **Convert** to **Editor**.
-- The Editor has **one large project-aware preview** at the top.
-- V1 is now **one horizontal multi-clip track**. Additional videos extend the same row left-to-right rather than creating separate vertical Join editor sections.
-- Each clip has visible filmstrip imagery, file name, duration, and a clear clip boundary.
-- One global project playhead scrubs across Clip 1 -> Clip 2 -> Clip 3+ and the single preview switches to the corresponding source/local time.
-- V1 has 50%-400% zoom controls. Zoom changes horizontal time scale without making the page taller.
-- Project playback handoff to the next clip is included as a best-effort preview behavior; cross-clip scrubbing is the required test.
-- Trim In/Out and Split stay in the same editor. In v0.9.6 the detailed Trim/Split actions still target Clip 1; project-aware per-clip editing/reordering is next.
-- Join/Merge uses this same V1 project rather than another preview/timeline.
-- Join source details are compacted so adding clips does not lengthen the page with a full media-info card per source.
-- Standalone quick Trim, Split, Join/Merge and other operations remain in **Tools**.
-- v0.9.5 VP9/AV1 Normalize & Join guard is preserved unchanged.
-- Native FFmpeg/ffprobe binaries and the H.264/MKV seek-index finalization remain unchanged.
+- Candidate version: **v0.9.7 (versionCode 26)**
+- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.7-compact-editor-candidate.zip`
+- Candidate SHA-256: `ef306a2ec27e164dcb49b508123c224fd70f26bb1bd48f4ca7be5c6cf69b27aa`
+- Direct base: v0.9.6 Single Unified Timeline Editor.
+- Major Editor sections are flattened: thin dividers + small labels replace most large rounded cards/bubbles in the Editor.
+- Editor content padding and vertical spacing are reduced.
+- V1 filmstrip height is reduced from 108 dp to 72 dp.
+- Minimum clip width and generated thumbnail size/count are reduced so more timeline fits on screen.
+- A1 audio labels and Join source labels are compact text rows instead of pill/bubble UI.
+- Android configuration-change handling is added so portrait/landscape rotation keeps the current Activity/Editor/project state rather than recreating back to Home.
+- The one large preview, one V1 timeline, global scrub, zoom, Trim/Split/Join architecture from v0.9.6 is preserved.
+- Standalone quick tools in Tools are unchanged.
+- v0.9.5 VP9/AV1 Normalize guard and all FFmpeg processing behavior remain unchanged.
+- Native FFmpeg/ffprobe binaries are unchanged.
 - Full Android Studio/device verification is still required.
 
-### v0.9.5 verification carried forward
-The user reported **all three v0.9.5 tests worked**:
-- unified editor behavior passed;
-- VP9/AV1 normalization guard triggered correctly and the warning was clear;
-- controlled supported H.264 Normalize & Join passed.
+### v0.9.6 verification carried forward
+The user reported v0.9.6 **works fine functionally** and the single-preview/single-V1 design is correct. The remaining issues were UI density and orientation reset:
+- rounded “bubble” containers consumed too much screen real estate;
+- V1 thumbnails/filmstrip were larger than desired;
+- rotating portrait <-> landscape recreated the UI and returned to the main page/reset state.
 
-Treat v0.9.5 as the verified baseline for this redesign.
+v0.9.7 targets only those usability issues.
 
 
 ## Read these files first in a new chat
@@ -135,15 +132,15 @@ Also consider allowing short trimmed/split clips to run the container random-see
 
 ## Next roadmap feature
 
-The active feature is **v0.9.6 Single Unified Timeline Editor verification**.
+The active feature is **v0.9.7 Compact Editor + Rotation State verification**.
 
-After v0.9.6 passes:
+After v0.9.7 passes:
 - add project-aware per-clip Trim/Split directly on V1;
-- add drag reordering/removal and richer project editing;
+- add drag reordering/removal;
 - add waveform-backed A1/A2/A3 tracks for source audio, music, and voiceover;
-- later add transitions, overlays, and a true VP9/AV1 normalization decoder fallback.
+- later add transitions/overlays and a true VP9/AV1 normalization decoder fallback.
 
-Keep the standalone quick tools in Tools while the Editor becomes the full visual workspace.
+Keep the Editor visually compact and preserve standalone quick tools in Tools.
 
 ## UI direction
 
