@@ -207,6 +207,31 @@ Status:
 - native binary hashes and processing logic preserved;
 - awaiting Android Studio/phone verification.
 
+## Current v0.9.8 compact UI ruler candidate
+
+Artifact:
+`FFmpegStudioAndroid-native-v0.9.8-compact-ui-ruler-candidate.zip`
+
+App version:
+- versionName: `0.9.8`
+- versionCode: `27`
+
+SHA-256:
+`cfb2cba9c3181ca800c988313ed668a73cb35f0790c7b234345e12284265a27d`
+
+Direct base:
+- verified v0.9.7 Compact Editor Layout + Rotation State.
+
+Status:
+- app-wide compact UI;
+- Home-only FFmpeg Studio branding;
+- one representative thumbnail per V1 clip;
+- simple duration bars;
+- zoom-aware synchronized project time ruler;
+- V1 58 dp;
+- native binary hashes and processing logic preserved;
+- awaiting Android Studio/phone verification.
+
 ## Packaged native binaries
 
 These binaries were intentionally kept unchanged across the recent Kotlin/UI releases.
@@ -300,6 +325,6 @@ Before editing in a new chat:
 
 ## Next source change
 
-Verify **v0.9.7 Compact Editor Layout + Rotation State** using `V097_TEST_PLAN.md`.
+Verify **v0.9.8 Unified Compact UI + Timeline Ruler** using `V098_TEST_PLAN.md`.
 
 After it passes, implement project-aware per-clip Trim/Split and drag reordering/removal on V1, then waveform-backed music/voiceover tracks.
