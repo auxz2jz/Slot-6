@@ -285,3 +285,14 @@ User result:
 
 Status:
 **v0.9.2 live timeline scrubbing is physically verified. Preserve this behavior while adding multi-clip editing.**
+
+
+## v0.9.3 Visual Join phone verification
+
+User feedback:
+- the two-clip Join/Merge build works good;
+- the user wants Join preserved as an individual tool and also fully integrated into the timeline;
+- next requirements: multiple clips, cross-clip scrubbing, and mixed-format support.
+
+Status:
+**v0.9.3 two-clip Join foundation is accepted. Preserve it while expanding to v0.9.4.**
