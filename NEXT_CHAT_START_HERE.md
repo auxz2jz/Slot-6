@@ -7,35 +7,40 @@ This file is the handoff entry point for the Android FFmpeg Studio project in **
 - Repository: `auxz2jz/Slot-6`
 - Android working branch: `native-android-v0.2`
 - Upstream/main branch is primarily the FFmpeg source tree; do not treat `main` as the Android app source of truth.
-- Current verified editor/media baseline includes **v0.9.4 multi-clip timeline scrubbing and three-clip Fast Join**, plus verified v0.9.3 two-clip Join, v0.9.2 live scrubbing, and earlier Trim/Split/seek behavior. v0.9.4 mixed-format Normalize & Join is **not** verified.
-- Current development source package: `FFmpegStudioAndroid-native-v0.9.5-unified-editor-candidate.zip`
+- Current verified editor/media baseline includes **v0.9.5 Unified Editor Timeline + Normalize Guard**; the user reported all three v0.9.5 tests passed and the VP9/AV1 warning was clear. Preserve the earlier verified Trim/Split/seek/Fast Join behavior too.
+- Current development source package: `FFmpegStudioAndroid-native-v0.9.6-single-timeline-candidate.zip`
 - Current native FFmpeg/ffprobe ARM64 binaries have intentionally remained unchanged through the recent Kotlin/UI feature releases.
 
-## Current unverified candidate — v0.9.5
+## Current unverified candidate — v0.9.6
 
-The active candidate is **Unified Editor Timeline + Normalize Guard**.
+The active candidate is **Single Unified Timeline Editor**.
 
-- Candidate version: **v0.9.5 (versionCode 24)**
-- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.5-unified-editor-candidate.zip`
-- Candidate SHA-256: `bd01d729d06563691be76421828a79836a5356cfefe5f61544034d11c4b415b9`
-- Direct base: v0.9.4 Multi-clip Timeline + Normalize & Join.
-- The big **Main editor timeline** is now the shared visual workspace. When Join clips are added, Project V1 appears inside that same editor instead of creating a second independent Join timeline card.
-- Standalone quick Trim, Split, and Join/Merge tools remain available.
-- Cross-clip project scrubbing remains inside the Main editor.
-- In this release, the detailed Trim/Split range still targets Clip 1; project-aware per-clip cuts/reordering are the next timeline phase.
-- v0.9.4 phone logs showed that mixed-format normalization involving VP9/AV1 can fail in the packaged FFmpeg decoder path before useful progress.
-- v0.9.5 therefore preflight-blocks VP9/AV1 **Normalize & Join** before FFmpeg starts and gives a clear explanation instead of allowing code 69.
-- Fast Join remains available for already-compatible VP9/AV1 files because stream copy does not decode them.
-- Supported Normalize & Join remains available for reliable current decoder paths such as controlled H.264 mismatches.
-- Native FFmpeg/ffprobe binaries and the verified H.264/MKV seek-index finalization are unchanged.
-- Android Studio/device verification is still required.
+- Candidate version: **v0.9.6 (versionCode 25)**
+- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.6-single-timeline-candidate.zip`
+- Candidate SHA-256: `2051f229ac8bf6d54c737828c15a2a47c1b8fa57fcd8f9d1af222d809a8e7ab9`
+- Direct base: verified v0.9.5.
+- Bottom navigation label changes from **Convert** to **Editor**.
+- The Editor has **one large project-aware preview** at the top.
+- V1 is now **one horizontal multi-clip track**. Additional videos extend the same row left-to-right rather than creating separate vertical Join editor sections.
+- Each clip has visible filmstrip imagery, file name, duration, and a clear clip boundary.
+- One global project playhead scrubs across Clip 1 -> Clip 2 -> Clip 3+ and the single preview switches to the corresponding source/local time.
+- V1 has 50%-400% zoom controls. Zoom changes horizontal time scale without making the page taller.
+- Project playback handoff to the next clip is included as a best-effort preview behavior; cross-clip scrubbing is the required test.
+- Trim In/Out and Split stay in the same editor. In v0.9.6 the detailed Trim/Split actions still target Clip 1; project-aware per-clip editing/reordering is next.
+- Join/Merge uses this same V1 project rather than another preview/timeline.
+- Join source details are compacted so adding clips does not lengthen the page with a full media-info card per source.
+- Standalone quick Trim, Split, Join/Merge and other operations remain in **Tools**.
+- v0.9.5 VP9/AV1 Normalize & Join guard is preserved unchanged.
+- Native FFmpeg/ffprobe binaries and the H.264/MKV seek-index finalization remain unchanged.
+- Full Android Studio/device verification is still required.
 
-### v0.9.4 verification carried forward
-The user verified:
-- Test 1 multi-clip timeline scrubbing works;
-- Test 2 three-clip Fast Join works.
+### v0.9.5 verification carried forward
+The user reported **all three v0.9.5 tests worked**:
+- unified editor behavior passed;
+- VP9/AV1 normalization guard triggered correctly and the warning was clear;
+- controlled supported H.264 Normalize & Join passed.
 
-Normalize & Join was **not** verified. Two mixed-format phone runs failed almost immediately. One included H.264 + AV1 + H.264; the other included VP9 + H.264 + AV1. Extended logs showed VP9 frame-header decode errors and AV1 hardware-decoder/pixel-format failures. Treat this as a decoder-path limitation discovered by device testing, not user error.
+Treat v0.9.5 as the verified baseline for this redesign.
 
 
 ## Read these files first in a new chat
@@ -130,14 +135,15 @@ Also consider allowing short trimmed/split clips to run the container random-see
 
 ## Next roadmap feature
 
-The active feature is **v0.9.5 Unified Editor Timeline + Normalize Guard verification**.
+The active feature is **v0.9.6 Single Unified Timeline Editor verification**.
 
-After v0.9.5 passes:
-- add project-aware per-clip Trim/Split and drag reordering/removal on V1;
+After v0.9.6 passes:
+- add project-aware per-clip Trim/Split directly on V1;
+- add drag reordering/removal and richer project editing;
 - add waveform-backed A1/A2/A3 tracks for source audio, music, and voiceover;
-- later add decoder fallback/engine expansion for VP9/AV1 normalization, transitions, and additional video tracks/overlays.
+- later add transitions, overlays, and a true VP9/AV1 normalization decoder fallback.
 
-Keep the standalone quick tools and their visual equivalents in the Main editor.
+Keep the standalone quick tools in Tools while the Editor becomes the full visual workspace.
 
 ## UI direction
 
