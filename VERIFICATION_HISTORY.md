@@ -363,3 +363,19 @@ Engineering decision for v0.9.7:
 - reduce V1 height/minimum clip width;
 - compact A1/source labels;
 - keep the existing Activity alive across orientation/screen-size configuration changes so Compose state is retained.
+
+
+## v0.9.7 Compact Editor phone verification
+
+User result:
+- likes the new compact layout;
+- all existing features reported working;
+- wants the same compact visual language across every page/button.
+
+Additional design requirements captured for v0.9.8:
+- FFmpeg Studio top branding should remain only on Home;
+- non-Home page headings should be very small/compact;
+- V1 needs only the first thumbnail for each clip;
+- filename/time text should not cover clip imagery;
+- the remainder of each clip should be a simple blue/gray duration bar;
+- a project-time ruler should sit directly below V1, represent total runtime, and scale/scroll with zoom.
