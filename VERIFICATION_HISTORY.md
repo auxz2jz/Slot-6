@@ -345,3 +345,21 @@ User design clarification after verification:
 - one global playhead should scrub across every clip;
 - the timeline needs zoom in/out;
 - standalone quick tools should remain in Tools.
+
+
+## v0.9.6 Single Unified Timeline phone feedback
+
+User result:
+- the redesigned one-preview / one-horizontal-V1 Editor works correctly overall;
+- the functional architecture is accepted.
+
+Usability feedback:
+- rounded bubble/card containers waste too much screen real estate;
+- V1 thumbnail/filmstrip area should be smaller;
+- rotating portrait <-> landscape resets the app/editor back to the main page and loses current UI state.
+
+Engineering decision for v0.9.7:
+- flatten Editor sections to divider-based layout;
+- reduce V1 height/minimum clip width;
+- compact A1/source labels;
+- keep the existing Activity alive across orientation/screen-size configuration changes so Compose state is retained.
