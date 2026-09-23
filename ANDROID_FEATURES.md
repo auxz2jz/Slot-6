@@ -1,6 +1,6 @@
 # FFmpeg Studio Android — Master Roadmap
 
-> **Checkpoint 2026-09-22:** v0.9.4 multi-clip timeline scrubbing and three-clip Fast Join are verified on-device. Mixed-format Normalize & Join exposed VP9/AV1 decoder failures. A **v0.9.5 (versionCode 24) Unified Editor Timeline + Normalize Guard candidate** embeds Project V1 in the Main editor and blocks the known decoder-failure path before FFmpeg starts.
+> **Checkpoint 2026-09-22:** v0.9.5 Unified Editor Timeline + Normalize Guard is physically verified. A **v0.9.6 (versionCode 25) Single Unified Timeline Editor candidate** rebuilds the Editor around one preview and one horizontal V1 project track.
 
 This file is the **continuous master record** for the Slot-6 Android application. It tracks what is already working, what still needs to be implemented, and which work is likely to require rebuilding the native FFmpeg engine.
 
@@ -119,7 +119,7 @@ This file is the **continuous master record** for the Slot-6 Android application
 - `TODO` Rotate 90° clockwise/counterclockwise and 180°.
 - `TODO` Horizontal and vertical flip.
 - `DONE` Split one video at one cut point into two MKV files using stream copy; physically verified on-device. Multiple cut points remain future work. The v0.9.1 timeline can feed the Split point visually.
-- `PARTIAL` Merge/join videos — multi-clip Fast Join is verified. Mixed-format Normalize & Join works conceptually but current packaged FFmpeg cannot reliably decode tested VP9/AV1 sources; v0.9.5 blocks that path before start while keeping supported normalization and stream-copy Join. Per-clip reordering/removal remains TODO.
+- `PARTIAL` Merge/join videos — multi-clip Fast Join and supported normalization are verified. v0.9.6 moves Join/Merge onto the same single V1 editor surface while preserving standalone quick Join in Tools. Per-clip reorder/removal remains TODO.
 - `TODO` Join video and audio files.
 - `TODO` Reorder/remove clips before joining — next unified-timeline increment after v0.9.5 verification.
 - `TODO` Basic transitions where practical.
@@ -364,7 +364,7 @@ These items are the work most likely to require GitHub Actions / Android NDK bui
 
 The current priority is to build out Android-side features while leaving the verified native engine alone whenever possible.
 
-1. **Verify v0.9.5 Unified Editor Timeline + Normalize Guard** on-device.
+1. **Verify v0.9.6 Single Unified Timeline Editor** on-device.
 2. Add project-aware per-clip Trim/Split plus drag reordering/removal on V1.
 3. Add waveform-backed A1/A2/A3 audio tracks for source audio, music, and voiceover.
 4. Replace/select/mix audio tracks and broader audio tools.
