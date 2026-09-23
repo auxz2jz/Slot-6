@@ -183,6 +183,30 @@ Status:
 - media-processing commands/native engine unchanged;
 - awaiting Android Studio/phone verification.
 
+## Current v0.9.7 compact editor candidate
+
+Artifact:
+`FFmpegStudioAndroid-native-v0.9.7-compact-editor-candidate.zip`
+
+App version:
+- versionName: `0.9.7`
+- versionCode: `26`
+
+SHA-256:
+`ef306a2ec27e164dcb49b508123c224fd70f26bb1bd48f4ca7be5c6cf69b27aa`
+
+Direct base:
+- v0.9.6 Single Unified Timeline Editor.
+
+Status:
+- compact divider-based Editor;
+- V1 72 dp;
+- smaller clip thumbnails/minimum width;
+- compact A1/source labels;
+- orientation state preservation;
+- native binary hashes and processing logic preserved;
+- awaiting Android Studio/phone verification.
+
 ## Packaged native binaries
 
 These binaries were intentionally kept unchanged across the recent Kotlin/UI releases.
@@ -276,6 +300,6 @@ Before editing in a new chat:
 
 ## Next source change
 
-Verify **v0.9.6 Single Unified Timeline Editor** using `V096_TEST_PLAN.md`.
+Verify **v0.9.7 Compact Editor Layout + Rotation State** using `V097_TEST_PLAN.md`.
 
-After it passes, implement project-aware per-clip Trim/Split and drag reordering/removal on V1. Then add waveform-backed music/voiceover tracks.
+After it passes, implement project-aware per-clip Trim/Split and drag reordering/removal on V1, then waveform-backed music/voiceover tracks.
