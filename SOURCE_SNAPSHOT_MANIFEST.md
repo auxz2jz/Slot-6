@@ -134,6 +134,29 @@ Status:
 - native binary hashes preserved;
 - awaiting Android Studio/phone verification.
 
+## Current v0.9.5 unified editor candidate
+
+Artifact:
+`FFmpegStudioAndroid-native-v0.9.5-unified-editor-candidate.zip`
+
+App version:
+- versionName: `0.9.5`
+- versionCode: `24`
+
+SHA-256:
+`bd01d729d06563691be76421828a79836a5356cfefe5f61544034d11c4b415b9`
+
+Direct base:
+- v0.9.4 Multi-clip Timeline + Normalize & Join.
+
+Status:
+- unified Main editor contains multi-clip Project V1;
+- standalone quick tools preserved;
+- VP9/AV1 Normalize & Join preflight guard added from phone-log evidence;
+- supported normalization remains available;
+- native binary hashes preserved;
+- awaiting Android Studio/phone verification.
+
 ## Packaged native binaries
 
 These binaries were intentionally kept unchanged across the recent Kotlin/UI releases.
@@ -227,6 +250,6 @@ Before editing in a new chat:
 
 ## Next source change
 
-Verify **v0.9.4 Multi-clip Timeline + Normalize & Join** using `V094_TEST_PLAN.md`.
+Verify **v0.9.5 Unified Editor Timeline + Normalize Guard** using `V095_TEST_PLAN.md`.
 
-After it passes, add drag reordering/removal and then waveform-backed music/voiceover tracks.
+After it passes, implement project-aware per-clip Trim/Split and drag reordering/removal inside the unified Main editor. Then add waveform-backed music/voiceover tracks. A later decoder-engine/media-stack phase should address true VP9/AV1 normalization fallback.
