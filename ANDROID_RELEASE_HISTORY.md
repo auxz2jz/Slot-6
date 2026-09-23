@@ -2,9 +2,26 @@
 
 This is the compact Android-app release history used for handoff. The detailed FFmpeg upstream changelog in the repository is unrelated to these Android app versions.
 
-## v0.9.0 — Split candidate
+## v0.9.1 — Visual Timeline Foundation candidate
 
-**Candidate only — not yet verified on-device. v0.8.9 remains the latest verified release.**
+**Candidate — awaiting Android Studio/device verification.**
+- versionCode 20.
+- Expandable Visual timeline inside Source media.
+- Embedded Android video preview with Play/Pause and seeking.
+- Eight local thumbnail positions.
+- V1 source-video strip with playhead plus visual trim boundaries.
+- Draggable In/Out range, Set In, Set Out.
+- Timeline range feeds the existing Fast Trim workflow.
+- Timeline playhead feeds the existing one-point Split workflow.
+- A1 source-audio row establishes the future multi-track layout.
+- Compact typed Trim/Split controls remain available.
+- FFmpeg commands, Split service/diagnostics, H.264/MKV seek finalization, and native binaries are unchanged.
+- Candidate ZIP SHA-256: `66a89fba3995feffdecb46fb6e6b8108c53cf5c1367704955fc8315a466a253c`.
+
+
+## v0.9.0 — Split
+
+**Split path physically verified on-device; audio-only maintenance cleanup still has its own pending verification.**
 
 - versionCode 19.
 - One cut point splits one source into two MKV files.
@@ -18,7 +35,7 @@ This is the compact Android-app release history used for handoff. The detailed F
 - Native FFmpeg/ffprobe binaries are unchanged from v0.8.9.
 - Candidate ZIP: `FFmpegStudioAndroid-native-v0.9.0-split-candidate.zip`
 - Candidate SHA-256: `3bc36bcc7619f1fd9962e700e41d1fe84945f5daca564d57369eb1a1a4bc6304`
-- Full Android Studio/device verification is still required before marking any v0.9.0 item DONE.
+- One-point Split and short-output seek probing are verified from the phone run; the separate audio-only warning-suppression test remains pending.
 
 
 ## v0.8.9 — Fast Trim / estimator / test-dialog fixes
