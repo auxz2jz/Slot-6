@@ -420,3 +420,22 @@ Add an exportable action/event trace that records user interaction sequence and 
 
 Status:
 **v0.9.8.1 is the last successful recovery baseline. Development intentionally stopped here.**
+
+
+## v0.9.9 Action Trace candidate
+
+Reason:
+The v0.9.8.1 app was successful overall, but one screenshot showed an intermittent source-analysis failure where Android could not launch packaged ffprobe and returned `error=2, No such file or directory`. The user could not reproduce it.
+
+Engineering choice:
+Instrument first; do not modify the known-good native engine path based on one unreproduced event.
+
+v0.9.9 adds:
+- rolling Action Trace enabled by default;
+- UI page/touch/action/setting/file/orientation/error sequence;
+- conversion lifecycle sequence;
+- ffprobe engine-state snapshots immediately before launch and on launch exception;
+- exportable plain-text trace from Settings.
+
+Status:
+**Candidate only. v0.9.8.1 remains the physically successful baseline until v0.9.9 is built/tested.**
