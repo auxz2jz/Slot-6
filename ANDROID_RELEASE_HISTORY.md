@@ -2,9 +2,24 @@
 
 This is the compact Android-app release history used for handoff. The detailed FFmpeg upstream changelog in the repository is unrelated to these Android app versions.
 
-## v0.9.4 — Multi-clip Timeline + Normalize & Join candidate
+## v0.9.5 — Unified Editor Timeline + Normalize Guard candidate
 
 **Candidate — awaiting Android Studio/device verification.**
+- versionCode 24.
+- Multi-clip Project V1 is embedded inside the existing Main editor timeline.
+- Standalone Trim, Split, and Join/Merge quick tools remain available.
+- Cross-clip project scrubbing stays in the Main editor.
+- Clip 1 detailed Trim/Split controls remain in the same editor; project-aware per-clip edits are the next phase.
+- VP9/AV1 Normalize & Join is preflight-blocked after v0.9.4 phone logs showed decoder failures and code 69.
+- Fast Join remains allowed for compatible VP9/AV1 streams because stream copy does not decode them.
+- Supported Normalize & Join remains available for reliable current decoder paths such as H.264 mismatches.
+- Native FFmpeg/ffprobe binaries and verified H.264/MKV seek-index finalization unchanged.
+- Candidate ZIP SHA-256: `bd01d729d06563691be76421828a79836a5356cfefe5f61544034d11c4b415b9`.
+
+
+## v0.9.4 — Multi-clip Timeline + Normalize & Join
+
+**Partially verified on-device:** multi-clip scrubbing and three-clip Fast Join pass; VP9/AV1 mixed-format normalization fails in the current packaged decoder path.
 - versionCode 23.
 - Join/Merge remains a standalone tool and is also reachable directly from Visual Timeline.
 - Multiple Join clips supported.
