@@ -271,3 +271,17 @@ Engineering decision:
 - preserve v0.9.1 timeline structure;
 - in v0.9.2, decouple live paused-frame preview from repeated VideoView seeks and retrieve the source frame directly while scrubbing;
 - enlarge the V1 filmstrip slightly for easier editing.
+
+
+## v0.9.2 Live Timeline Scrubbing phone verification
+
+Change under test:
+- paused timeline scrubbing retrieves the source frame directly rather than relying on repeated VideoView seeks;
+- VideoView moves to the final playhead position after scrub release;
+- V1 filmstrip was enlarged.
+
+User result:
+- **"That worked great."**
+
+Status:
+**v0.9.2 live timeline scrubbing is physically verified. Preserve this behavior while adding multi-clip editing.**
