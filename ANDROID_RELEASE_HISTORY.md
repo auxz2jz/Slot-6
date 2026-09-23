@@ -2,9 +2,24 @@
 
 This is the compact Android-app release history used for handoff. The detailed FFmpeg upstream changelog in the repository is unrelated to these Android app versions.
 
-## v0.9.6 — Single Unified Timeline Editor candidate
+## v0.9.7 — Compact Editor Layout + Rotation State candidate
 
 **Candidate — awaiting Android Studio/device verification.**
+- versionCode 26.
+- Flatter divider-based Editor sections replace most rounded Editor cards.
+- Reduced Editor padding and vertical spacing.
+- V1 filmstrip height reduced from 108 dp to 72 dp.
+- Smaller clip minimum width and thumbnail generation.
+- A1 / Join source labels use compact text instead of pills.
+- Orientation/screen-size changes preserve the current Editor/project state instead of recreating back to Home.
+- Single preview/V1/global scrub/zoom architecture preserved.
+- Standalone quick tools, decoder guard, FFmpeg commands and native binaries unchanged.
+- Candidate ZIP SHA-256: `ef306a2ec27e164dcb49b508123c224fd70f26bb1bd48f4ca7be5c6cf69b27aa`.
+
+
+## v0.9.6 — Single Unified Timeline Editor
+
+**Functionally verified on-device; UI density and orientation-state issues identified for v0.9.7.**
 - versionCode 25.
 - Bottom navigation label Convert -> Editor.
 - One large project-aware preview.
