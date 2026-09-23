@@ -1,6 +1,6 @@
 # FFmpeg Studio Android — Master Roadmap
 
-> **Checkpoint 2026-09-23:** v0.9.7 Compact Editor is verified on-device. A **v0.9.8 (versionCode 27) Unified Compact UI + Timeline Ruler candidate** standardizes the UI and simplifies V1 to one thumbnail per clip plus a zoom-aware total-project ruler.
+> **STOP/RECOVERY checkpoint 2026-09-23:** v0.9.8.1 (versionCode 28) is the last successful on-device version. Development is intentionally paused. One nonreproducible ffprobe `error=2` screenshot is on the watch list. Action Trace / UI Event Recorder is requested for a future version but is not implemented.
 
 This file is the **continuous master record** for the Slot-6 Android application. It tracks what is already working, what still needs to be implemented, and which work is likely to require rebuilding the native FFmpeg engine.
 
