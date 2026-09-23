@@ -253,3 +253,21 @@ Status:
 **One-point Split and short-output seek probing are physically verified. Preserve the compact Split workflow while adding the visual timeline.**
 
 The separate audio-only false-keyframe-warning cleanup in v0.9.0 still needs its dedicated audio-only report before that maintenance item is marked verified.
+
+
+## v0.9.1 Visual Timeline phone feedback
+
+User confirmed:
+- the Visual timeline appears on-device;
+- the general timeline UI works;
+- its placement in the Convert workflow and Tools workflow is acceptable;
+- compact Trim/Split behavior should remain available.
+
+Observed issue:
+- while scrubbing/editing, the playhead can move by roughly one or two seconds without the large preview changing to the corresponding frame;
+- this is treated as a preview-scrubbing/UI responsiveness issue, not an FFmpeg Trim/Split processing failure.
+
+Engineering decision:
+- preserve v0.9.1 timeline structure;
+- in v0.9.2, decouple live paused-frame preview from repeated VideoView seeks and retrieve the source frame directly while scrubbing;
+- enlarge the V1 filmstrip slightly for easier editing.
