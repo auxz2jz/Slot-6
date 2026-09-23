@@ -2,9 +2,22 @@
 
 This is the compact Android-app release history used for handoff. The detailed FFmpeg upstream changelog in the repository is unrelated to these Android app versions.
 
-## v0.9.1 — Visual Timeline Foundation candidate
+## v0.9.2 — Live Timeline Scrubbing candidate
 
-**Candidate — awaiting Android Studio/device verification.**
+**Candidate — awaiting phone verification.**
+- versionCode 21.
+- While paused, moving the playhead now requests the actual nearby source frame with MediaMetadataRetriever.
+- Rapid scrubbing no longer depends on a stream of VideoView seek requests; the VideoView is moved to the final playhead position after release.
+- Normal Play/Pause remains handled by VideoView.
+- V1 filmstrip height increased from 72 dp to 96 dp.
+- Compact Trim/Split controls and timeline-to-Trim/Split integration are preserved.
+- FFmpeg commands, Split processing, diagnostics, H.264/MKV seek-index finalization, and native binaries are unchanged.
+- Candidate ZIP SHA-256: `573ed5499f6fa86253e24ea4d334b1974e2b9508d570fcdc4e36b902200bbb92`.
+
+
+## v0.9.1 — Visual Timeline Foundation
+
+**Timeline UI present and generally working on-device; live paused scrub-preview lag identified.**
 - versionCode 20.
 - Expandable Visual timeline inside Source media.
 - Embedded Android video preview with Play/Pause and seeking.
