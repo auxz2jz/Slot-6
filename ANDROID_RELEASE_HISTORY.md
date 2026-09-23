@@ -2,6 +2,20 @@
 
 This is the compact Android-app release history used for handoff. The detailed FFmpeg upstream changelog in the repository is unrelated to these Android app versions.
 
+## v0.9.9 — Action Trace Recorder
+
+**Candidate — awaiting Android Studio/device verification.**
+- versionCode 29.
+- Rolling persistent Action Trace, recording enabled by default.
+- Captures page/touch/tool/file/setting/dialog/error/orientation/conversion sequence.
+- ffprobe engine-state snapshot before every media analysis and on launch failure.
+- Settings controls: Recording On/Off, Export trace, Clear.
+- Sanitizes content URIs/app-private paths.
+- Approx. 2 MB rolling cap.
+- All v0.9.8.1 media-processing behavior/native binaries preserved.
+- Candidate ZIP SHA-256: `ca6c2ff7897613f7f0bf55097a8a9872175f3cb5ccba05d7c5f87e3b0add0cc6`.
+
+
 ## v0.9.8.1 — Compile fix
 
 **Built, installed, and used successfully on-device. This is the current recovery baseline.**
