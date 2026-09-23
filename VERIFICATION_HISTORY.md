@@ -296,3 +296,32 @@ User feedback:
 
 Status:
 **v0.9.3 two-clip Join foundation is accepted. Preserve it while expanding to v0.9.4.**
+
+
+## v0.9.4 multi-clip / Normalize device verification
+
+User result:
+- Test 1 multi-clip timeline scrub: **passed**.
+- Test 2 three-clip Fast Join: **passed**.
+- Test 3 mixed-format Normalize & Join: **failed**.
+
+Failure run 1:
+- H.264/AC3 1920x1080 + AV1/AAC 854x480 + H.264/AC3 1920x1080.
+- FFmpeg exited code 69 after about one second.
+
+Failure run 2:
+- VP9/AAC + H.264/AAC MPEG-TS + AV1/Opus, all 854x480.
+- FFmpeg exited code 69 before meaningful media progress.
+
+Extended-log evidence:
+- VP9 decoder repeatedly failed to parse/read frame headers.
+- AV1 decoder repeatedly reported that hardware accelerated AV1 decoding was unsupported, failed to get a pixel format, and failed packet submission.
+
+Engineering conclusion:
+The multi-clip/timeline and Fast Join architecture is valid. The failed mixed-format cases exposed a decoder limitation in the current packaged FFmpeg path, not a general concat/timeline failure.
+
+Decision for v0.9.5:
+- preflight-block VP9/AV1 Normalize & Join before FFmpeg starts;
+- keep Fast Join for compatible VP9/AV1 streams;
+- keep supported Normalize & Join for reliable decoder paths;
+- plan a later decoder fallback/native/media-stack solution.
