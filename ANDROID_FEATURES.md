@@ -1,6 +1,6 @@
 # FFmpeg Studio Android — Master Roadmap
 
-> **Checkpoint 2026-09-22:** v0.9.0 one-point Split/short seek probing is physically verified. A **v0.9.1 (versionCode 20) Visual Timeline Foundation candidate** exists and is awaiting Android Studio/device verification. Read `NEXT_CHAT_START_HERE.md` and `PROJECT_STATUS.md` before resuming development in a new chat.
+> **Checkpoint 2026-09-22:** v0.9.0 one-point Split/short seek probing is physically verified. v0.9.1 Visual Timeline is present and generally working on-device, with stale/lagging paused scrub frames identified. A **v0.9.2 (versionCode 21) Live Timeline Scrubbing candidate** addresses that preview issue. Read `NEXT_CHAT_START_HERE.md` and `PROJECT_STATUS.md` before resuming development in a new chat.
 
 This file is the **continuous master record** for the Slot-6 Android application. It tracks what is already working, what still needs to be implemented, and which work is likely to require rebuilding the native FFmpeg engine.
 
@@ -105,7 +105,7 @@ This file is the **continuous master record** for the Slot-6 Android application
 # 4. Visual trimming and editing
 
 - `DONE` Basic Start/End fast stream-copy trim is implemented and physically verified; visual/frame-exact trimming remains future work.
-- `PARTIAL` Visual video timeline foundation is implemented in v0.9.1 candidate: embedded preview, thumbnails, playhead, trim range, V1/A1 rows, and Trim/Split integration; multi-clip tracks/zoom/waveforms remain.
+- `PARTIAL` Visual video timeline foundation is present on-device: embedded preview, thumbnails, playhead, trim range, V1/A1 rows, and Trim/Split integration. v0.9.2 improves live paused scrubbing after phone feedback that the displayed frame could lag by 1-2 seconds. Multi-clip tracks/zoom/waveforms remain.
 - `PARTIAL` Draggable visual trim In handle exists in the v0.9.1 candidate; device verification pending.
 - `PARTIAL` Draggable visual trim Out handle exists in the v0.9.1 candidate; device verification pending.
 - `PARTIAL` Embedded preview with play/pause and playhead seeking exists in the v0.9.1 candidate; device/format verification pending.
@@ -364,7 +364,7 @@ These items are the work most likely to require GitHub Actions / Android NDK bui
 
 The current priority is to build out Android-side features while leaving the verified native engine alone whenever possible.
 
-1. **Verify the v0.9.1 Visual Timeline Foundation** on-device.
+1. **Verify v0.9.2 Live Timeline Scrubbing** on-device.
 2. **Join/Merge** as multiple sequential/reorderable clips on the V1 timeline.
 3. Add waveform-backed A1/A2/A3 audio tracks for source audio, music, and voiceover.
 4. Replace/select/mix audio tracks and broader audio tools.
