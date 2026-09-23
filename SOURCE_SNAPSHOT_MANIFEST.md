@@ -255,6 +255,32 @@ Native binaries remain:
 - FFmpeg `792a5e06689f67f2f0dfb0e1a0c8eca119e10ccbae46c3de95dae3aaad22c2f7`
 - ffprobe `cbf1492715d8217e8deca640a84b13a973bfd696803dffd34abd1f629c4cc41c`
 
+## Current v0.9.9 Action Trace candidate
+
+Artifact:
+`FFmpegStudioAndroid-native-v0.9.9-action-trace-candidate.zip`
+
+App version:
+- versionName: `0.9.9`
+- versionCode: `29`
+
+SHA-256:
+`ca6c2ff7897613f7f0bf55097a8a9872175f3cb5ccba05d7c5f87e3b0add0cc6`
+
+Direct base:
+- successful v0.9.8.1 recovery artifact.
+
+New source:
+- `ActionTrace.kt`
+
+Status:
+- persistent rolling UI/runtime trace;
+- ffprobe launch-state instrumentation;
+- Settings trace export/clear/toggle;
+- conversion/action/orientation/error tracing;
+- native binaries preserved;
+- awaiting Android Studio/phone verification.
+
 ## Packaged native binaries
 
 These binaries were intentionally kept unchanged across the recent Kotlin/UI releases.
@@ -346,13 +372,10 @@ Before editing in a new chat:
 - corrected audio-only output-size estimate.
 - scrollable development test instructions.
 
-## Recovery / next source change
+## Next source change
 
-**STOP:** v0.9.8.1 is the last successful source artifact and the only baseline to use when development resumes.
+Build and verify **v0.9.9 Action Trace Recorder** using `V099_TEST_PLAN.md`.
 
-Do not assume any later source exists.
+Do not modify native ffprobe handling unless the intermittent v0.9.8.1-style failure is reproduced with a v0.9.9 Action Trace showing what changed at the failure point.
 
-When the user explicitly resumes:
-1. consider adding the requested Action Trace / UI Event Recorder;
-2. keep the intermittent nonreproducible ffprobe `error=2` launch failure on the watch list;
-3. continue per-clip Trim/Split/remove/reorder work only from the v0.9.8.1 source ZIP.
+After trace verification, resume project-aware per-clip Trim/Split/remove/reorder work.
