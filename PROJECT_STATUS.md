@@ -3,10 +3,10 @@
 **Last checkpoint:** 2026-09-22  
 **Repository:** auxz2jz/Slot-6  
 **Android branch:** native-android-v0.2  
-**Current verified editor/media baseline:** v0.9.5 Unified Editor Timeline + Normalize Guard; all three v0.9.5 phone tests passed
-**Current unverified candidate:** v0.9.6 (versionCode 25), Single Unified Timeline Editor
-**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.6-single-timeline-candidate.zip`
-**Candidate SHA-256:** `2051f229ac8bf6d54c737828c15a2a47c1b8fa57fcd8f9d1af222d809a8e7ab9`
+**Current verified editor/media baseline:** v0.9.6 Single Unified Timeline Editor works on-device; compactness/orientation-state issues are the current usability target
+**Current unverified candidate:** v0.9.7 (versionCode 26), Compact Editor Layout + Rotation State
+**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.7-compact-editor-candidate.zip`
+**Candidate SHA-256:** `ef306a2ec27e164dcb49b508123c224fd70f26bb1bd48f4ca7be5c6cf69b27aa`
 
 This file records the current state that should be carried into a new chat.
 
@@ -337,9 +337,9 @@ Do not assume `-force_key_frames` is honored by the hardware HEVC path. Diagnost
 
 ## Current feature to verify next
 
-**v0.9.6 Single Unified Timeline Editor**
+**v0.9.7 Compact Editor Layout + Rotation State**
 
-Verify one preview/one timeline, three clips end-to-end on V1, cross-clip scrubbing, zoom, and that the standalone quick tools remain separate under Tools.
+Verify the flatter layout, smaller V1 strip, and portrait/landscape state preservation. No encoding is required for the controlled tests.
 
 ## Near-future roadmap order
 
@@ -393,5 +393,29 @@ Last source package produced in the previous development chat:
 `FFmpegStudioAndroid-native-v0.8.9-fast-trim.zip`
 
 When moving to another chat, this repository documentation should be read first. If actual app source in the repository is older than the current package, the new chat must not silently overwrite newer behavior with an older branch copy; reconcile the source version before editing.
+
+## v0.9.6 phone feedback
+
+User result:
+- single-preview / single-V1 editor architecture works;
+- multi-clip editing/scrubbing is functioning;
+- no media-engine regression reported.
+
+Usability issues identified:
+- large rounded cards/bubbles consume excessive vertical space;
+- V1 filmstrip/thumbnails should be smaller;
+- portrait/landscape rotation resets the UI back to the main page/project defaults.
+
+## v0.9.7 candidate status
+
+Implemented, awaiting phone verification:
+- flatter divider-based Editor sections;
+- smaller section labels and reduced padding;
+- V1 height reduced 108 dp -> 72 dp;
+- smaller minimum clip width;
+- fewer/smaller generated timeline thumbnails;
+- A1 and Join source labels changed from bubbles to compact text;
+- orientation/screen-size configuration changes are handled without Activity recreation, preserving current Editor/project state;
+- media-processing engine and v0.9.5 decoder guard unchanged.
 
 ## Current working product
