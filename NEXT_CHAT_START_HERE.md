@@ -7,37 +7,39 @@ This file is the handoff entry point for the Android FFmpeg Studio project in **
 - Repository: `auxz2jz/Slot-6`
 - Android working branch: `native-android-v0.2`
 - Upstream/main branch is primarily the FFmpeg source tree; do not treat `main` as the Android app source of truth.
-- Current verified editor/media baseline includes **v0.9.6 Single Unified Timeline Editor** as functionally working on-device; user feedback identified excessive rounded-container spacing, oversized V1 thumbnails, and orientation-change state reset as the next usability issues. Preserve all earlier verified Trim/Split/seek/Join/Normalize-guard behavior.
-- Current development source package: `FFmpegStudioAndroid-native-v0.9.7-compact-editor-candidate.zip`
+- Current verified editor/media baseline includes **v0.9.7 Compact Editor Layout + Rotation State**; the user likes the compact layout and reported all features working. Preserve all earlier verified Trim/Split/seek/Join/Normalize-guard behavior.
+- Current development source package: `FFmpegStudioAndroid-native-v0.9.8-compact-ui-ruler-candidate.zip`
 - Current native FFmpeg/ffprobe ARM64 binaries have intentionally remained unchanged through the recent Kotlin/UI feature releases.
 
-## Current unverified candidate — v0.9.7
+## Current unverified candidate — v0.9.8
 
-The active candidate is **Compact Editor Layout + Rotation State Preservation**.
+The active candidate is **Unified Compact UI + Timeline Ruler**.
 
-- Candidate version: **v0.9.7 (versionCode 26)**
-- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.7-compact-editor-candidate.zip`
-- Candidate SHA-256: `ef306a2ec27e164dcb49b508123c224fd70f26bb1bd48f4ca7be5c6cf69b27aa`
-- Direct base: v0.9.6 Single Unified Timeline Editor.
-- Major Editor sections are flattened: thin dividers + small labels replace most large rounded cards/bubbles in the Editor.
-- Editor content padding and vertical spacing are reduced.
-- V1 filmstrip height is reduced from 108 dp to 72 dp.
-- Minimum clip width and generated thumbnail size/count are reduced so more timeline fits on screen.
-- A1 audio labels and Join source labels are compact text rows instead of pill/bubble UI.
-- Android configuration-change handling is added so portrait/landscape rotation keeps the current Activity/Editor/project state rather than recreating back to Home.
-- The one large preview, one V1 timeline, global scrub, zoom, Trim/Split/Join architecture from v0.9.6 is preserved.
-- Standalone quick tools in Tools are unchanged.
-- v0.9.5 VP9/AV1 Normalize guard and all FFmpeg processing behavior remain unchanged.
-- Native FFmpeg/ffprobe binaries are unchanged.
-- Full Android Studio/device verification is still required.
+- Candidate version: **v0.9.8 (versionCode 27)**
+- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.8-compact-ui-ruler-candidate.zip`
+- Candidate SHA-256: `cfb2cba9c3181ca800c988313ed668a73cb35f0790c7b234345e12284265a27d`
+- Direct base: verified v0.9.7.
+- The compact v0.9.7 visual language is applied across Home, Editor, Tools, Settings, About, status cards, and global Material 3 control shapes.
+- `FFmpeg Studio` branding remains in the top bar on Home only; other pages use a short compact page-title bar.
+- V1 now shows **one representative thumbnail at the beginning of each clip** followed by a clean colored duration bar.
+- Filename and duration overlays are removed from V1 clip blocks. Active clip name/local time remains in the main preview header.
+- V1 header shows project clip count and total runtime.
+- A zoom-aware project time ruler is directly under V1, uses the same horizontal scroll, and derives its end time from the current combined project duration.
+- Ruler tick spacing adapts as timeline zoom changes.
+- Timeline thumbnail generation is reduced to one 96x54 representative frame per clip.
+- V1 visual height is reduced to 58 dp.
+- v0.9.7 orientation-state preservation is retained.
+- Standalone quick tools and all media-processing behavior remain unchanged.
+- Native FFmpeg/ffprobe binaries remain unchanged.
+- Android Studio/device verification is still required.
 
-### v0.9.6 verification carried forward
-The user reported v0.9.6 **works fine functionally** and the single-preview/single-V1 design is correct. The remaining issues were UI density and orientation reset:
-- rounded “bubble” containers consumed too much screen real estate;
-- V1 thumbnails/filmstrip were larger than desired;
-- rotating portrait <-> landscape recreated the UI and returned to the main page/reset state.
-
-v0.9.7 targets only those usability issues.
+### v0.9.7 verification carried forward
+The user likes the v0.9.7 compact layout and reported that all features work. New UI requests for v0.9.8 were:
+- apply the same compact interface to all screens/buttons;
+- keep the large FFmpeg Studio title on Home only;
+- remove name/time overlays from V1;
+- use one thumbnail per video plus a simple duration bar;
+- add a zoom-aware total-project time ruler below V1.
 
 
 ## Read these files first in a new chat
@@ -132,15 +134,15 @@ Also consider allowing short trimmed/split clips to run the container random-see
 
 ## Next roadmap feature
 
-The active feature is **v0.9.7 Compact Editor + Rotation State verification**.
+The active feature is **v0.9.8 Unified Compact UI + Timeline Ruler verification**.
 
-After v0.9.7 passes:
+After v0.9.8 passes:
 - add project-aware per-clip Trim/Split directly on V1;
 - add drag reordering/removal;
 - add waveform-backed A1/A2/A3 tracks for source audio, music, and voiceover;
 - later add transitions/overlays and a true VP9/AV1 normalization decoder fallback.
 
-Keep the Editor visually compact and preserve standalone quick tools in Tools.
+Keep the interface compact and consistent across every page.
 
 ## UI direction
 
