@@ -8,38 +8,26 @@ This file is the handoff entry point for the Android FFmpeg Studio project in **
 - Android working branch: `native-android-v0.2`
 - Upstream/main branch is primarily the FFmpeg source tree; do not treat `main` as the Android app source of truth.
 - Current verified editor/media baseline includes **v0.9.7 Compact Editor Layout + Rotation State**; the user likes the compact layout and reported all features working. Preserve all earlier verified Trim/Split/seek/Join/Normalize-guard behavior.
-- Current development source package: `FFmpegStudioAndroid-native-v0.9.8-compact-ui-ruler-candidate.zip`
+- Current development source package: `FFmpegStudioAndroid-native-v0.9.8.1-compact-ui-ruler-compile-fix.zip`
 - Current native FFmpeg/ffprobe ARM64 binaries have intentionally remained unchanged through the recent Kotlin/UI feature releases.
 
-## Current unverified candidate — v0.9.8
+## Current unverified candidate — v0.9.8.1
 
-The active candidate is **Unified Compact UI + Timeline Ruler**.
+The active candidate is the **v0.9.8 compile fix**.
 
-- Candidate version: **v0.9.8 (versionCode 27)**
-- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.8-compact-ui-ruler-candidate.zip`
-- Candidate SHA-256: `cfb2cba9c3181ca800c988313ed668a73cb35f0790c7b234345e12284265a27d`
-- Direct base: verified v0.9.7.
-- The compact v0.9.7 visual language is applied across Home, Editor, Tools, Settings, About, status cards, and global Material 3 control shapes.
-- `FFmpeg Studio` branding remains in the top bar on Home only; other pages use a short compact page-title bar.
-- V1 now shows **one representative thumbnail at the beginning of each clip** followed by a clean colored duration bar.
-- Filename and duration overlays are removed from V1 clip blocks. Active clip name/local time remains in the main preview header.
-- V1 header shows project clip count and total runtime.
-- A zoom-aware project time ruler is directly under V1, uses the same horizontal scroll, and derives its end time from the current combined project duration.
-- Ruler tick spacing adapts as timeline zoom changes.
-- Timeline thumbnail generation is reduced to one 96x54 representative frame per clip.
-- V1 visual height is reduced to 58 dp.
-- v0.9.7 orientation-state preservation is retained.
-- Standalone quick tools and all media-processing behavior remain unchanged.
-- Native FFmpeg/ffprobe binaries remain unchanged.
-- Android Studio/device verification is still required.
+- Candidate version: **v0.9.8.1 (versionCode 28)**
+- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.8.1-compact-ui-ruler-compile-fix.zip`
+- Candidate SHA-256: `445366602c6f44ed04c1237248dcee69b75ef25ddda971f863178d07cc59f7b5`
+- Direct base: v0.9.8 Unified Compact UI + Timeline Ruler candidate.
+- Android Studio reached `:app:compileDebugKotlin` and failed at `App.kt:1000:100` because `coerceAtLeast(1.0)` supplied a Double to a Float expression.
+- The compile fix changes only `coerceAtLeast(1.0)` -> `coerceAtLeast(1f)` in the project timeline ruler calculation.
+- versionName/versionCode bumped from 0.9.8/27 to 0.9.8.1/28 so the fixed package is unmistakable.
+- No intended UI, FFmpeg, Trim/Split/Join, normalization, seek, decoder-guard, or native-engine behavior changed.
+- Native FFmpeg/ffprobe hashes are unchanged.
+- Next action: build in Android Studio; if compilation succeeds, run the same no-encode v0.9.8 UI/ruler tests.
 
-### v0.9.7 verification carried forward
-The user likes the v0.9.7 compact layout and reported that all features work. New UI requests for v0.9.8 were:
-- apply the same compact interface to all screens/buttons;
-- keep the large FFmpeg Studio title on Home only;
-- remove name/time overlays from V1;
-- use one thumbnail per video plus a simple duration bar;
-- add a zoom-aware total-project time ruler below V1.
+### v0.9.8 compile result
+The original v0.9.8 ZIP is **not a valid test candidate** because Android Studio compilation failed before APK generation. Do not treat it as verified.
 
 
 ## Read these files first in a new chat
@@ -134,15 +122,12 @@ Also consider allowing short trimmed/split clips to run the container random-see
 
 ## Next roadmap feature
 
-The active feature is **v0.9.8 Unified Compact UI + Timeline Ruler verification**.
+The active task is **build/verify v0.9.8.1 compile fix**, then continue the v0.9.8 compact UI + timeline ruler checks.
 
-After v0.9.8 passes:
+After that passes:
 - add project-aware per-clip Trim/Split directly on V1;
 - add drag reordering/removal;
-- add waveform-backed A1/A2/A3 tracks for source audio, music, and voiceover;
-- later add transitions/overlays and a true VP9/AV1 normalization decoder fallback.
-
-Keep the interface compact and consistent across every page.
+- add waveform-backed A1/A2/A3 tracks for source audio, music, and voiceover.
 
 ## UI direction
 
