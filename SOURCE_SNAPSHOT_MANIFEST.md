@@ -40,6 +40,28 @@ Status:
 - full Android compile was not available in the candidate-creation environment, so Android Studio compile/install and physical verification are still required.
 
 
+## Current v0.9.1 visual timeline candidate
+
+Artifact filename:
+`FFmpegStudioAndroid-native-v0.9.1-visual-timeline-candidate.zip`
+
+App version:
+- versionName: `0.9.1`
+- versionCode: `20`
+
+SHA-256:
+`66a89fba3995feffdecb46fb6e6b8108c53cf5c1367704955fc8315a466a253c`
+
+Direct base:
+- v0.9.0 Split candidate SHA-256 `3bc36bcc7619f1fd9962e700e41d1fe84945f5daca564d57369eb1a1a4bc6304`.
+- v0.8.9 verified lineage SHA-256 `58eec16e582e9e41a19aae48aab07c68958efb815ad69cbc505d70a91d7e14be`.
+
+Status:
+- adds only Android UI/editor-layer timeline features;
+- preserves native binary hashes and processing commands;
+- compact Trim/Split remain available;
+- awaiting Android Studio/phone verification.
+
 ## Packaged native binaries
 
 These binaries were intentionally kept unchanged across the recent Kotlin/UI releases.
@@ -133,13 +155,6 @@ Before editing in a new chat:
 
 ## Next source change
 
-The next action is to **verify the v0.9.0 candidate**, not to start another feature.
+Verify **v0.9.1 Visual Timeline Foundation** on the phone using `V091_TEST_PLAN.md`.
 
-Required verification:
-- compile/install in Android Studio;
-- run the Split Build Test and inspect both outputs;
-- run the Audio Diagnostics Build Test and confirm the false video/keyframe warning is gone;
-- run the H.264/MKV seek-regression Build Test and confirm the verified seek-index finalization still works.
-
-Only after Split is physically verified should the project move to **Join/Merge**.
-
+After that passes, build Join/Merge as multiple movable/sequential clips on the V1 timeline rather than as another isolated text-only tool. Then extend the same timeline with A2/A3 audio tracks, waveforms, music/voiceover, and later additional video tracks/overlays.
