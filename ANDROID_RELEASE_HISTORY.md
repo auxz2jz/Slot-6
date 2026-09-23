@@ -2,9 +2,19 @@
 
 This is the compact Android-app release history used for handoff. The detailed FFmpeg upstream changelog in the repository is unrelated to these Android app versions.
 
-## v0.9.8 — Unified Compact UI + Timeline Ruler candidate
+## v0.9.8.1 — Compile fix
 
-**Candidate — awaiting Android Studio/device verification.**
+**Candidate — awaiting Android Studio build/device verification.**
+- versionCode 28.
+- Fixes the v0.9.8 Kotlin compiler error in the project time ruler.
+- `coerceAtLeast(1.0)` -> `coerceAtLeast(1f)` where a Float is required.
+- No intended UI/media-processing changes.
+- Candidate ZIP SHA-256: `445366602c6f44ed04c1237248dcee69b75ef25ddda971f863178d07cc59f7b5`.
+
+
+## v0.9.8 — Unified Compact UI + Timeline Ruler
+
+**Compilation failed before APK generation due to a Float/Double mismatch in the timeline ruler; superseded by v0.9.8.1.**
 - versionCode 27.
 - Compact UI language extended across all app pages and buttons.
 - FFmpeg Studio branding shown in top bar on Home only.
