@@ -346,6 +346,13 @@ Before editing in a new chat:
 - corrected audio-only output-size estimate.
 - scrollable development test instructions.
 
-## Next source change
+## Recovery / next source change
 
-Build **v0.9.8.1** in Android Studio. If compile/install succeeds, run the existing compact UI + timeline ruler verification. Then proceed to project-aware per-clip Trim/Split/reorder work.
+**STOP:** v0.9.8.1 is the last successful source artifact and the only baseline to use when development resumes.
+
+Do not assume any later source exists.
+
+When the user explicitly resumes:
+1. consider adding the requested Action Trace / UI Event Recorder;
+2. keep the intermittent nonreproducible ffprobe `error=2` launch failure on the watch list;
+3. continue per-clip Trim/Split/remove/reorder work only from the v0.9.8.1 source ZIP.
