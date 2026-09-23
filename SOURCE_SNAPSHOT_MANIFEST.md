@@ -232,6 +232,29 @@ Status:
 - native binary hashes and processing logic preserved;
 - awaiting Android Studio/phone verification.
 
+## Current v0.9.8.1 compile-fix candidate
+
+Artifact:
+`FFmpegStudioAndroid-native-v0.9.8.1-compact-ui-ruler-compile-fix.zip`
+
+App version:
+- versionName: `0.9.8.1`
+- versionCode: `28`
+
+SHA-256:
+`445366602c6f44ed04c1237248dcee69b75ef25ddda971f863178d07cc59f7b5`
+
+Direct base:
+- v0.9.8 Unified Compact UI + Timeline Ruler candidate.
+
+Fix:
+- `App.kt` timeline-ruler Float/Double compile mismatch corrected;
+- no intended functional/UI/media changes.
+
+Native binaries remain:
+- FFmpeg `792a5e06689f67f2f0dfb0e1a0c8eca119e10ccbae46c3de95dae3aaad22c2f7`
+- ffprobe `cbf1492715d8217e8deca640a84b13a973bfd696803dffd34abd1f629c4cc41c`
+
 ## Packaged native binaries
 
 These binaries were intentionally kept unchanged across the recent Kotlin/UI releases.
@@ -325,6 +348,4 @@ Before editing in a new chat:
 
 ## Next source change
 
-Verify **v0.9.8 Unified Compact UI + Timeline Ruler** using `V098_TEST_PLAN.md`.
-
-After it passes, implement project-aware per-clip Trim/Split and drag reordering/removal on V1, then waveform-backed music/voiceover tracks.
+Build **v0.9.8.1** in Android Studio. If compile/install succeeds, run the existing compact UI + timeline ruler verification. Then proceed to project-aware per-clip Trim/Split/reorder work.
