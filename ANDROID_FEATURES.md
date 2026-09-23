@@ -1,6 +1,6 @@
 # FFmpeg Studio Android — Master Roadmap
 
-> **Checkpoint 2026-09-22:** Current verified app line is **v0.8.9 (versionCode 18)**. A **v0.9.0 (versionCode 19) Split candidate** exists and is awaiting Android Studio/device verification. Read `NEXT_CHAT_START_HERE.md` and `PROJECT_STATUS.md` before resuming development in a new chat.
+> **Checkpoint 2026-09-22:** v0.9.0 one-point Split/short seek probing is physically verified. A **v0.9.1 (versionCode 20) Visual Timeline Foundation candidate** exists and is awaiting Android Studio/device verification. Read `NEXT_CHAT_START_HERE.md` and `PROJECT_STATUS.md` before resuming development in a new chat.
 
 This file is the **continuous master record** for the Slot-6 Android application. It tracks what is already working, what still needs to be implemented, and which work is likely to require rebuilding the native FFmpeg engine.
 
@@ -105,10 +105,10 @@ This file is the **continuous master record** for the Slot-6 Android application
 # 4. Visual trimming and editing
 
 - `DONE` Basic Start/End fast stream-copy trim is implemented and physically verified; visual/frame-exact trimming remains future work.
-- `TODO` Visual video timeline.
-- `TODO` Draggable trim-start handle.
-- `TODO` Draggable trim-end handle.
-- `TODO` Preview while seeking/trimming.
+- `PARTIAL` Visual video timeline foundation is implemented in v0.9.1 candidate: embedded preview, thumbnails, playhead, trim range, V1/A1 rows, and Trim/Split integration; multi-clip tracks/zoom/waveforms remain.
+- `PARTIAL` Draggable visual trim In handle exists in the v0.9.1 candidate; device verification pending.
+- `PARTIAL` Draggable visual trim Out handle exists in the v0.9.1 candidate; device verification pending.
+- `PARTIAL` Embedded preview with play/pause and playhead seeking exists in the v0.9.1 candidate; device/format verification pending.
 - `TODO` Frame-accurate or near-frame-accurate seeking where practical.
 - `TODO` Draggable crop rectangle over video preview.
 - `DONE` Basic resize/resolution selection.
@@ -118,8 +118,8 @@ This file is the **continuous master record** for the Slot-6 Android application
 - `TODO` Frame-rate selection and conversion.
 - `TODO` Rotate 90° clockwise/counterclockwise and 180°.
 - `TODO` Horizontal and vertical flip.
-- `PARTIAL` Split one video at one cut point into two MKV files using stream copy is implemented in the v0.9.0 candidate; Android Studio/device verification is pending. Multiple cut points and richer split UI remain TODO.
-- `TODO` Merge/join videos.
+- `DONE` Split one video at one cut point into two MKV files using stream copy; physically verified on-device. Multiple cut points remain future work. The v0.9.1 timeline can feed the Split point visually.
+- `TODO` Merge/join videos — next major editor phase after v0.9.1 verification; implement as sequential/movable clips on the V1 timeline.
 - `TODO` Join video and audio files.
 - `TODO` Reorder clips before joining.
 - `TODO` Basic transitions where practical.
@@ -181,7 +181,7 @@ This file is the **continuous master record** for the Slot-6 Android application
 
 - `DONE` Extract audio.
 - `DONE` Remove audio.
-- `TODO` Replace audio track.
+- `TODO` Replace audio track — planned for the timeline audio-track phase.
 - `TODO` Select among multiple audio tracks.
 - `DONE` Audio bitrate controls for supported re-encode/extraction workflows.
 - `TODO` Volume adjustment.
@@ -195,7 +195,7 @@ This file is the **continuous master record** for the Slot-6 Android application
 - `TODO` Mono-to-stereo conversion where useful.
 - `PARTIAL` Output channel-layout selection supports Keep/Mono/Stereo and additional layouts where codec support permits; per-source-channel routing remains TODO.
 - `TODO` Sample-rate conversion.
-- `TODO` Mix multiple audio sources.
+- `TODO` Mix multiple audio sources — use A2/A3 timeline tracks for music/voiceover after the visual timeline foundation and Join/Merge.
 - `TODO` Add background music.
 - `TODO` Audio fades.
 - `TODO` Preserve/copy the original audio without re-encoding when appropriate.
@@ -364,9 +364,9 @@ These items are the work most likely to require GitHub Actions / Android NDK bui
 
 The current priority is to build out Android-side features while leaving the verified native engine alone whenever possible.
 
-1. **Verify the v0.9.0 Split candidate on-device** using the controlled Build Tests.
-2. **Join/Merge** only after Split is physically verified.
-3. Improve trim/split visual controls and eventually timeline/waveform UI.
+1. **Verify the v0.9.1 Visual Timeline Foundation** on-device.
+2. **Join/Merge** as multiple sequential/reorderable clips on the V1 timeline.
+3. Add waveform-backed A1/A2/A3 audio tracks for source audio, music, and voiceover.
 4. Replace/select/mix audio tracks and broader audio tools.
 5. Subtitle tools.
 6. Batch conversion queue and history.
@@ -402,8 +402,8 @@ Adding external native libraries such as x264, x265, libvpx, AV1 encoders, libop
 
 # Known maintenance items from v0.8.9
 
-- `PARTIAL` Suppress video/keyframe seek warnings for audio-only outputs — implemented in the v0.9.0 candidate, awaiting device/report verification.
-- `PARTIAL` Allow useful container seek probes for short trimmed/split clips when enough keyframes exist — implemented in the v0.9.0 candidate with a >=3 s eligibility threshold, awaiting device/report verification.
+- `PARTIAL` Suppress video/keyframe seek warnings for audio-only outputs — implementation exists; dedicated audio-only verification report still pending.
+- `DONE` Allow useful container seek probes for short trimmed/split clips when enough keyframes exist — verified on both v0.9.0 split outputs.
 - `DONE` Automatic H.264 hardware -> MKV lossless seek-index finalization/remux; physically verified and must be preserved.
 - `PARTIAL` Android VP8/VP9/AV1 direct bitrate control works, but exact target-size behavior remains approximate; Smart Target is guarded for these paths.
 
