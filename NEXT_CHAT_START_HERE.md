@@ -7,23 +7,27 @@ This file is the handoff entry point for the Android FFmpeg Studio project in **
 - Repository: `auxz2jz/Slot-6`
 - Android working branch: `native-android-v0.2`
 - Upstream/main branch is primarily the FFmpeg source tree; do not treat `main` as the Android app source of truth.
-- Current verified Android app line: **v0.8.9 (versionCode 18)**
-- Current source package name from the development session: `FFmpegStudioAndroid-native-v0.8.9-fast-trim.zip`
+- Current verified media baseline: **v0.8.9**, with **v0.9.0 Split physically tested successfully** on the phone.
+- Current development source package: `FFmpegStudioAndroid-native-v0.9.1-visual-timeline-candidate.zip`
 - Current native FFmpeg/ffprobe ARM64 binaries have intentionally remained unchanged through the recent Kotlin/UI feature releases.
 
-## Current unverified candidate — v0.9.0
+## Current unverified candidate — v0.9.1
 
-A source candidate has been created from the exact verified v0.8.9 ZIP.
+The current source candidate is the first **Visual Timeline Foundation** release.
 
-- Candidate version: **v0.9.0 (versionCode 19)**
-- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.0-split-candidate.zip`
-- Candidate SHA-256: `3bc36bcc7619f1fd9962e700e41d1fe84945f5daca564d57369eb1a1a4bc6304`
-- Base source SHA-256: `58eec16e582e9e41a19aae48aab07c68958efb815ad69cbc505d70a91d7e14be`
-- Native FFmpeg/ffprobe binaries are unchanged from v0.8.9.
-- Candidate work: one-cut-point Split -> two MKV files using stream copy, two-output diagnostics, audio-only video/keyframe-warning suppression, and short-clip seek-probe eligibility.
-- This candidate is **not yet verified on-device** and must not replace v0.8.9 as the verified baseline until the phone tests pass.
-- A full Android compile was not available in the creation environment; source structure and FFmpeg split behavior were checked, but Android Studio/device verification is still required.
-- Next action: run the v0.9.0 Test This Build tests. Do **not** begin Join/Merge until Split is physically verified.
+- Candidate version: **v0.9.1 (versionCode 20)**
+- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.1-visual-timeline-candidate.zip`
+- Candidate SHA-256: `66a89fba3995feffdecb46fb6e6b8108c53cf5c1367704955fc8315a466a253c`
+- Direct base package: v0.9.0 Split candidate, SHA-256 `3bc36bcc7619f1fd9962e700e41d1fe84945f5daca564d57369eb1a1a4bc6304`.
+- Native FFmpeg/ffprobe binaries are unchanged.
+- New UI/editor work: embedded video preview, local thumbnail strip, V1 source-video track, A1 source-audio track, playhead seeking, draggable trim range, timeline -> Fast Trim, and timeline -> Split at playhead.
+- Compact typed Trim and Split controls remain available and use the same existing processing pipelines.
+- FFmpeg command construction, Split processing, diagnostics, and H.264/MKV seek-index finalization were not changed in v0.9.1.
+- A full Android compile is still not available in the source-creation environment; Android Studio/device verification is required.
+- After the timeline foundation is verified, the next editor phase should build Join/Merge as multiple clips on the same timeline, followed by additional audio tracks/waveforms/voiceover.
+
+### v0.9.0 verification carried forward
+The uploaded v0.9.0 Split report showed a completed one-point Split on the 30.304 s Jellyfish source. The outputs were 10.677 s and 19.680 s, and both outputs received healthy short-clip container random-seek probes. The user also confirmed the trim/seek behavior works well. The v0.9.0 audio-only warning suppression still needs its dedicated report if we want that maintenance item separately marked verified.
 
 
 ## Read these files first in a new chat
@@ -118,16 +122,14 @@ Also consider allowing short trimmed/split clips to run the container random-see
 
 ## Next roadmap feature
 
-The **v0.9.0 Split candidate now exists and is awaiting device verification**. Split remains the active feature until its controlled phone tests pass.
+The active feature is now **v0.9.1 Visual Timeline Foundation verification**.
 
-Recommended scope:
-- implement Split as its own small release;
-- use lossless stream copy first;
-- one or more cut points may come later, but begin with a controlled simple split workflow;
-- add a Build Test preset with exact instructions;
-- once Split is verified, move to **Join/Merge** in the following release.
+Keep the compact fast tools while building the editor progressively:
+- v0.9.1: preview + thumbnails + playhead + visual Trim/Split integration;
+- after verification: multi-clip V1 timeline for Join/Merge;
+- then additional audio tracks/waveforms/voiceover and later additional video tracks/overlays.
 
-Do not bundle a large editor/timeline rewrite into the first Split release.
+Do not replace the fast stream-copy Trim/Split tools; the visual editor should feed those workflows when appropriate.
 
 ## UI direction
 
