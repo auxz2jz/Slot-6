@@ -109,6 +109,31 @@ Status:
 - native binary hashes preserved;
 - awaiting Android Studio/phone verification.
 
+## Current v0.9.4 multi-join candidate
+
+Artifact:
+`FFmpegStudioAndroid-native-v0.9.4-multi-join-candidate.zip`
+
+App version:
+- versionName: `0.9.4`
+- versionCode: `23`
+
+SHA-256:
+`2370a43a09f28ba4c5546b76b55022e2421ea4646082f52a054b614a634b3448`
+
+Direct base:
+- v0.9.3 Visual Join candidate.
+
+Status:
+- multiple Join inputs;
+- timeline-integrated Add clip(s) / Join;
+- global cross-clip scrub preview;
+- fast multi-clip stream-copy Join;
+- automatic mixed-format Normalize & Join;
+- diagnostics schema 6;
+- native binary hashes preserved;
+- awaiting Android Studio/phone verification.
+
 ## Packaged native binaries
 
 These binaries were intentionally kept unchanged across the recent Kotlin/UI releases.
@@ -202,8 +227,6 @@ Before editing in a new chat:
 
 ## Next source change
 
-Verify **v0.9.3 Visual Join/Merge Foundation** using `V093_TEST_PLAN.md`.
+Verify **v0.9.4 Multi-clip Timeline + Normalize & Join** using `V094_TEST_PLAN.md`.
 
-First verify the two-clip V1 UI with no encode. Then join two matching Jellyfish clips and confirm the final MKV plays continuously through the boundary and seeks normally. Export Normal + Extended reports from the Join run.
-
-After v0.9.3 passes, add clip reordering and more-than-two-clip V1 editing, then waveform-backed A2/A3 music and voiceover tracks.
+After it passes, add drag reordering/removal and then waveform-backed music/voiceover tracks.
