@@ -3,10 +3,10 @@
 **Last checkpoint:** 2026-09-22  
 **Repository:** auxz2jz/Slot-6  
 **Android branch:** native-android-v0.2  
-**Current verified media baseline:** v0.8.9, plus v0.9.0 one-point Split/short seek probing physically verified on-device
-**Current unverified candidate:** v0.9.2 (versionCode 21), Live Timeline Scrubbing
-**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.2-live-scrub-candidate.zip`
-**Candidate SHA-256:** `573ed5499f6fa86253e24ea4d334b1974e2b9508d570fcdc4e36b902200bbb92`
+**Current verified editor/media baseline:** v0.9.2 Live Timeline Scrubbing, plus previously verified v0.9.0 Split/short seek probing
+**Current unverified candidate:** v0.9.3 (versionCode 22), Visual Join/Merge Foundation
+**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.3-visual-join-candidate.zip`
+**Candidate SHA-256:** `d5f3fa2e6ae1ffa696c72072fec310691cf26ef882585c89247f662619486ed8`
 
 This file records the current state that should be carried into a new chat.
 
@@ -44,16 +44,37 @@ The release deliberately does **not** change FFmpeg commands, native binaries, S
 
 Phone feedback: the timeline is visible and generally works, but paused preview frames can lag/stick while the playhead moves by one or two seconds. This becomes the v0.9.2 usability fix.
 
-## v0.9.2 candidate status
+## v0.9.2 live-scrub verification
 
-Implemented, awaiting device verification:
+Physically verified from user feedback: **the v0.9.2 live-scrub fix worked great on the phone**.
+
+Verified/preserved behavior:
 - paused scrub preview uses MediaMetadataRetriever to fetch the actual nearby source frame;
 - preview refresh is decoupled from rapid VideoView seek requests;
 - the underlying player seeks to the final playhead position after release;
 - V1 filmstrip height increased from 72 dp to 96 dp;
 - compact Trim/Split controls and existing processing paths remain unchanged.
 
-The first v0.9.2 test is NO ENCODE REQUIRED.
+Status: **DONE for the live-scrub improvement.** Preserve this behavior.
+
+## v0.9.3 candidate status
+
+Implemented, awaiting device verification:
+- new Join / merge operation;
+- exactly two source clips for the first release;
+- second clip has its own persisted Android URI, ffprobe analysis, representative frame, and diagnostics identity;
+- V1 shows Clip 1 followed by Clip 2 with proportional duration blocks;
+- fixed order in this first release; drag/reorder comes later;
+- fast lossless Join uses FFmpeg concat demuxer + stream copy to MKV;
+- compatibility validation checks matching video codec/resolution/pixel format and matching audio presence/codec/sample rate/channel count;
+- incompatible clips are blocked with an explanation;
+- expected output duration is the sum of both sources;
+- expected output size is approximately the sum of both sources when known;
+- diagnostics schema is now 5 and includes Secondary Source Media;
+- compact Trim/Split and the verified live-scrub single-clip timeline are preserved;
+- native FFmpeg/ffprobe binaries and H.264/MKV seek-index repair are unchanged.
+
+External FFmpeg testing of the join strategy produced the expected combined duration, near-sum output size, and valid random-seek results. Full Android Studio/device verification is still required.
 
 ## Current working product
 
@@ -232,9 +253,9 @@ Do not assume `-force_key_frames` is honored by the hardware HEVC path. Diagnost
 
 ## Current feature to verify next
 
-**v0.9.2 Live Timeline Scrubbing**
+**v0.9.3 Visual Join/Merge Foundation**
 
-Verify that moving the paused playhead visibly updates the large preview to the corresponding source frame with much less sticking/lag. Then continue to Join/Merge on the same timeline.
+First verify the two-clip V1 display with NO ENCODE REQUIRED. Then run Fast Join using two matching copies of the Jellyfish test clip and verify playback through the join plus random seeking.
 
 ## Near-future roadmap order
 
