@@ -4,9 +4,9 @@
 **Repository:** auxz2jz/Slot-6  
 **Android branch:** native-android-v0.2  
 **Current verified editor/media baseline:** v0.9.7 Compact Editor Layout + Rotation State; user reports all features working
-**Current unverified candidate:** v0.9.8 (versionCode 27), Unified Compact UI + Timeline Ruler
-**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.8-compact-ui-ruler-candidate.zip`
-**Candidate SHA-256:** `cfb2cba9c3181ca800c988313ed668a73cb35f0790c7b234345e12284265a27d`
+**Current unverified candidate:** v0.9.8.1 (versionCode 28), compile fix for Unified Compact UI + Timeline Ruler
+**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.8.1-compact-ui-ruler-compile-fix.zip`
+**Candidate SHA-256:** `445366602c6f44ed04c1237248dcee69b75ef25ddda971f863178d07cc59f7b5`
 
 This file records the current state that should be carried into a new chat.
 
@@ -337,9 +337,9 @@ Do not assume `-force_key_frames` is honored by the hardware HEVC path. Diagnost
 
 ## Current feature to verify next
 
-**v0.9.8 Unified Compact UI + Timeline Ruler**
+**v0.9.8.1 compile fix**
 
-Verify consistent compact styling across all pages, one-thumbnail V1 blocks, ruler alignment/runtime, and ruler behavior at 50%-400% zoom. No encoding is required.
+First confirm Android Studio builds successfully. Then repeat the v0.9.8 no-encode compact UI, one-thumbnail V1/ruler, zoom, and rotation checks.
 
 ## Near-future roadmap order
 
@@ -442,5 +442,19 @@ Implemented, awaiting phone verification:
 - ruler and V1 share horizontal scroll;
 - V1 reduced to 58 dp;
 - v0.9.7 rotation state and all media-processing behavior preserved.
+
+## v0.9.8 compile failure / v0.9.8.1 fix
+
+Android Studio build of v0.9.8 reached `:app:compileDebugKotlin` and failed with:
+`App.kt:1000:100 Argument type mismatch: actual type is Double, but Float was expected.`
+
+Root cause:
+- the ruler expression is Float-based;
+- `.coerceAtLeast(1.0)` used a Double literal.
+
+v0.9.8.1 fix:
+- change `.coerceAtLeast(1.0)` to `.coerceAtLeast(1f)`;
+- bump to versionName 0.9.8.1 / versionCode 28;
+- no intended UI/media behavior changes.
 
 ## Current working product
