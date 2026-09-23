@@ -8,26 +8,23 @@ This file is the handoff entry point for the Android FFmpeg Studio project in **
 - Android working branch: `native-android-v0.2`
 - Upstream/main branch is primarily the FFmpeg source tree; do not treat `main` as the Android app source of truth.
 - Current verified media baseline: **v0.8.9**, with **v0.9.0 Split physically tested successfully** on the phone.
-- Current development source package: `FFmpegStudioAndroid-native-v0.9.1-visual-timeline-candidate.zip`
+- Current development source package: `FFmpegStudioAndroid-native-v0.9.2-live-scrub-candidate.zip`
 - Current native FFmpeg/ffprobe ARM64 binaries have intentionally remained unchanged through the recent Kotlin/UI feature releases.
 
-## Current unverified candidate — v0.9.1
+## Current unverified candidate — v0.9.2
 
-The current source candidate is the first **Visual Timeline Foundation** release.
+The current candidate is a focused **Live Timeline Scrubbing** improvement.
 
-- Candidate version: **v0.9.1 (versionCode 20)**
-- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.1-visual-timeline-candidate.zip`
-- Candidate SHA-256: `66a89fba3995feffdecb46fb6e6b8108c53cf5c1367704955fc8315a466a253c`
-- Direct base package: v0.9.0 Split candidate, SHA-256 `3bc36bcc7619f1fd9962e700e41d1fe84945f5daca564d57369eb1a1a4bc6304`.
-- Native FFmpeg/ffprobe binaries are unchanged.
-- New UI/editor work: embedded video preview, local thumbnail strip, V1 source-video track, A1 source-audio track, playhead seeking, draggable trim range, timeline -> Fast Trim, and timeline -> Split at playhead.
-- Compact typed Trim and Split controls remain available and use the same existing processing pipelines.
-- FFmpeg command construction, Split processing, diagnostics, and H.264/MKV seek-index finalization were not changed in v0.9.1.
-- A full Android compile is still not available in the source-creation environment; Android Studio/device verification is required.
-- After the timeline foundation is verified, the next editor phase should build Join/Merge as multiple clips on the same timeline, followed by additional audio tracks/waveforms/voiceover.
-
-### v0.9.0 verification carried forward
-The uploaded v0.9.0 Split report showed a completed one-point Split on the 30.304 s Jellyfish source. The outputs were 10.677 s and 19.680 s, and both outputs received healthy short-clip container random-seek probes. The user also confirmed the trim/seek behavior works well. The v0.9.0 audio-only warning suppression still needs its dedicated report if we want that maintenance item separately marked verified.
+- Candidate version: **v0.9.2 (versionCode 21)**
+- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.2-live-scrub-candidate.zip`
+- Candidate SHA-256: `573ed5499f6fa86253e24ea4d334b1974e2b9508d570fcdc4e36b902200bbb92`
+- Direct base: v0.9.1 Visual Timeline Foundation.
+- User verified that the v0.9.1 timeline appears and works generally on-device; the specific remaining usability issue was that the preview frame could remain stale while the playhead moved by one or two seconds.
+- v0.9.2 changes paused scrubbing to request the actual nearby source frame directly with MediaMetadataRetriever while the playhead moves.
+- The underlying VideoView seeks only to the final position after the scrub gesture ends; normal Play/Pause still uses VideoView.
+- The V1 filmstrip height is increased from 72 dp to 96 dp.
+- Compact Trim/Split controls, FFmpeg commands, Split processing, diagnostics, native binaries, and H.264/MKV seek-index finalization are unchanged.
+- First verification task is UI-only: confirm the large preview visibly follows the playhead during scrubbing. No encode is required.
 
 
 ## Read these files first in a new chat
@@ -122,14 +119,14 @@ Also consider allowing short trimmed/split clips to run the container random-see
 
 ## Next roadmap feature
 
-The active feature is now **v0.9.1 Visual Timeline Foundation verification**.
+The active feature is **v0.9.2 Live Timeline Scrubbing verification**.
 
-Keep the compact fast tools while building the editor progressively:
-- v0.9.1: preview + thumbnails + playhead + visual Trim/Split integration;
-- after verification: multi-clip V1 timeline for Join/Merge;
-- then additional audio tracks/waveforms/voiceover and later additional video tracks/overlays.
+After live scrubbing is verified, continue the editor roadmap:
+- multi-clip V1 timeline for Join/Merge;
+- waveform-backed A1/A2/A3 tracks for source audio, music, and voiceover;
+- later additional video tracks/overlays.
 
-Do not replace the fast stream-copy Trim/Split tools; the visual editor should feed those workflows when appropriate.
+Keep the compact fast Trim/Split tools alongside the visual editor.
 
 ## UI direction
 
