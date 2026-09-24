@@ -4,9 +4,9 @@
 **Repository:** auxz2jz/Slot-6  
 **Android branch:** native-android-v0.2  
 **Current verified editor/media baseline:** v0.9.8.1 (versionCode 28), successful on-device recovery baseline
-**Current unverified candidate:** v0.9.9.1 (versionCode 30), Action Trace compile fix
-**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.9.1-action-trace-compile-fix.zip`
-**Candidate SHA-256:** `a47ac2e869e6aaf764392be0be0d186e6bc9c16592f6a7eb39082625dca8d68a`
+**Current unverified candidate:** v0.9.9.2 (versionCode 31), concurrent ffprobe workspace reliability fix
+**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.9.2-ffprobe-race-fix.zip`
+**Candidate SHA-256:** `0f49c10c93796609e0920dd6762548c6b127ad0e0da894a3dec81b66fddb4ed4`
 
 This file records the current state that should be carried into a new chat.
 
@@ -337,7 +337,7 @@ Do not assume `-force_key_frames` is honored by the hardware HEVC path. Diagnost
 
 ## Current feature to verify next
 
-**v0.9.9.1 Action Trace compile fix**
+**v0.9.9.2 concurrent ffprobe workspace fix**
 
 Build/install first. Then run the three no-encode tests in `V099_TEST_PLAN.md`: basic action capture/export, repeated ffprobe analysis, and navigation/rotation trace.
 
@@ -504,5 +504,26 @@ Fix in v0.9.9.1:
 - retain the member call inside `pointerInput`;
 - versionName 0.9.9.1 / versionCode 30;
 - no intended Action Trace or media-engine behavior changes.
+
+## v0.9.9.1 Action Trace device evidence / v0.9.9.2 fix
+
+The Action Trace feature worked and captured the intermittent ffprobe error repeatedly.
+
+Observed on-device:
+- successful ffprobe analyses and failures alternated within the same session;
+- immediately before every failure, engine snapshots still showed ready=true, ffprobe exists=true, expected size, exec=true;
+- ProcessBuilder.start() then returned error=2 / No such file or directory.
+
+Source review identified a likely concurrency bug:
+- probe temp folders used only System.currentTimeMillis();
+- primary / secondary / additional clip LaunchedEffects can start concurrently;
+- same-millisecond probes could share one work directory/input path;
+- one probe deleting its work directory could break another launch.
+
+v0.9.9.2:
+- timestamp + UUID workspaces;
+- stable cache directory for ProcessBuilder working directory;
+- extra Action Trace launch-context logging;
+- no native binary/encode-command changes.
 
 ## Current working product
