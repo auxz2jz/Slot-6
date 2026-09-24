@@ -439,3 +439,13 @@ v0.9.9 adds:
 
 Status:
 **Candidate only. v0.9.8.1 remains the physically successful baseline until v0.9.9 is built/tested.**
+
+
+## v0.9.9 compile failure
+
+Android Studio reached Kotlin compilation but failed before APK generation with an unresolved `awaitPointerEventScope` reference at App.kt line 107.
+
+v0.9.9.1 removes the invalid explicit import and otherwise preserves the Action Trace implementation.
+
+Status:
+**v0.9.9 is not a runnable verification build. Use v0.9.9.1. v0.9.8.1 remains the last physically verified fallback.**
