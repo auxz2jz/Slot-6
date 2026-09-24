@@ -8,23 +8,29 @@ This file is the handoff entry point for the Android FFmpeg Studio project in **
 - Android working branch: `native-android-v0.2`
 - Upstream/main branch is primarily the FFmpeg source tree; do not treat `main` as the Android app source of truth.
 - Verified recovery baseline: **v0.9.8.1 (versionCode 28)**, built/installed/used successfully on-device. The user explicitly resumed development from this baseline.
-- Current development source package: `FFmpegStudioAndroid-native-v0.9.9.1-action-trace-compile-fix.zip`
+- Current development source package: `FFmpegStudioAndroid-native-v0.9.9.2-ffprobe-race-fix.zip`
 - Current native FFmpeg/ffprobe ARM64 binaries have intentionally remained unchanged through the recent Kotlin/UI feature releases.
 
-## Current unverified candidate — v0.9.9.1
+## Current unverified candidate — v0.9.9.2
 
-The active candidate is the **v0.9.9 Action Trace compile fix**.
+The active candidate is **Concurrent ffprobe Workspace Reliability Fix**.
 
-- Candidate version: **v0.9.9.1 (versionCode 30)**
-- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.9.1-action-trace-compile-fix.zip`
-- Candidate SHA-256: `a47ac2e869e6aaf764392be0be0d186e6bc9c16592f6a7eb39082625dca8d68a`
-- Direct base: v0.9.9 Action Trace candidate.
-- Android Studio v0.9.9 build reached `:app:compileDebugKotlin` and failed at `App.kt:107:42` with unresolved reference `awaitPointerEventScope`.
-- Root cause was the explicit import `androidx.compose.ui.input.pointer.awaitPointerEventScope`; in this Compose setup the call is used as the `PointerInputScope` member inside `pointerInput { ... }`.
-- v0.9.9.1 removes only that invalid explicit import and bumps versionName/versionCode.
-- Action Trace design is unchanged.
-- Native FFmpeg/ffprobe binaries and v0.9.8.1 media behavior are unchanged.
-- v0.9.8.1 remains the last physically verified fallback until this candidate builds/runs.
+- Candidate version: **v0.9.9.2 (versionCode 31)**
+- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.9.2-ffprobe-race-fix.zip`
+- Candidate SHA-256: `0f49c10c93796609e0920dd6762548c6b127ad0e0da894a3dec81b66fddb4ed4`
+- Direct base: v0.9.9.1 Action Trace compile-fix source.
+- Action Trace successfully reproduced the intermittent ffprobe launch failure multiple times.
+- At every captured failure, engine state still reported `ready=true`, ffprobe `exists=true`, expected size present, and `exec=true`.
+- Source review found a likely concurrency race: `MediaProbe.probeDetailed()` created temporary work directories using only `System.currentTimeMillis()`. Multiple Editor probe coroutines can begin together, so two probes could receive the same directory and input path; one probe's `finally { workDir.deleteRecursively() }` could then remove the shared directory while another probe is about to launch.
+- v0.9.9.2 makes each probe workspace unique with timestamp + UUID.
+- Source-analysis ffprobe now launches from the stable app cache directory rather than the disposable per-probe input directory.
+- Action Trace now records probe workspace IDs and whether input/process directories exist at launch.
+- Action Trace UI/recorder is preserved.
+- Native FFmpeg/ffprobe binaries and conversion commands are unchanged.
+- v0.9.8.1 remains the last fully physically verified fallback until this candidate passes.
+
+### Evidence from v0.9.9.1 traces
+The first export captured one ffprobe `ProcessBuilder error=2` after successful analyses. The second cumulative export captured additional failures for Clip 3, Tools-side analysis, and primary-source analysis. The packaged binary remained present/executable during each failure, making a missing APK binary unlikely and supporting a transient workspace/launch-context race.
 
 
 ## Read these files first in a new chat
@@ -119,7 +125,7 @@ Also consider allowing short trimmed/split clips to run the container random-see
 
 ## Next roadmap feature
 
-The active task is **build/verify v0.9.9.1 Action Trace compile fix**.
+The active task is **build/verify v0.9.9.2 concurrent ffprobe workspace fix**.
 
 After v0.9.9 passes:
 - use Action Trace reports for any intermittent ffprobe/UI failures;
