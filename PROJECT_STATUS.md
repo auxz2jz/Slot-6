@@ -4,9 +4,9 @@
 **Repository:** auxz2jz/Slot-6  
 **Android branch:** native-android-v0.2  
 **Current verified editor/media baseline:** v0.9.8.1 (versionCode 28), successful on-device recovery baseline
-**Current unverified candidate:** v0.9.9 (versionCode 29), Action Trace Recorder
-**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.9-action-trace-candidate.zip`
-**Candidate SHA-256:** `ca6c2ff7897613f7f0bf55097a8a9872175f3cb5ccba05d7c5f87e3b0add0cc6`
+**Current unverified candidate:** v0.9.9.1 (versionCode 30), Action Trace compile fix
+**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.9.1-action-trace-compile-fix.zip`
+**Candidate SHA-256:** `a47ac2e869e6aaf764392be0be0d186e6bc9c16592f6a7eb39082625dca8d68a`
 
 This file records the current state that should be carried into a new chat.
 
@@ -337,7 +337,7 @@ Do not assume `-force_key_frames` is honored by the hardware HEVC path. Diagnost
 
 ## Current feature to verify next
 
-**v0.9.9 Action Trace Recorder**
+**v0.9.9.1 Action Trace compile fix**
 
 Build/install first. Then run the three no-encode tests in `V099_TEST_PLAN.md`: basic action capture/export, repeated ffprobe analysis, and navigation/rotation trace.
 
@@ -493,5 +493,16 @@ Purpose:
 Capture the exact sequence surrounding rare failures, especially the one-off v0.9.8.1 ffprobe `error=2` screenshot, without guessing at a native-engine fix.
 
 No intended media-engine changes.
+
+## v0.9.9 compile failure / v0.9.9.1 fix
+
+Android Studio build of v0.9.9 reached Kotlin compilation and failed before APK generation:
+`App.kt:107:42 Unresolved reference 'awaitPointerEventScope'`.
+
+Fix in v0.9.9.1:
+- remove the invalid explicit `awaitPointerEventScope` import;
+- retain the member call inside `pointerInput`;
+- versionName 0.9.9.1 / versionCode 30;
+- no intended Action Trace or media-engine behavior changes.
 
 ## Current working product
