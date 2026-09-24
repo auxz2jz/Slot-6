@@ -301,6 +301,27 @@ Fix:
 - Action Trace implementation otherwise unchanged;
 - native binary hashes preserved.
 
+## Current v0.9.9.2 ffprobe race-fix candidate
+
+Artifact:
+`FFmpegStudioAndroid-native-v0.9.9.2-ffprobe-race-fix.zip`
+
+App version:
+- versionName: `0.9.9.2`
+- versionCode: `31`
+
+SHA-256:
+`0f49c10c93796609e0920dd6762548c6b127ad0e0da894a3dec81b66fddb4ed4`
+
+Direct base:
+- v0.9.9.1 Action Trace compile-fix source.
+
+Fix:
+- unique timestamp + UUID ffprobe workspaces;
+- stable app-cache ProcessBuilder working directory for source analysis;
+- extra Action Trace workspace/launch-context logging;
+- native binary hashes preserved.
+
 ## Packaged native binaries
 
 These binaries were intentionally kept unchanged across the recent Kotlin/UI releases.
@@ -394,7 +415,7 @@ Before editing in a new chat:
 
 ## Next source change
 
-Build and verify **v0.9.9.1 Action Trace compile fix** using `V0991_TEST_PLAN.md`.
+Build and verify **v0.9.9.2 ffprobe workspace race fix** using `V0992_TEST_PLAN.md`.
 
 Do not modify native ffprobe handling unless the intermittent v0.9.8.1-style failure is reproduced with a v0.9.9 Action Trace showing what changed at the failure point.
 
