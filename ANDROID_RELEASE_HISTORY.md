@@ -2,9 +2,19 @@
 
 This is the compact Android-app release history used for handoff. The detailed FFmpeg upstream changelog in the repository is unrelated to these Android app versions.
 
-## v0.9.9 — Action Trace Recorder
+## v0.9.9.1 — Action Trace compile fix
 
 **Candidate — awaiting Android Studio/device verification.**
+- versionCode 30.
+- Removes invalid explicit `awaitPointerEventScope` import that prevented v0.9.9 Kotlin compilation.
+- Keeps the Action Trace recorder implementation unchanged.
+- Native engine/media-processing behavior unchanged.
+- Candidate ZIP SHA-256: `a47ac2e869e6aaf764392be0be0d186e6bc9c16592f6a7eb39082625dca8d68a`.
+
+
+## v0.9.9 — Action Trace Recorder
+
+**Compilation failed before APK generation due to an invalid explicit Compose pointer-input import; superseded by v0.9.9.1.**
 - versionCode 29.
 - Rolling persistent Action Trace, recording enabled by default.
 - Captures page/touch/tool/file/setting/dialog/error/orientation/conversion sequence.
