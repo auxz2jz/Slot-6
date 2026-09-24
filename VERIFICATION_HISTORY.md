@@ -449,3 +449,23 @@ v0.9.9.1 removes the invalid explicit import and otherwise preserves the Action 
 
 Status:
 **v0.9.9 is not a runnable verification build. Use v0.9.9.1. v0.9.8.1 remains the last physically verified fallback.**
+
+
+## v0.9.9.1 Action Trace reproduced ffprobe launch race
+
+The recorder captured the formerly intermittent error multiple times in one session.
+
+Evidence:
+- ffprobe analyses succeeded immediately before and after some failures;
+- every failure snapshot still showed the packaged ffprobe file existed, had the expected size, and was executable;
+- ProcessBuilder.start() returned error=2 / No such file or directory;
+- failures occurred while several primary/secondary/additional project clips were being analyzed around Editor/Tools navigation.
+
+Source correlation:
+`MediaProbe.probeDetailed()` used `cache/ffprobe/<System.currentTimeMillis()>` as its temporary directory. Multiple Compose probe effects can launch concurrently. Same-millisecond calls could therefore share the same temporary directory and `input.<ext>`, then one call's cleanup could delete the shared directory while another call was still using it.
+
+Decision:
+v0.9.9.2 makes the workspace unique with a UUID and uses the stable app cache directory as ffprobe's working directory. Native engine files remain unchanged.
+
+Status:
+**v0.9.9.1 is valuable diagnostic evidence but not a completed reliability pass. Test v0.9.9.2 next.**
