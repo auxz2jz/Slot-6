@@ -281,6 +281,26 @@ Status:
 - native binaries preserved;
 - awaiting Android Studio/phone verification.
 
+## Current v0.9.9.1 Action Trace compile-fix candidate
+
+Artifact:
+`FFmpegStudioAndroid-native-v0.9.9.1-action-trace-compile-fix.zip`
+
+App version:
+- versionName: `0.9.9.1`
+- versionCode: `30`
+
+SHA-256:
+`a47ac2e869e6aaf764392be0be0d186e6bc9c16592f6a7eb39082625dca8d68a`
+
+Direct base:
+- v0.9.9 Action Trace candidate.
+
+Fix:
+- remove invalid explicit `awaitPointerEventScope` import;
+- Action Trace implementation otherwise unchanged;
+- native binary hashes preserved.
+
 ## Packaged native binaries
 
 These binaries were intentionally kept unchanged across the recent Kotlin/UI releases.
@@ -374,7 +394,7 @@ Before editing in a new chat:
 
 ## Next source change
 
-Build and verify **v0.9.9 Action Trace Recorder** using `V099_TEST_PLAN.md`.
+Build and verify **v0.9.9.1 Action Trace compile fix** using `V0991_TEST_PLAN.md`.
 
 Do not modify native ffprobe handling unless the intermittent v0.9.8.1-style failure is reproduced with a v0.9.9 Action Trace showing what changed at the failure point.
 
