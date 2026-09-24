@@ -2,6 +2,18 @@
 
 This is the compact Android-app release history used for handoff. The detailed FFmpeg upstream changelog in the repository is unrelated to these Android app versions.
 
+## v0.9.9.2 — ffprobe workspace race fix
+
+**Candidate — awaiting Android Studio/device verification.**
+- versionCode 31.
+- Action Trace reproduced the ffprobe ProcessBuilder error=2 while the native binary was still present/executable.
+- Replaces millisecond-only probe temp directories with timestamp + UUID unique workspaces.
+- Launches source-analysis ffprobe from the stable app cache directory instead of the disposable per-probe directory.
+- Adds trace entries for workspace ID and launch-directory existence.
+- Action Trace UI and native media engine preserved.
+- Candidate ZIP SHA-256: `0f49c10c93796609e0920dd6762548c6b127ad0e0da894a3dec81b66fddb4ed4`.
+
+
 ## v0.9.9.1 — Action Trace compile fix
 
 **Candidate — awaiting Android Studio/device verification.**
