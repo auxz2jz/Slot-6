@@ -8,31 +8,23 @@ This file is the handoff entry point for the Android FFmpeg Studio project in **
 - Android working branch: `native-android-v0.2`
 - Upstream/main branch is primarily the FFmpeg source tree; do not treat `main` as the Android app source of truth.
 - Verified recovery baseline: **v0.9.8.1 (versionCode 28)**, built/installed/used successfully on-device. The user explicitly resumed development from this baseline.
-- Current development source package: `FFmpegStudioAndroid-native-v0.9.9-action-trace-candidate.zip`
+- Current development source package: `FFmpegStudioAndroid-native-v0.9.9.1-action-trace-compile-fix.zip`
 - Current native FFmpeg/ffprobe ARM64 binaries have intentionally remained unchanged through the recent Kotlin/UI feature releases.
 
-## Current unverified candidate — v0.9.9
+## Current unverified candidate — v0.9.9.1
 
-The active candidate is **Action Trace Recorder**.
+The active candidate is the **v0.9.9 Action Trace compile fix**.
 
-- Candidate version: **v0.9.9 (versionCode 29)**
-- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.9-action-trace-candidate.zip`
-- Candidate SHA-256: `ca6c2ff7897613f7f0bf55097a8a9872175f3cb5ccba05d7c5f87e3b0add0cc6`
-- Direct base: successful v0.9.8.1 recovery source ZIP.
-- New `ActionTrace.kt` implements a rolling persistent UI/runtime trace, default ON.
-- Trace captures app lifecycle, page transitions, raw screen touch coordinates, tool selections, safe file names/counts, setting changes, dialogs/errors, orientation changes, conversion lifecycle, and engine checks.
-- Trace deliberately strips Android `content://` URIs and app-private absolute paths.
-- Settings now has **Action trace** controls: Recording On/Off, Export trace, Clear.
-- Trace is capped at about 2 MB and rotates automatically.
-- MediaProbe records an engine snapshot immediately before every ffprobe analysis and on ProcessBuilder launch failure.
-- This specifically targets the intermittent v0.9.8.1 screenshot where ffprobe launch returned `error=2, No such file or directory`.
-- ConversionManager records start/phase/cancel/complete/fail lifecycle events.
-- v0.9.8.1 compact UI, timeline ruler, rotation state handling, Trim/Split/Join, Normalize guard, diagnostics, and seek repair are intentionally preserved.
-- Native FFmpeg/ffprobe binaries are unchanged.
-- Android Studio compilation/device verification is still required.
-
-### v0.9.8.1 recovery baseline
-v0.9.8.1 remains the last physically successful build. The one-off ffprobe launch error remains unconfirmed because the user could not reproduce it. v0.9.9 adds instrumentation rather than changing the native engine path blindly.
+- Candidate version: **v0.9.9.1 (versionCode 30)**
+- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.9.1-action-trace-compile-fix.zip`
+- Candidate SHA-256: `a47ac2e869e6aaf764392be0be0d186e6bc9c16592f6a7eb39082625dca8d68a`
+- Direct base: v0.9.9 Action Trace candidate.
+- Android Studio v0.9.9 build reached `:app:compileDebugKotlin` and failed at `App.kt:107:42` with unresolved reference `awaitPointerEventScope`.
+- Root cause was the explicit import `androidx.compose.ui.input.pointer.awaitPointerEventScope`; in this Compose setup the call is used as the `PointerInputScope` member inside `pointerInput { ... }`.
+- v0.9.9.1 removes only that invalid explicit import and bumps versionName/versionCode.
+- Action Trace design is unchanged.
+- Native FFmpeg/ffprobe binaries and v0.9.8.1 media behavior are unchanged.
+- v0.9.8.1 remains the last physically verified fallback until this candidate builds/runs.
 
 
 ## Read these files first in a new chat
@@ -127,7 +119,7 @@ Also consider allowing short trimmed/split clips to run the container random-see
 
 ## Next roadmap feature
 
-The active task is **build/verify v0.9.9 Action Trace Recorder**.
+The active task is **build/verify v0.9.9.1 Action Trace compile fix**.
 
 After v0.9.9 passes:
 - use Action Trace reports for any intermittent ffprobe/UI failures;
