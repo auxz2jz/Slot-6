@@ -7,30 +7,29 @@ This file is the handoff entry point for the Android FFmpeg Studio project in **
 - Repository: `auxz2jz/Slot-6`
 - Android working branch: `native-android-v0.2`
 - Upstream/main branch is primarily the FFmpeg source tree; do not treat `main` as the Android app source of truth.
-- Verified recovery baseline: **v0.9.8.1 (versionCode 28)**, built/installed/used successfully on-device. The user explicitly resumed development from this baseline.
-- Current development source package: `FFmpegStudioAndroid-native-v0.9.9.2-ffprobe-race-fix.zip`
+- Current physically verified baseline: **v0.9.9.2 (versionCode 31)**. The user tested repeated multi-clip ffprobe analysis; the current v0.9.9.2 session showed unique workspaces and completed analyses without the prior launch failure.
+- Current development source package: `FFmpegStudioAndroid-native-v0.9.10-clip-manager-candidate.zip`
 - Current native FFmpeg/ffprobe ARM64 binaries have intentionally remained unchanged through the recent Kotlin/UI feature releases.
 
-## Current unverified candidate — v0.9.9.2
+## Current unverified candidate — v0.9.10
 
-The active candidate is **Concurrent ffprobe Workspace Reliability Fix**.
+The active candidate is **Project Clip Manager**.
 
-- Candidate version: **v0.9.9.2 (versionCode 31)**
-- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.9.2-ffprobe-race-fix.zip`
-- Candidate SHA-256: `0f49c10c93796609e0920dd6762548c6b127ad0e0da894a3dec81b66fddb4ed4`
-- Direct base: v0.9.9.1 Action Trace compile-fix source.
-- Action Trace successfully reproduced the intermittent ffprobe launch failure multiple times.
-- At every captured failure, engine state still reported `ready=true`, ffprobe `exists=true`, expected size present, and `exec=true`.
-- Source review found a likely concurrency race: `MediaProbe.probeDetailed()` created temporary work directories using only `System.currentTimeMillis()`. Multiple Editor probe coroutines can begin together, so two probes could receive the same directory and input path; one probe's `finally { workDir.deleteRecursively() }` could then remove the shared directory while another probe is about to launch.
-- v0.9.9.2 makes each probe workspace unique with timestamp + UUID.
-- Source-analysis ffprobe now launches from the stable app cache directory rather than the disposable per-probe input directory.
-- Action Trace now records probe workspace IDs and whether input/process directories exist at launch.
-- Action Trace UI/recorder is preserved.
-- Native FFmpeg/ffprobe binaries and conversion commands are unchanged.
-- v0.9.8.1 remains the last fully physically verified fallback until this candidate passes.
+- Candidate version: **v0.9.10 (versionCode 32)**
+- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.10-clip-manager-candidate.zip`
+- Candidate SHA-256: `b670037c8710eca9efc8cc4950ae2aec9b1d95a253ac85820ed0b740b6fd6e4a`
+- Direct base: physically verified v0.9.9.2.
+- Project clips now have a compact text-only list with clip number/name and an individual Remove action.
+- Removing any clip closes the gap and renumbers/rebuilds the remaining V1 project in order.
+- Clear all clips now removes Clip 1 plus every added clip, leaving a genuinely empty project.
+- Add clips can repopulate a completely empty project; first selected becomes Clip 1, second becomes Clip 2, remaining selections become Clip 3+.
+- Project runtime/ruler follows the rebuilt clip list automatically.
+- v0.9.9.2 unique ffprobe workspace fix and Action Trace recorder are preserved.
+- Native FFmpeg/ffprobe binaries and encoding commands are unchanged.
+- Full Android Studio/device verification is required.
 
-### Evidence from v0.9.9.1 traces
-The first export captured one ffprobe `ProcessBuilder error=2` after successful analyses. The second cumulative export captured additional failures for Clip 3, Tools-side analysis, and primary-source analysis. The packaged binary remained present/executable during each failure, making a missing APK binary unlikely and supporting a transient workspace/launch-context race.
+### v0.9.9.2 verification carried forward
+The user exported three Action Trace reports after testing. The current v0.9.9.2 session repeatedly created unique workspace IDs, including multiple probes launched almost simultaneously, and those analyses completed successfully. No current-session ffprobe launch failure/error was found. Older v0.9.9.1 failures remain in the cumulative trace history and should not be mistaken for v0.9.9.2 failures.
 
 
 ## Read these files first in a new chat
@@ -125,7 +124,7 @@ Also consider allowing short trimmed/split clips to run the container random-see
 
 ## Next roadmap feature
 
-The active task is **build/verify v0.9.9.2 concurrent ffprobe workspace fix**.
+The active task is **build/verify v0.9.10 Project Clip Manager**.
 
 After v0.9.9 passes:
 - use Action Trace reports for any intermittent ffprobe/UI failures;
