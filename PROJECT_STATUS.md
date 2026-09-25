@@ -3,10 +3,10 @@
 **Last checkpoint:** 2026-09-22  
 **Repository:** auxz2jz/Slot-6  
 **Android branch:** native-android-v0.2  
-**Current verified editor/media baseline:** v0.9.10 (versionCode 32), Project Clip Manager accepted on-device; one empty-project Add-clips edge path remains unproven
-**Current unverified candidate:** None — next planned version is v0.9.11 Selected Clip Trim/Split
-**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.10-clip-manager-candidate.zip`
-**Candidate SHA-256:** `b670037c8710eca9efc8cc4950ae2aec9b1d95a253ac85820ed0b740b6fd6e4a`
+**Current verified editor/media baseline:** v0.9.10 (versionCode 32), Project Clip Manager accepted on-device
+**Current unverified candidate:** v0.9.11 (versionCode 33), Selected Clip Trim/Split
+**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.11-selected-clip-edit-candidate.zip`
+**Candidate SHA-256:** `7c5f8b528f95ec67cdcfd600c977132c5dba765af6762495c60c3cae6d8e476b`
 
 This file records the current state that should be carried into a new chat.
 
@@ -337,9 +337,11 @@ Do not assume `-force_key_frames` is honored by the hardware HEVC path. Diagnost
 
 ## Current feature to verify next
 
-**v0.9.10 Project Clip Manager**
+**v0.9.11 Selected Clip Trim/Split**
 
-Use the explicit step-by-step `V09910_TEST_PLAN.md`. No encoding is required. Verify individual Remove, true Clear all clips, repopulating an empty project, and ffprobe regression.
+Use `V09911_TEST_PLAN.md`.
+- Test 1 and Test 2: NO ENCODE REQUIRED.
+- Test 3: one short Fast Join export to verify edited project ranges reach the output.
 
 ## Near-future roadmap order
 
@@ -576,5 +578,30 @@ Selected Clip Trim/Split:
 - Trim In/Out and Split target the selected clip instead of Clip 1 only;
 - project timeline/list/runtime update after edits;
 - other clips remain unchanged.
+
+## v0.9.11 candidate status
+
+Selected Clip Trim/Split is implemented from the accepted v0.9.10 baseline.
+
+Implemented:
+- selectable project clip from V1 or Project clips list;
+- selected clip drives the single large preview;
+- project Trim In/Out applies to selected clip;
+- project Split inserts adjacent virtual segments at the selected clip position;
+- non-destructive per-clip source ranges;
+- V1/list/ruler/runtime/size estimates follow edited ranges;
+- Fast Join honors ranges through concat-demuxer inpoint/outpoint;
+- Normalize & Join honors ranges through trim/atrim filters;
+- one-clip project editing is allowed;
+- Action Trace records selection, trim and split;
+- existing standalone quick Trim/Split remain preserved;
+- v0.9.10 Clip Manager and v0.9.9.2 ffprobe workspace fix preserved;
+- native binaries unchanged.
+
+Validation:
+- Models/Timecode/ConversionCommands compile cleanly with minimal Android stubs;
+- whole-source parser scan found no obvious Kotlin syntax errors;
+- synthetic FFmpeg range tests confirmed the concat inpoint/outpoint and normalized trim/atrim strategies;
+- full Android Studio build/device test remains required.
 
 ## Current working product
