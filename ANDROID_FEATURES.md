@@ -1,6 +1,6 @@
 # FFmpeg Studio Android — Master Roadmap
 
-> **Checkpoint 2026-09-23:** v0.9.8.1 is the successful recovery baseline. Development resumed with **v0.9.9 (versionCode 29) Action Trace Recorder candidate** to capture rare UI/ffprobe failure sequences before modifying engine behavior.
+> **Checkpoint 2026-09-25:** v0.9.9.2 ffprobe workspace reliability fix is physically verified. **v0.9.10 (versionCode 32) Project Clip Manager candidate** adds text-only clip listing, individual removal, true Clear All, and empty-project repopulation.
 
 This file is the **continuous master record** for the Slot-6 Android application. It tracks what is already working, what still needs to be implemented, and which work is likely to require rebuilding the native FFmpeg engine.
 
@@ -415,3 +415,10 @@ Adding external native libraries such as x264, x265, libvpx, AV1 encoders, libop
 # Core project rule
 
 Kotlin + Jetpack Compose is the Android interface. FFmpeg remains the primary media-processing engine. The current working version should remain the known-good baseline while new functionality is added incrementally and verified.
+
+# Current timeline clip-management phase
+
+- `PARTIAL` Project clip list / individual removal — implemented in v0.9.10 candidate; awaiting phone verification.
+- `PARTIAL` Clear-all project behavior — v0.9.10 candidate clears primary + all added clips; awaiting verification.
+- `TODO` Drag/touch reordering of clips.
+- `TODO` Project-aware per-clip Trim/Split on the selected V1 clip.
