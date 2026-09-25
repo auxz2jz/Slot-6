@@ -469,3 +469,21 @@ v0.9.9.2 makes the workspace unique with a UUID and uses the stable app cache di
 
 Status:
 **v0.9.9.1 is valuable diagnostic evidence but not a completed reliability pass. Test v0.9.9.2 next.**
+
+
+## v0.9.9.2 ffprobe race-fix verification
+
+User supplied three cumulative Action Trace reports after testing v0.9.9.2.
+
+Current-session evidence:
+- unique probe workspace IDs were created for each analysis;
+- multiple workspaces were created almost simultaneously when returning to Editor;
+- launch context repeatedly reported both the input parent and stable process directory existed;
+- the sampled analyses completed successfully;
+- no `session=A65B3D7C | ERROR` or current-session `ffprobe launch failure` entry was found.
+
+Important trace interpretation:
+The exported reports are cumulative and still contain older v0.9.9.1 `error=2` failures. Those historical entries are not evidence that v0.9.9.2 failed.
+
+Status:
+**v0.9.9.2 concurrent ffprobe workspace fix is physically verified. Preserve it.**
