@@ -3,10 +3,10 @@
 **Last checkpoint:** 2026-09-22  
 **Repository:** auxz2jz/Slot-6  
 **Android branch:** native-android-v0.2  
-**Current verified editor/media baseline:** v0.9.8.1 (versionCode 28), successful on-device recovery baseline
-**Current unverified candidate:** v0.9.9.2 (versionCode 31), concurrent ffprobe workspace reliability fix
-**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.9.2-ffprobe-race-fix.zip`
-**Candidate SHA-256:** `0f49c10c93796609e0920dd6762548c6b127ad0e0da894a3dec81b66fddb4ed4`
+**Current verified editor/media baseline:** v0.9.9.2 (versionCode 31), ffprobe workspace reliability fix verified on-device
+**Current unverified candidate:** v0.9.10 (versionCode 32), Project Clip Manager
+**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.10-clip-manager-candidate.zip`
+**Candidate SHA-256:** `b670037c8710eca9efc8cc4950ae2aec9b1d95a253ac85820ed0b740b6fd6e4a`
 
 This file records the current state that should be carried into a new chat.
 
@@ -337,9 +337,9 @@ Do not assume `-force_key_frames` is honored by the hardware HEVC path. Diagnost
 
 ## Current feature to verify next
 
-**v0.9.9.2 concurrent ffprobe workspace fix**
+**v0.9.10 Project Clip Manager**
 
-Build/install first. Then run the three no-encode tests in `V099_TEST_PLAN.md`: basic action capture/export, repeated ffprobe analysis, and navigation/rotation trace.
+Use the explicit step-by-step `V09910_TEST_PLAN.md`. No encoding is required. Verify individual Remove, true Clear all clips, repopulating an empty project, and ffprobe regression.
 
 ## Near-future roadmap order
 
@@ -525,5 +525,31 @@ v0.9.9.2:
 - stable cache directory for ProcessBuilder working directory;
 - extra Action Trace launch-context logging;
 - no native binary/encode-command changes.
+
+## v0.9.9.2 phone verification
+
+User supplied three Action Trace exports from v0.9.9.2.
+
+Result:
+- unique ffprobe workspace IDs are present;
+- multiple analyses started very close together, including several created within the same millisecond;
+- analyses completed successfully;
+- no current-session `ERROR` or `ffprobe launch failure` was found;
+- cumulative trace files still contain older v0.9.9.1 failures, which are historical rather than v0.9.9.2 regressions.
+
+Status:
+**v0.9.9.2 is physically verified and is the direct baseline for v0.9.10.**
+
+## v0.9.10 candidate status
+
+Implemented:
+- compact text-only Project clips list;
+- Remove button for each clip;
+- removing Clip 1/2/etc. shifts later clips left and renumbers the project;
+- Clear all clips clears the primary source and all added clips;
+- Add clips can repopulate an empty project with Clip 1/2/3 assignment;
+- V1/runtime/ruler rebuild from the remaining ordered clips;
+- v0.9.9.2 ffprobe workspace fix and Action Trace preserved;
+- native binaries/processing commands unchanged.
 
 ## Current working product
