@@ -505,3 +505,27 @@ Not conclusively exercised:
 
 Status:
 **Accepted working baseline with one unproven edge path.**
+
+
+## v0.9.11 Selected Clip Trim/Split candidate
+
+Direct base:
+- accepted v0.9.10 Project Clip Manager.
+
+Engineering implementation:
+- per-project-clip source start/end range state;
+- selected clip from V1/list drives preview and edit controls;
+- non-destructive project Trim changes selected clip range;
+- project Split replaces selected clip with adjacent virtual parts referencing the same source;
+- Fast Join emits concat-demuxer inpoint/outpoint for edited ranges;
+- Normalize & Join applies trim/atrim before normalization;
+- runtime/ruler/size estimates account for edited segment lengths.
+
+Local engineering checks:
+- core Kotlin command/model files compiled cleanly with lightweight Android stubs;
+- parser-oriented whole-source scan found no syntax markers;
+- synthetic FFmpeg test confirmed ranged stream-copy concat produced expected shortened combined duration;
+- synthetic normalized trim/atrim concat also produced expected duration.
+
+Status:
+**Candidate only. Android Studio compile/install and physical phone verification required.**
