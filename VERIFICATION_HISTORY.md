@@ -487,3 +487,21 @@ The exported reports are cumulative and still contain older v0.9.9.1 `error=2` f
 
 Status:
 **v0.9.9.2 concurrent ffprobe workspace fix is physically verified. Preserve it.**
+
+
+## v0.9.10 Project Clip Manager verification
+
+User supplied Action Trace session CF670694.
+
+Confirmed:
+- multiple clip removals completed and project counts decreased correctly;
+- removing Clip 2 promoted the next source into Clip 2;
+- Clear all project clips cleared primary, secondary, and additional clip state;
+- many subsequent ffprobe analyses completed with unique workspaces;
+- no current-session ERROR or ffprobe launch failure was found.
+
+Not conclusively exercised:
+- Clear All followed by Add clips directly into a completely empty project without first choosing a primary source.
+
+Status:
+**Accepted working baseline with one unproven edge path.**
