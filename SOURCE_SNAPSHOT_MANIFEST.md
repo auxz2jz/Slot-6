@@ -322,6 +322,30 @@ Fix:
 - extra Action Trace workspace/launch-context logging;
 - native binary hashes preserved.
 
+## Current v0.9.10 clip-manager candidate
+
+Artifact:
+`FFmpegStudioAndroid-native-v0.9.10-clip-manager-candidate.zip`
+
+App version:
+- versionName: `0.9.10`
+- versionCode: `32`
+
+SHA-256:
+`b670037c8710eca9efc8cc4950ae2aec9b1d95a253ac85820ed0b740b6fd6e4a`
+
+Direct base:
+- physically verified v0.9.9.2.
+
+Changes:
+- text-only Project clips list;
+- individual Remove;
+- automatic gap closing/renumbering;
+- true Clear all clips including primary;
+- empty-project repopulation through Add clips;
+- v0.9.9.2 ffprobe fix/Action Trace preserved;
+- native hashes preserved.
+
 ## Packaged native binaries
 
 These binaries were intentionally kept unchanged across the recent Kotlin/UI releases.
@@ -415,7 +439,7 @@ Before editing in a new chat:
 
 ## Next source change
 
-Build and verify **v0.9.9.2 ffprobe workspace race fix** using `V0992_TEST_PLAN.md`.
+Build and verify **v0.9.10 Project Clip Manager** using `V09910_TEST_PLAN.md`.
 
 Do not modify native ffprobe handling unless the intermittent v0.9.8.1-style failure is reproduced with a v0.9.9 Action Trace showing what changed at the failure point.
 
