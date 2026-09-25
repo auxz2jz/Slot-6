@@ -3,8 +3,8 @@
 **Last checkpoint:** 2026-09-22  
 **Repository:** auxz2jz/Slot-6  
 **Android branch:** native-android-v0.2  
-**Current verified editor/media baseline:** v0.9.9.2 (versionCode 31), ffprobe workspace reliability fix verified on-device
-**Current unverified candidate:** v0.9.10 (versionCode 32), Project Clip Manager
+**Current verified editor/media baseline:** v0.9.10 (versionCode 32), Project Clip Manager accepted on-device; one empty-project Add-clips edge path remains unproven
+**Current unverified candidate:** None — next planned version is v0.9.11 Selected Clip Trim/Split
 **Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.10-clip-manager-candidate.zip`
 **Candidate SHA-256:** `b670037c8710eca9efc8cc4950ae2aec9b1d95a253ac85820ed0b740b6fd6e4a`
 
@@ -551,5 +551,30 @@ Implemented:
 - V1/runtime/ruler rebuild from the remaining ordered clips;
 - v0.9.9.2 ffprobe workspace fix and Action Trace preserved;
 - native binaries/processing commands unchanged.
+
+## v0.9.10 phone verification
+
+Action Trace session CF670694 shows:
+- repeated Project clips Remove actions succeeded;
+- removing Clip 2 promoted the next clip into Clip 2;
+- Clear all project clips set source, clip2, and additional clips to empty/zero;
+- no current-session ERROR entry;
+- no current-session ffprobe launch failure;
+- probe regression exercised many clips and repeated analyses successfully.
+
+Caveat:
+The exact empty-project workflow using Add clips without first selecting a primary source was not clearly tested.
+
+Status:
+**v0.9.10 is accepted as the working clip-management baseline.**
+
+## Next planned feature — v0.9.11
+
+Selected Clip Trim/Split:
+- select any V1/list clip;
+- use the same large preview for that clip;
+- Trim In/Out and Split target the selected clip instead of Clip 1 only;
+- project timeline/list/runtime update after edits;
+- other clips remain unchanged.
 
 ## Current working product
