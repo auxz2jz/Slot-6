@@ -418,7 +418,7 @@ Kotlin + Jetpack Compose is the Android interface. FFmpeg remains the primary me
 
 # Current timeline clip-management phase
 
-- `PARTIAL` Project clip list / individual removal — implemented in v0.9.10 candidate; awaiting phone verification.
-- `PARTIAL` Clear-all project behavior — v0.9.10 candidate clears primary + all added clips; awaiting verification.
+- `DONE` Project clip list / individual removal — verified through repeated on-device removals and renumbering in v0.9.10.
+- `DONE` Clear-all project behavior — v0.9.10 Action Trace confirms primary, Clip 2, and additional clips all clear.
 - `TODO` Drag/touch reordering of clips.
-- `TODO` Project-aware per-clip Trim/Split on the selected V1 clip.
+- `TODO` **NEXT:** Project-aware per-clip Trim/Split on the selected V1 clip (planned v0.9.11).
