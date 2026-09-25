@@ -2,6 +2,21 @@
 
 This is the compact Android-app release history used for handoff. The detailed FFmpeg upstream changelog in the repository is unrelated to these Android app versions.
 
+## v0.9.11 — Selected Clip Trim/Split
+
+**Candidate — awaiting Android Studio/device verification.**
+- versionCode 33.
+- Select any project clip from V1 or text list.
+- Same large preview follows selected clip.
+- Non-destructive Trim In/Out applies to selected project clip.
+- Split creates adjacent virtual _part1/_part2 segments at the selected clip's project position.
+- Fast Join honors project ranges via concat-demuxer inpoint/outpoint.
+- Normalize & Join honors ranges via trim/atrim.
+- Runtime/ruler/size estimates update from edited segment lengths.
+- v0.9.10 Clip Manager, v0.9.9.2 ffprobe fix, Action Trace and native binaries preserved.
+- Candidate ZIP SHA-256: `7c5f8b528f95ec67cdcfd600c977132c5dba765af6762495c60c3cae6d8e476b`.
+
+
 ## v0.9.10 — Project Clip Manager
 
 **Accepted on-device as the working clip-management baseline. Remove/renumber, Clear All, and ffprobe regression behavior passed. One empty-project Add-clips edge path remains unproven.**
