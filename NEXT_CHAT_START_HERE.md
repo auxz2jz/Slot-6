@@ -8,7 +8,7 @@ This file is the handoff entry point for the Android FFmpeg Studio project in **
 - Android working branch: `native-android-v0.2`
 - Upstream/main branch is primarily the FFmpeg source tree; do not treat `main` as the Android app source of truth.
 - Current working clip-management baseline: **v0.9.10 (versionCode 32)**. Remove/renumber, true Clear All, and ffprobe regression behavior were exercised successfully on-device; direct empty-project repopulation via Add clips alone remains an unproven edge path.
-- Current development source package: `FFmpegStudioAndroid-native-v0.9.10-clip-manager-candidate.zip`
+- Current development source package: `FFmpegStudioAndroid-native-v0.9.11-selected-clip-edit-candidate.zip`
 - Current native FFmpeg/ffprobe ARM64 binaries have intentionally remained unchanged through the recent Kotlin/UI feature releases.
 
 ## Current verified/accepted baseline — v0.9.10
@@ -16,26 +16,40 @@ This file is the handoff entry point for the Android FFmpeg Studio project in **
 - Version: **v0.9.10 (versionCode 32)**
 - Artifact: `FFmpegStudioAndroid-native-v0.9.10-clip-manager-candidate.zip`
 - SHA-256: `b670037c8710eca9efc8cc4950ae2aec9b1d95a253ac85820ed0b740b6fd6e4a`
-- User Action Trace confirms repeated per-clip Remove actions, gap closing/renumbering, and true Clear All.
-- Clear All recorded primary source -> none, clip2 -> none, and additional clips -> 0.
-- v0.9.10 current session contains no ERROR entries and no ffprobe launch failure entries.
-- Probe regression test loaded many clips, removed several, and repeatedly re-analyzed them successfully.
-- Caveat: the exact path Clear All -> Add clips into a completely empty project without first choosing a primary source was not clearly exercised in the trace.
-- v0.9.9.2 unique ffprobe workspace fix remains preserved.
+- Project Clip Manager accepted on-device.
+- Remove/renumber, true Clear All, and ffprobe regression behavior passed.
+- One edge path remains unproven: Clear All -> Add clips directly while completely empty without first selecting a primary source.
 
-## Next feature — v0.9.11 planned
+## Current unverified candidate — v0.9.11
 
-**Selected Clip Trim/Split in the unified Editor.**
+The active candidate is **Selected Clip Trim/Split**.
 
-Planned behavior:
-- tap/select a clip in V1 or the Project clips list;
-- same large preview switches to that selected clip;
-- Trim In/Out targets the selected clip rather than Clip 1 only;
-- Split at the playhead targets the selected clip;
-- project order, V1, runtime, ruler, and clip list update after the edit;
-- other clips remain unchanged;
-- Action Trace logs selected clip and edit actions.
-- Clip reordering follows after this feature.
+- Candidate version: **v0.9.11 (versionCode 33)**
+- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.11-selected-clip-edit-candidate.zip`
+- Candidate SHA-256: `7c5f8b528f95ec67cdcfd600c977132c5dba765af6762495c60c3cae6d8e476b`
+- Direct base: accepted v0.9.10 source.
+- Any project clip can be selected from V1 or the Project clips list.
+- Selected row is marked with ▶ and selected V1 block gets a top highlight.
+- Same large preview follows selected clip and respects segment source offsets.
+- Trim In/Out now targets selected project clip rather than Clip 1 only.
+- Project Trim is non-destructive: it updates that clip's source range without creating a media file.
+- Split at playhead targets selected project clip and replaces it with adjacent _part1/_part2 virtual segments referencing the same source.
+- Project V1, clip list, ruler, runtime and size estimates rebuild from edited segment durations.
+- Fast Join writes edited ranges into concat-demuxer `inpoint`/`outpoint` entries.
+- Normalize & Join applies `trim/atrim` before normalization/concat.
+- One-clip Join projects are supported so a single clip can be split before another source is added.
+- v0.9.10 Clip Manager, v0.9.9.2 ffprobe workspace fix, Action Trace, and H.264/MKV seek repair are preserved.
+- Native FFmpeg/ffprobe binaries are unchanged.
+- Core non-Android Kotlin source compiled with lightweight stubs; parser-oriented whole-source scan found no syntax markers.
+- Full Android Studio/Gradle build is still required on the user's machine.
+
+## Next roadmap feature after v0.9.11 passes
+
+Clip reordering:
+- first reliable mobile control: Move Left / Move Right for selected clip;
+- drag reorder can follow if practical;
+- then waveform-backed A1/A2/A3 tracks for source audio, music, and voiceover.
+
 
 ## Read these files first in a new chat
 
