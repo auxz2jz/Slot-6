@@ -2,9 +2,23 @@
 
 This is the compact Android-app release history used for handoff. The detailed FFmpeg upstream changelog in the repository is unrelated to these Android app versions.
 
-## v0.9.9.2 — ffprobe workspace race fix
+## v0.9.10 — Project Clip Manager
 
 **Candidate — awaiting Android Studio/device verification.**
+- versionCode 32.
+- Compact text-only Project clips list.
+- Individual Remove action for every clip.
+- Removing a clip closes the timeline gap and renumbers remaining clips.
+- Clear all clips now clears Clip 1 plus every added clip.
+- Add clips can rebuild a completely empty project.
+- v0.9.9.2 ffprobe workspace fix and Action Trace preserved.
+- Native binaries and encoding commands unchanged.
+- Candidate ZIP SHA-256: `b670037c8710eca9efc8cc4950ae2aec9b1d95a253ac85820ed0b740b6fd6e4a`.
+
+
+## v0.9.9.2 — ffprobe workspace race fix
+
+**Physically verified on-device with Action Trace. Concurrent/near-simultaneous analyses completed with unique workspaces and no current-session launch failure.**
 - versionCode 31.
 - Action Trace reproduced the ffprobe ProcessBuilder error=2 while the native binary was still present/executable.
 - Replaces millisecond-only probe temp directories with timestamp + UUID unique workspaces.
