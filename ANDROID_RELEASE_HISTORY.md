@@ -4,7 +4,7 @@ This is the compact Android-app release history used for handoff. The detailed F
 
 ## v0.9.10 — Project Clip Manager
 
-**Candidate — awaiting Android Studio/device verification.**
+**Accepted on-device as the working clip-management baseline. Remove/renumber, Clear All, and ffprobe regression behavior passed. One empty-project Add-clips edge path remains unproven.**
 - versionCode 32.
 - Compact text-only Project clips list.
 - Individual Remove action for every clip.
