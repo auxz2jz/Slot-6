@@ -1,6 +1,6 @@
 # FFmpeg Studio Android — Master Roadmap
 
-> **Checkpoint 2026-09-25:** v0.9.9.2 ffprobe workspace reliability fix is physically verified. **v0.9.10 (versionCode 32) Project Clip Manager candidate** adds text-only clip listing, individual removal, true Clear All, and empty-project repopulation.
+> **Checkpoint 2026-09-25:** v0.9.10 is the accepted working clip-management baseline. **v0.9.11 (versionCode 33) Selected Clip Trim/Split candidate** adds project-aware selection, non-destructive per-clip Trim/Split, and range-aware Join export; awaiting phone verification.
 
 This file is the **continuous master record** for the Slot-6 Android application. It tracks what is already working, what still needs to be implemented, and which work is likely to require rebuilding the native FFmpeg engine.
 
@@ -421,4 +421,10 @@ Kotlin + Jetpack Compose is the Android interface. FFmpeg remains the primary me
 - `DONE` Project clip list / individual removal — verified through repeated on-device removals and renumbering in v0.9.10.
 - `DONE` Clear-all project behavior — v0.9.10 Action Trace confirms primary, Clip 2, and additional clips all clear.
 - `TODO` Drag/touch reordering of clips.
-- `TODO` **NEXT:** Project-aware per-clip Trim/Split on the selected V1 clip (planned v0.9.11).
+- `PARTIAL` Project-aware per-clip Trim/Split — implemented in v0.9.11 candidate with selected-clip preview, non-destructive ranges, virtual split parts, and range-aware Join export; awaiting physical verification.
+
+
+# Next timeline ordering phase
+
+- `TODO` Selected-clip Move Left / Move Right controls for reliable mobile reordering.
+- `TODO` Drag reordering if practical after button-based reorder is verified.
