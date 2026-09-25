@@ -7,30 +7,35 @@ This file is the handoff entry point for the Android FFmpeg Studio project in **
 - Repository: `auxz2jz/Slot-6`
 - Android working branch: `native-android-v0.2`
 - Upstream/main branch is primarily the FFmpeg source tree; do not treat `main` as the Android app source of truth.
-- Current physically verified baseline: **v0.9.9.2 (versionCode 31)**. The user tested repeated multi-clip ffprobe analysis; the current v0.9.9.2 session showed unique workspaces and completed analyses without the prior launch failure.
+- Current working clip-management baseline: **v0.9.10 (versionCode 32)**. Remove/renumber, true Clear All, and ffprobe regression behavior were exercised successfully on-device; direct empty-project repopulation via Add clips alone remains an unproven edge path.
 - Current development source package: `FFmpegStudioAndroid-native-v0.9.10-clip-manager-candidate.zip`
 - Current native FFmpeg/ffprobe ARM64 binaries have intentionally remained unchanged through the recent Kotlin/UI feature releases.
 
-## Current unverified candidate — v0.9.10
+## Current verified/accepted baseline — v0.9.10
 
-The active candidate is **Project Clip Manager**.
+- Version: **v0.9.10 (versionCode 32)**
+- Artifact: `FFmpegStudioAndroid-native-v0.9.10-clip-manager-candidate.zip`
+- SHA-256: `b670037c8710eca9efc8cc4950ae2aec9b1d95a253ac85820ed0b740b6fd6e4a`
+- User Action Trace confirms repeated per-clip Remove actions, gap closing/renumbering, and true Clear All.
+- Clear All recorded primary source -> none, clip2 -> none, and additional clips -> 0.
+- v0.9.10 current session contains no ERROR entries and no ffprobe launch failure entries.
+- Probe regression test loaded many clips, removed several, and repeatedly re-analyzed them successfully.
+- Caveat: the exact path Clear All -> Add clips into a completely empty project without first choosing a primary source was not clearly exercised in the trace.
+- v0.9.9.2 unique ffprobe workspace fix remains preserved.
 
-- Candidate version: **v0.9.10 (versionCode 32)**
-- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.10-clip-manager-candidate.zip`
-- Candidate SHA-256: `b670037c8710eca9efc8cc4950ae2aec9b1d95a253ac85820ed0b740b6fd6e4a`
-- Direct base: physically verified v0.9.9.2.
-- Project clips now have a compact text-only list with clip number/name and an individual Remove action.
-- Removing any clip closes the gap and renumbers/rebuilds the remaining V1 project in order.
-- Clear all clips now removes Clip 1 plus every added clip, leaving a genuinely empty project.
-- Add clips can repopulate a completely empty project; first selected becomes Clip 1, second becomes Clip 2, remaining selections become Clip 3+.
-- Project runtime/ruler follows the rebuilt clip list automatically.
-- v0.9.9.2 unique ffprobe workspace fix and Action Trace recorder are preserved.
-- Native FFmpeg/ffprobe binaries and encoding commands are unchanged.
-- Full Android Studio/device verification is required.
+## Next feature — v0.9.11 planned
 
-### v0.9.9.2 verification carried forward
-The user exported three Action Trace reports after testing. The current v0.9.9.2 session repeatedly created unique workspace IDs, including multiple probes launched almost simultaneously, and those analyses completed successfully. No current-session ffprobe launch failure/error was found. Older v0.9.9.1 failures remain in the cumulative trace history and should not be mistaken for v0.9.9.2 failures.
+**Selected Clip Trim/Split in the unified Editor.**
 
+Planned behavior:
+- tap/select a clip in V1 or the Project clips list;
+- same large preview switches to that selected clip;
+- Trim In/Out targets the selected clip rather than Clip 1 only;
+- Split at the playhead targets the selected clip;
+- project order, V1, runtime, ruler, and clip list update after the edit;
+- other clips remain unchanged;
+- Action Trace logs selected clip and edit actions.
+- Clip reordering follows after this feature.
 
 ## Read these files first in a new chat
 
