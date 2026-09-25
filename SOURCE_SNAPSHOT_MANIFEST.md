@@ -346,6 +346,32 @@ Changes:
 - v0.9.9.2 ffprobe fix/Action Trace preserved;
 - native hashes preserved.
 
+## Current v0.9.11 selected-clip edit candidate
+
+Artifact:
+`FFmpegStudioAndroid-native-v0.9.11-selected-clip-edit-candidate.zip`
+
+App version:
+- versionName: `0.9.11`
+- versionCode: `33`
+
+SHA-256:
+`7c5f8b528f95ec67cdcfd600c977132c5dba765af6762495c60c3cae6d8e476b`
+
+Direct base:
+- accepted v0.9.10 Project Clip Manager.
+
+Changes:
+- selected project clip state;
+- per-clip source start/end ranges;
+- non-destructive project Trim;
+- virtual project Split;
+- selected-clip preview/scrub/playback offsets;
+- range-aware Fast Join via inpoint/outpoint;
+- range-aware Normalize & Join via trim/atrim;
+- project duration/ruler/size estimation follows edits;
+- native binary hashes preserved.
+
 ## Packaged native binaries
 
 These binaries were intentionally kept unchanged across the recent Kotlin/UI releases.
@@ -439,7 +465,7 @@ Before editing in a new chat:
 
 ## Next source change
 
-Build and verify **v0.9.10 Project Clip Manager** using `V09910_TEST_PLAN.md`.
+Build and verify **v0.9.11 Selected Clip Trim/Split** using `V09911_TEST_PLAN.md`.
 
 Do not modify native ffprobe handling unless the intermittent v0.9.8.1-style failure is reproduced with a v0.9.9 Action Trace showing what changed at the failure point.
 
