@@ -7,8 +7,7 @@ This file is the handoff entry point for the Android FFmpeg Studio project in **
 - Repository: `auxz2jz/Slot-6`
 - Android working branch: `native-android-v0.2`
 - Upstream/main branch is primarily the FFmpeg source tree; do not treat `main` as the Android app source of truth.
-- Current verified editor baseline: **v0.9.11 (versionCode 33)**. Selected-clip Trim/Split and edited Fast Join are physically accepted; output diagnostics showed repeated non-monotonic DTS corrections at edited stream-copy boundaries, so timestamp cleanup is the first v0.9.12 reliability task.
-- Current development source package: `FFmpegStudioAndroid-native-v0.9.12-timestamp-reorder-candidate.zip`
+- Current verified editor baseline: **v0.9.12 (versionCode 34)**. Selected-clip Trim/Split, Move left/right reordering, and timestamp-safe edited Fast Join are physically verified.- Current development source package: `FFmpegStudioAndroid-native-v0.9.12-timestamp-reorder-candidate.zip`
 - Current native FFmpeg/ffprobe ARM64 binaries have intentionally remained unchanged through the recent Kotlin/UI feature releases.
 
 ## Current verified/accepted baseline — v0.9.10
@@ -33,28 +32,25 @@ This file is the handoff entry point for the Android FFmpeg Studio project in **
 - Reliability issue discovered: FFmpeg emitted repeated non-monotonic DTS corrections at edited stream-copy clip boundaries.
 - Existing automatic observations did not flag that warning class.
 
-## Current unverified candidate — v0.9.12
+## Current verified baseline — v0.9.12
 
-**Timestamp-safe edited Fast Join + selected-clip reordering.**
+- Version: **v0.9.12 (versionCode 34)**
+- Artifact: `FFmpegStudioAndroid-native-v0.9.12-timestamp-reorder-candidate.zip`
+- SHA-256: `f10d146c2def12191d8c048312759cf1422dbee51fba69acd57dffaf43bf93f2`
+- User physically exercised selected Trim/Split, clip reordering, and edited Fast Join.
+- Current verification session: `CBB35F9E`
+- Verification run: `20260926-140845-240-2581C6`
+- Split Clip 2 at 15.465 s, then moved `_part2` from project position 3 to 4.
+- Trimmed project Clip 1 to 25.613 s.
+- Final Fast Join order: full/trimmed Clip 1, split part1, normal clip, split part2.
+- Fast Join used timestamp-safe edited-segment preparation.
+- Edited clips 1, 2, and 4 were prepared successfully before final concat.
+- Final job completed successfully with no current-session ERROR events.
+- Full Extended report contains no `Non-monotonic DTS` warnings.
+- Finished H.264/AC3 MKV passed packet/IDR and 10/50/90% container seek probes.
+- v0.9.12 is physically accepted as the new editor/media baseline.
 
-- Candidate version: **v0.9.12 (versionCode 34)**
-- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.12-timestamp-reorder-candidate.zip`
-- Candidate SHA-256: `f10d146c2def12191d8c048312759cf1422dbee51fba69acd57dffaf43bf93f2`
-- Direct base: physically accepted v0.9.11.
-- Any selected project clip can Move left / Move right.
-- Split `_part1` / `_part2` clips reorder exactly like normal clips.
-- URI, display name and non-destructive source range move together.
-- Selected marker follows the moved clip.
-- Edited/ranged Fast Join no longer passes concat-demuxer `inpoint`/`outpoint` directly.
-- Ranged clips are first remuxed into timestamp-clean temporary MKV stream-copy segments, then final concat uses those clean files.
-- Untouched Fast Join clips remain direct inputs.
-- Normalize & Join keeps its existing trim/atrim path.
-- Automatic observations now flag/count `Non-monotonic DTS` warnings.
-- Local synthetic H.264/AC3 reproduction: old direct inpoint/outpoint path produced many non-monotonic DTS warnings; new prepared-segment path produced zero.
-- Native FFmpeg/ffprobe hashes unchanged.
-- Full Android Studio build and physical phone verification still required.
-
-## Next roadmap feature after v0.9.11 passes
+## Next roadmap feature
 
 Clip reordering is now the active v0.9.12 feature:
 - first reliable mobile control: Move Left / Move Right for selected clip;
