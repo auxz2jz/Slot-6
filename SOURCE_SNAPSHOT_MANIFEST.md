@@ -372,6 +372,29 @@ Changes:
 - project duration/ruler/size estimation follows edits;
 - native binary hashes preserved.
 
+## Current v0.9.12 timestamp/reorder candidate
+
+Artifact:
+`FFmpegStudioAndroid-native-v0.9.12-timestamp-reorder-candidate.zip`
+
+App version:
+- versionName: `0.9.12`
+- versionCode: `34`
+
+SHA-256:
+`f10d146c2def12191d8c048312759cf1422dbee51fba69acd57dffaf43bf93f2`
+
+Direct base:
+- physically accepted v0.9.11 Selected Clip Trim/Split.
+
+Changes:
+- selected project clip Move left / Move right;
+- split parts reorder like normal clips with source ranges preserved;
+- ranged Fast Join clips prepared as clean temporary MKV stream-copy segments before concat;
+- automatic non-monotonic DTS observation;
+- edited Fast Join diagnostic settings identify prepared-segment path;
+- native binary hashes preserved.
+
 ## Packaged native binaries
 
 These binaries were intentionally kept unchanged across the recent Kotlin/UI releases.
