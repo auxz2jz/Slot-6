@@ -1,6 +1,6 @@
 # FFmpeg Studio Android — Master Roadmap
 
-> **Checkpoint 2026-09-25:** v0.9.10 is the accepted working clip-management baseline. **v0.9.11 (versionCode 33) Selected Clip Trim/Split candidate** adds project-aware selection, non-destructive per-clip Trim/Split, and range-aware Join export; awaiting phone verification.
+> **Checkpoint 2026-09-26:** **v0.9.11 (versionCode 33) Selected Clip Trim/Split is physically accepted.** v0.9.12 is the active reliability/editor increment: timestamp-safe ranged Fast Join plus Move Left / Move Right clip reordering.
 
 This file is the **continuous master record** for the Slot-6 Android application. It tracks what is already working, what still needs to be implemented, and which work is likely to require rebuilding the native FFmpeg engine.
 
@@ -421,10 +421,10 @@ Kotlin + Jetpack Compose is the Android interface. FFmpeg remains the primary me
 - `DONE` Project clip list / individual removal — verified through repeated on-device removals and renumbering in v0.9.10.
 - `DONE` Clear-all project behavior — v0.9.10 Action Trace confirms primary, Clip 2, and additional clips all clear.
 - `TODO` Drag/touch reordering of clips.
-- `PARTIAL` Project-aware per-clip Trim/Split — implemented in v0.9.11 candidate with selected-clip preview, non-destructive ranges, virtual split parts, and range-aware Join export; awaiting physical verification.
+- `DONE` Project-aware per-clip Trim/Split — physically accepted in v0.9.11 with selected-clip preview, non-destructive ranges, virtual split parts, and range-aware Join export.
 
 
 # Next timeline ordering phase
 
-- `TODO` Selected-clip Move Left / Move Right controls for reliable mobile reordering.
+- `IN PROGRESS` Selected-clip Move Left / Move Right controls for reliable mobile reordering — active v0.9.12 task.
 - `TODO` Drag reordering if practical after button-based reorder is verified.
