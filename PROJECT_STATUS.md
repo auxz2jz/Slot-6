@@ -4,9 +4,11 @@
 **Repository:** auxz2jz/Slot-6  
 **Android branch:** native-android-v0.2  
 **Current verified editor/media baseline:** v0.9.12 (versionCode 34), timestamp-safe edited Fast Join + clip reorder physically accepted
-**Current unverified candidate:** none; v0.9.12 is physically accepted
+**Current unverified candidate:** v0.9.13 (versionCode 35), V1 long-press drag reorder
 **Verified artifact:** `FFmpegStudioAndroid-native-v0.9.12-timestamp-reorder-candidate.zip`
+**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.13-drag-reorder-candidate.zip`
 **Verified SHA-256:** `f10d146c2def12191d8c048312759cf1422dbee51fba69acd57dffaf43bf93f2`
+**Candidate SHA-256:** `34d61ef862a0f8d63064de3c47d00d8eaad58d0457d8b0f4f6c7dc91490ce220`
 
 This file records the current state that should be carried into a new chat.
 
@@ -681,5 +683,23 @@ Proven:
 
 Status:
 **v0.9.12 physically accepted.**
+
+## v0.9.13 candidate status
+
+Direct base: physically verified v0.9.12.
+
+Implemented:
+- long-press drag reordering directly on V1;
+- dragged clip visually translates while the gesture is active;
+- one drag can move one or more positions;
+- split parts drag like normal clips;
+- existing Move left / Move right remains available;
+- ordinary timeline scrolling remains a normal swipe; reorder requires long press;
+- Action Trace emits a semantic drag-reorder request before the existing final move event;
+- media processing code is unchanged.
+
+Test requirement:
+- NO ENCODE REQUIRED;
+- build a 4+ clip project, include a split part, drag both split and normal clips in both directions, verify V1 and Project clips order/ranges agree.
 
 ## Current working product
