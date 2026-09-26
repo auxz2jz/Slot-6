@@ -529,3 +529,32 @@ Local engineering checks:
 
 Status:
 **Candidate only. Android Studio compile/install and physical phone verification required.**
+
+
+## v0.9.11 Selected Clip Trim/Split phone verification
+
+User reports the feature works.
+
+Diagnostic run:
+- Run ID: `20260926-030446-203-916FA2`
+- App: v0.9.11 / versionCode 33
+- Status: Completed
+- Fast Join, 4 project clips
+- Recorded project ranges:
+  - Clip 1: 0.000-30.303
+  - Clip 2: 2.769-26.025
+  - Clip 3: 0.000-4.429
+  - Clip 4: 4.429-30.303
+- Finished duration: 83.897 s, closely matching the edited project sum.
+- H.264/AC3 source streams preserved.
+- 91 H.264 keyframe packets / 91 IDR units.
+- 10%, 50%, and 90% container seek probes succeeded.
+- No conversion failure or exception.
+
+New reliability evidence:
+- FFmpeg logged repeated `Non-monotonic DTS` corrections at edited stream-copy boundaries.
+- Current automatic observations did not flag this.
+- v0.9.12 should remove the inpoint/outpoint timestamp overlap by preparing clean ranged segments before concat and add a diagnostic rule for any remaining non-monotonic DTS warning.
+
+Status:
+**v0.9.11 physically accepted.**
