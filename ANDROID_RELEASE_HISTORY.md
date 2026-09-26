@@ -2,9 +2,19 @@
 
 This is the compact Android-app release history used for handoff. The detailed FFmpeg upstream changelog in the repository is unrelated to these Android app versions.
 
+## v0.9.12 — Timestamp-safe edited Join + Clip Reorder
+
+**Planned / implementation starting.**
+- preserve v0.9.11 selected Trim/Split;
+- eliminate edited concat inpoint/outpoint timestamp overlap by preparing clean temporary ranged MKV segments before final Fast Join;
+- add non-monotonic DTS automatic diagnostic observation;
+- add Move Left / Move Right for any project clip, including split parts;
+- drag reorder remains later.
+
+
 ## v0.9.11 — Selected Clip Trim/Split
 
-**Candidate — awaiting Android Studio/device verification.**
+**Physically accepted on-device.**
 - versionCode 33.
 - Select any project clip from V1 or text list.
 - Same large preview follows selected clip.
