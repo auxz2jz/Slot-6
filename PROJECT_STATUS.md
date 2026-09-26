@@ -3,10 +3,10 @@
 **Last checkpoint:** 2026-09-22  
 **Repository:** auxz2jz/Slot-6  
 **Android branch:** native-android-v0.2  
-**Current verified editor/media baseline:** v0.9.11 (versionCode 33), Selected Clip Trim/Split physically accepted
-**Current unverified candidate:** v0.9.12 (versionCode 34), Timestamp-safe edited Fast Join + Clip Reorder
-**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.12-timestamp-reorder-candidate.zip`
-**Candidate SHA-256:** `f10d146c2def12191d8c048312759cf1422dbee51fba69acd57dffaf43bf93f2`
+**Current verified editor/media baseline:** v0.9.12 (versionCode 34), timestamp-safe edited Fast Join + clip reorder physically accepted
+**Current unverified candidate:** none; v0.9.12 is physically accepted
+**Verified artifact:** `FFmpegStudioAndroid-native-v0.9.12-timestamp-reorder-candidate.zip`
+**Verified SHA-256:** `f10d146c2def12191d8c048312759cf1422dbee51fba69acd57dffaf43bf93f2`
 
 This file records the current state that should be carried into a new chat.
 
@@ -657,5 +657,29 @@ Engineering validation:
 - No `Non-monotonic DTS` warning appears in the full Extended report.
 - This run does **not** prove the new timestamp-safe edited Fast Join preparation path, because Fast Join was not selected.
 - The conversion report does not contain Move left / Move right Action Trace events, so clip-reorder button behavior cannot be proven from these two reports alone.
+
+## v0.9.12 final phone verification — PASS
+
+Verification session: `CBB35F9E`
+Run ID: `20260926-140845-240-2581C6`
+
+Proven:
+- Split Clip 2 at 15.465 s.
+- Selected split `_part2` and moved it from project position 3 to 4.
+- Trimmed project Clip 1 to 25.613 s.
+- Final project order reaching conversion was:
+  1. jellyfish source range 0-25.613
+  2. jellyfish_part1 range 0-15.465
+  3. normal jellyfish range 0-30.303
+  4. jellyfish_part2 range 15.465-30.303
+- Fast Join explicitly used timestamp-safe edited-segment preparation.
+- Edited clips 1, 2, and 4 were prepared before final concat.
+- Conversion completed.
+- No current-session ERROR events.
+- No `Non-monotonic DTS` warning in the Extended report.
+- Finished H.264/AC3 output remained seekable and structurally healthy.
+
+Status:
+**v0.9.12 physically accepted.**
 
 ## Current working product
