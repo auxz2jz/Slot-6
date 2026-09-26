@@ -577,3 +577,24 @@ Synthetic FFmpeg reproduction:
 
 Status:
 **Candidate only. Android Studio compile/install and physical phone verification required.**
+
+
+## v0.9.12 device run — Normalize & Join partial pass
+
+Run ID: `20260926-135501-657-F08DE8`
+
+Confirmed:
+- app v0.9.12 / versionCode 34;
+- job completed successfully;
+- mixed HEVC/H.264 project normalized to 3840x1600 H.264 hardware + AAC stereo;
+- project ranges were honored;
+- finished duration 72.641 s closely matched the edited project total;
+- automatic H.264 MKV seek-index finalization succeeded;
+- container seek probes succeeded;
+- no non-monotonic DTS warning appears in the Extended report.
+
+Not yet proven by this run:
+- timestamp-safe **Fast Join** prepared-segment path (this run used Normalize & Join);
+- Move left / Move right UI behavior (Action Trace was not included in these uploads).
+
+Status: **PARTIAL v0.9.12 verification; no regression found in Normalize & Join.**
