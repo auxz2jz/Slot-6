@@ -4,13 +4,16 @@ This is the compact Android-app release history used for handoff. The detailed F
 
 ## v0.9.12 — Timestamp-safe edited Join + Clip Reorder
 
-**Planned / implementation starting.**
-- preserve v0.9.11 selected Trim/Split;
-- eliminate edited concat inpoint/outpoint timestamp overlap by preparing clean temporary ranged MKV segments before final Fast Join;
-- add non-monotonic DTS automatic diagnostic observation;
-- add Move Left / Move Right for any project clip, including split parts;
-- drag reorder remains later.
-
+**Candidate — awaiting Android Studio/device verification.**
+- versionCode 34.
+- Move left / Move right for selected project clip.
+- Split parts reorder exactly like normal clips.
+- Edited Fast Join prepares ranged clips as timestamp-clean temporary MKV stream-copy segments before final concat.
+- Direct concat inpoint/outpoint is no longer used for edited Fast Join.
+- Automatic diagnostics flag/count non-monotonic DTS warnings.
+- Local synthetic edited concat reproduced the v0.9.11 warning and showed zero such warnings with the new preparation path.
+- Native engine hashes preserved.
+- Candidate SHA-256: `f10d146c2def12191d8c048312759cf1422dbee51fba69acd57dffaf43bf93f2`.
 
 ## v0.9.11 — Selected Clip Trim/Split
 
