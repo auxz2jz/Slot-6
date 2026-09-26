@@ -3,10 +3,10 @@
 **Last checkpoint:** 2026-09-22  
 **Repository:** auxz2jz/Slot-6  
 **Android branch:** native-android-v0.2  
-**Current verified editor/media baseline:** v0.9.10 (versionCode 32), Project Clip Manager accepted on-device
-**Current unverified candidate:** v0.9.11 (versionCode 33), Selected Clip Trim/Split
-**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.11-selected-clip-edit-candidate.zip`
-**Candidate SHA-256:** `7c5f8b528f95ec67cdcfd600c977132c5dba765af6762495c60c3cae6d8e476b`
+**Current verified editor/media baseline:** v0.9.11 (versionCode 33), Selected Clip Trim/Split physically accepted
+**Current unverified candidate:** v0.9.12 planned — timestamp-safe edited Fast Join + clip reorder
+**Candidate artifact:** not packaged yet
+**Candidate SHA-256:** pending
 
 This file records the current state that should be carried into a new chat.
 
@@ -603,5 +603,28 @@ Validation:
 - whole-source parser scan found no obvious Kotlin syntax errors;
 - synthetic FFmpeg range tests confirmed the concat inpoint/outpoint and normalized trim/atrim strategies;
 - full Android Studio build/device test remains required.
+
+## v0.9.11 phone verification — accepted
+
+User reports the selected-clip Trim/Split workflow works.
+
+Diagnostic run `20260926-030446-203-916FA2` proves:
+- edited project ranges reached Fast Join;
+- output completed successfully;
+- output duration followed the edited project duration;
+- H.264/AC3 streams were preserved;
+- keyframe/IDR structure and container seek probes were healthy.
+
+Reliability follow-up:
+FFmpeg emitted repeated non-monotonic DTS corrections at edited stream-copy boundaries. v0.9.12 will clean edited segments before concat and add an automatic diagnostic rule for this warning.
+
+## v0.9.12 current task
+
+1. Preserve v0.9.11 behavior.
+2. For edited/ranged Fast Join clips, create timestamp-clean temporary stream-copy MKV segments before final concat.
+3. Keep untouched Fast Join clips on the direct path when no ranges exist.
+4. Add automatic diagnostics for non-monotonic DTS.
+5. Add Move Left / Move Right for any selected project clip, including split parts.
+6. Keep drag reorder for later, after button reorder is verified.
 
 ## Current working product
