@@ -7,7 +7,7 @@ This file is the handoff entry point for the Android FFmpeg Studio project in **
 - Repository: `auxz2jz/Slot-6`
 - Android working branch: `native-android-v0.2`
 - Upstream/main branch is primarily the FFmpeg source tree; do not treat `main` as the Android app source of truth.
-- Current verified editor baseline: **v0.9.12 (versionCode 34)**. Selected-clip Trim/Split, Move left/right reordering, and timestamp-safe edited Fast Join are physically verified.- Current development source package: `FFmpegStudioAndroid-native-v0.9.12-timestamp-reorder-candidate.zip`
+- Current verified editor baseline: **v0.9.12 (versionCode 34)**. Selected-clip Trim/Split, Move left/right reordering, and timestamp-safe edited Fast Join are physically verified.- Current development source package: `FFmpegStudioAndroid-native-v0.9.13-drag-reorder-candidate.zip`
 - Current native FFmpeg/ffprobe ARM64 binaries have intentionally remained unchanged through the recent Kotlin/UI feature releases.
 
 ## Current verified/accepted baseline — v0.9.10
@@ -52,11 +52,7 @@ This file is the handoff entry point for the Android FFmpeg Studio project in **
 
 ## Next roadmap feature
 
-Clip reordering is now the active v0.9.12 feature:
-- first reliable mobile control: Move Left / Move Right for selected clip;
-- drag reorder can follow after button-based reorder is physically verified;
-- then waveform-backed A1/A2/A3 tracks for source audio, music, and voiceover.
-
+v0.9.13 drag reorder is the current candidate. After it passes, begin waveform-backed A1/A2/A3 audio tracks.
 
 ## Read these files first in a new chat
 
