@@ -646,4 +646,16 @@ Engineering validation:
 - parser-oriented Kotlin scan showed no new syntax markers;
 - full Android Studio build/device test remains required.
 
+## v0.9.12 device run 20260926-135501-657-F08DE8
+
+**PARTIAL verification.**
+- App v0.9.12 / versionCode 34 completed successfully on Samsung SM-S908U1 / Android 16.
+- This run used **Normalize & Join**, not Fast Join.
+- Project order at conversion time: Star Trek H.265 part1 segment first, then two Jellyfish H.264 clips.
+- Project ranges: 11.990 s + 30.303 s + 30.303 s; finished duration 72.641 s, closely matching expected edited runtime.
+- Normalize & Join trim/atrim path, mixed codec/resolution normalization, H.264 hardware encode, AAC stereo normalization, automatic H.264 MKV seek-index finalization, and finished-file seek probes all completed successfully.
+- No `Non-monotonic DTS` warning appears in the full Extended report.
+- This run does **not** prove the new timestamp-safe edited Fast Join preparation path, because Fast Join was not selected.
+- The conversion report does not contain Move left / Move right Action Trace events, so clip-reorder button behavior cannot be proven from these two reports alone.
+
 ## Current working product
