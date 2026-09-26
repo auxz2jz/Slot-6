@@ -7,7 +7,7 @@ This file is the handoff entry point for the Android FFmpeg Studio project in **
 - Repository: `auxz2jz/Slot-6`
 - Android working branch: `native-android-v0.2`
 - Upstream/main branch is primarily the FFmpeg source tree; do not treat `main` as the Android app source of truth.
-- Current working clip-management baseline: **v0.9.10 (versionCode 32)**. Remove/renumber, true Clear All, and ffprobe regression behavior were exercised successfully on-device; direct empty-project repopulation via Add clips alone remains an unproven edge path.
+- Current verified editor baseline: **v0.9.11 (versionCode 33)**. Selected-clip Trim/Split and edited Fast Join are physically accepted; output diagnostics showed repeated non-monotonic DTS corrections at edited stream-copy boundaries, so timestamp cleanup is the first v0.9.12 reliability task.
 - Current development source package: `FFmpegStudioAndroid-native-v0.9.11-selected-clip-edit-candidate.zip`
 - Current native FFmpeg/ffprobe ARM64 binaries have intentionally remained unchanged through the recent Kotlin/UI feature releases.
 
@@ -20,34 +20,36 @@ This file is the handoff entry point for the Android FFmpeg Studio project in **
 - Remove/renumber, true Clear All, and ffprobe regression behavior passed.
 - One edge path remains unproven: Clear All -> Add clips directly while completely empty without first selecting a primary source.
 
-## Current unverified candidate — v0.9.11
+## Current verified baseline — v0.9.11
 
-The active candidate is **Selected Clip Trim/Split**.
+- Version: **v0.9.11 (versionCode 33)**
+- Artifact: `FFmpegStudioAndroid-native-v0.9.11-selected-clip-edit-candidate.zip`
+- SHA-256: `7c5f8b528f95ec67cdcfd600c977132c5dba765af6762495c60c3cae6d8e476b`
+- User reports the feature works.
+- Diagnostic run `20260926-030446-203-916FA2` completed successfully.
+- Four edited project ranges reached Fast Join: full Clip 1, trimmed Clip 2, and two virtual split ranges.
+- Finished output duration matched the edited project duration within normal stream-copy/keyframe tolerance.
+- Finished H.264/AC3 MKV passed keyframe/IDR and 10/50/90% container seek probes.
+- Reliability issue discovered: FFmpeg emitted repeated non-monotonic DTS corrections at edited stream-copy clip boundaries.
+- Existing automatic observations did not flag that warning class.
 
-- Candidate version: **v0.9.11 (versionCode 33)**
-- Candidate artifact: `FFmpegStudioAndroid-native-v0.9.11-selected-clip-edit-candidate.zip`
-- Candidate SHA-256: `7c5f8b528f95ec67cdcfd600c977132c5dba765af6762495c60c3cae6d8e476b`
-- Direct base: accepted v0.9.10 source.
-- Any project clip can be selected from V1 or the Project clips list.
-- Selected row is marked with ▶ and selected V1 block gets a top highlight.
-- Same large preview follows selected clip and respects segment source offsets.
-- Trim In/Out now targets selected project clip rather than Clip 1 only.
-- Project Trim is non-destructive: it updates that clip's source range without creating a media file.
-- Split at playhead targets selected project clip and replaces it with adjacent _part1/_part2 virtual segments referencing the same source.
-- Project V1, clip list, ruler, runtime and size estimates rebuild from edited segment durations.
-- Fast Join writes edited ranges into concat-demuxer `inpoint`/`outpoint` entries.
-- Normalize & Join applies `trim/atrim` before normalization/concat.
-- One-clip Join projects are supported so a single clip can be split before another source is added.
-- v0.9.10 Clip Manager, v0.9.9.2 ffprobe workspace fix, Action Trace, and H.264/MKV seek repair are preserved.
-- Native FFmpeg/ffprobe binaries are unchanged.
-- Core non-Android Kotlin source compiled with lightweight stubs; parser-oriented whole-source scan found no syntax markers.
-- Full Android Studio/Gradle build is still required on the user's machine.
+## Current planned candidate — v0.9.12
+
+**Timestamp-safe edited Fast Join + selected-clip reordering.**
+
+Planned behavior:
+- preserve v0.9.11 non-destructive Trim/Split;
+- pre-remux edited/ranged stream-copy clips into clean temporary MKV segments before final concat, avoiding concat-demuxer inpoint/outpoint pre-roll timestamp overlap;
+- add automatic diagnostics for non-monotonic DTS warnings;
+- allow any selected project clip, including split parts, to Move Left / Move Right;
+- preserve the same single V1 timeline and large preview;
+- Action Trace records reorder actions.
 
 ## Next roadmap feature after v0.9.11 passes
 
-Clip reordering:
+Clip reordering is now the active v0.9.12 feature:
 - first reliable mobile control: Move Left / Move Right for selected clip;
-- drag reorder can follow if practical;
+- drag reorder can follow after button-based reorder is physically verified;
 - then waveform-backed A1/A2/A3 tracks for source audio, music, and voiceover.
 
 
