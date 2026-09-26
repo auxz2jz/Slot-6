@@ -2,6 +2,19 @@
 
 This is the compact Android-app release history used for handoff. The detailed FFmpeg upstream changelog in the repository is unrelated to these Android app versions.
 
+## v0.9.13 — V1 Drag Reorder
+
+**Candidate — awaiting Android Studio/device verification.**
+- versionCode 35.
+- Long-press + drag directly on V1 to reorder project clips.
+- Supports normal and split clips.
+- Large drag can move more than one position.
+- Existing Move left / Move right controls remain.
+- Timeline scroll remains a normal swipe; reorder requires long press.
+- No media-processing/native-engine changes.
+- Candidate SHA-256: `34d61ef862a0f8d63064de3c47d00d8eaad58d0457d8b0f4f6c7dc91490ce220`.
+
+
 ## v0.9.12 — Timestamp-safe edited Join + Clip Reorder
 
 **Physically accepted on-device.**
