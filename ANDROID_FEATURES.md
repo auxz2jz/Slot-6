@@ -1,6 +1,6 @@
 # FFmpeg Studio Android — Master Roadmap
 
-> **Checkpoint 2026-09-26:** **v0.9.11 (versionCode 33) Selected Clip Trim/Split is physically accepted.** v0.9.12 is the active reliability/editor increment: timestamp-safe ranged Fast Join plus Move Left / Move Right clip reordering.
+> **Checkpoint 2026-09-26:** v0.9.11 is physically accepted. **v0.9.12 (versionCode 34) candidate** adds selected-clip Move left/right reordering plus timestamp-safe edited Fast Join segment preparation; awaiting phone verification.
 
 This file is the **continuous master record** for the Slot-6 Android application. It tracks what is already working, what still needs to be implemented, and which work is likely to require rebuilding the native FFmpeg engine.
 
@@ -426,5 +426,5 @@ Kotlin + Jetpack Compose is the Android interface. FFmpeg remains the primary me
 
 # Next timeline ordering phase
 
-- `IN PROGRESS` Selected-clip Move Left / Move Right controls for reliable mobile reordering — active v0.9.12 task.
+- `PARTIAL` Selected-clip Move Left / Move Right controls — implemented in v0.9.12 candidate, including split parts; awaiting physical verification.
 - `TODO` Drag reordering if practical after button-based reorder is verified.
