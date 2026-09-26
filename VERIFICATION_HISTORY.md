@@ -598,3 +598,31 @@ Not yet proven by this run:
 - Move left / Move right UI behavior (Action Trace was not included in these uploads).
 
 Status: **PARTIAL v0.9.12 verification; no regression found in Normalize & Join.**
+
+
+## v0.9.12 final phone verification — PASS
+
+Session: `CBB35F9E`
+Run: `20260926-140845-240-2581C6`
+
+Action Trace proves:
+- project Clip 2 split at 15.465 s into virtual parts;
+- `jellyfish-55-mbps-hd-h264_part2.mkv` selected at position 3;
+- selected part moved from position 3 to position 4;
+- project clip ranges updated after reorder;
+- project Clip 1 trimmed to 25.613 s;
+- timestamp-safe Fast Join segment preparation ran for edited clips 1, 2, and 4;
+- conversion completed with no current-session ERROR event.
+
+Diagnostic report proves:
+- Fast stream-copy Join, 4 clips;
+- prepared edited segment path active;
+- final project ranges 25.613 / 15.465 / 30.303 / 15.465-30.303;
+- output H.264 + AC3 stream copy;
+- finished duration 86.427 s;
+- 92 packet keyframes / 92 IDR units;
+- 10%, 50%, 90% container seek probes succeeded;
+- no non-monotonic DTS warnings in the full Extended report.
+
+Status:
+**v0.9.12 physically accepted and supersedes v0.9.11 as the verified baseline.**
