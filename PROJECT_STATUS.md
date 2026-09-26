@@ -4,9 +4,9 @@
 **Repository:** auxz2jz/Slot-6  
 **Android branch:** native-android-v0.2  
 **Current verified editor/media baseline:** v0.9.11 (versionCode 33), Selected Clip Trim/Split physically accepted
-**Current unverified candidate:** v0.9.12 planned — timestamp-safe edited Fast Join + clip reorder
-**Candidate artifact:** not packaged yet
-**Candidate SHA-256:** pending
+**Current unverified candidate:** v0.9.12 (versionCode 34), Timestamp-safe edited Fast Join + Clip Reorder
+**Candidate artifact:** `FFmpegStudioAndroid-native-v0.9.12-timestamp-reorder-candidate.zip`
+**Candidate SHA-256:** `f10d146c2def12191d8c048312759cf1422dbee51fba69acd57dffaf43bf93f2`
 
 This file records the current state that should be carried into a new chat.
 
@@ -626,5 +626,24 @@ FFmpeg emitted repeated non-monotonic DTS corrections at edited stream-copy boun
 4. Add automatic diagnostics for non-monotonic DTS.
 5. Add Move Left / Move Right for any selected project clip, including split parts.
 6. Keep drag reorder for later, after button reorder is verified.
+
+## v0.9.12 candidate status
+
+Implemented from physically accepted v0.9.11:
+- selected-clip Move left / Move right in the unified V1 editor;
+- split parts reorder like normal clips and keep their source ranges;
+- Action Trace logs reorder operations;
+- edited Fast Join prepares ranged clips as clean temporary MKV stream-copy segments before concat;
+- final concat no longer uses direct inpoint/outpoint directives on edited sources;
+- Normalize & Join range handling remains unchanged;
+- automatic diagnostic observation added for non-monotonic DTS warnings;
+- settings report identifies timestamp-safe edited-segment preparation;
+- native engine binaries unchanged.
+
+Engineering validation:
+- synthetic H.264/AC3 edited concat reproduced non-monotonic DTS warnings with the old direct inpoint/outpoint strategy;
+- the new prepared-segment strategy completed the same synthetic concat with zero non-monotonic DTS warnings;
+- parser-oriented Kotlin scan showed no new syntax markers;
+- full Android Studio build/device test remains required.
 
 ## Current working product
