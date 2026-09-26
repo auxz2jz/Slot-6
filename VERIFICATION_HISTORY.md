@@ -626,3 +626,24 @@ Diagnostic report proves:
 
 Status:
 **v0.9.12 physically accepted and supersedes v0.9.11 as the verified baseline.**
+
+
+## v0.9.13 drag reorder candidate
+
+Direct base:
+- physically verified v0.9.12.
+
+Implementation scope:
+- V1 long-press drag reorder only;
+- existing button reorder preserved;
+- project URI/name/range movement still uses the verified v0.9.12 reorder function;
+- no conversion/native-engine changes.
+
+Static engineering checks:
+- source ZIP hash matched the verified v0.9.12 baseline before editing;
+- native FFmpeg/ffprobe hashes remain unchanged;
+- changed Kotlin source has balanced delimiters and no parser-level syntax marker from the lightweight compiler scan;
+- full Android Studio build/device test remains required.
+
+Status:
+**Candidate only.**
