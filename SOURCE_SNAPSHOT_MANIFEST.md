@@ -395,6 +395,29 @@ Changes:
 - edited Fast Join diagnostic settings identify prepared-segment path;
 - native binary hashes preserved.
 
+## Current v0.9.13 drag-reorder candidate
+
+Artifact:
+`FFmpegStudioAndroid-native-v0.9.13-drag-reorder-candidate.zip`
+
+App version:
+- versionName: `0.9.13`
+- versionCode: `35`
+
+SHA-256:
+`34d61ef862a0f8d63064de3c47d00d8eaad58d0457d8b0f4f6c7dc91490ce220`
+
+Direct base:
+- physically verified v0.9.12.
+
+Changes:
+- long-press V1 clip drag reorder;
+- multi-position drag based on gesture distance;
+- normal horizontal timeline scroll preserved;
+- existing button reorder preserved;
+- Action Trace drag request logging;
+- native binaries and conversion paths unchanged.
+
 ## Packaged native binaries
 
 These binaries were intentionally kept unchanged across the recent Kotlin/UI releases.
