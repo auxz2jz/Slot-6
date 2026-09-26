@@ -4,7 +4,7 @@ This is the compact Android-app release history used for handoff. The detailed F
 
 ## v0.9.12 — Timestamp-safe edited Join + Clip Reorder
 
-**Candidate — awaiting Android Studio/device verification.**
+**Physically accepted on-device.**
 - versionCode 34.
 - Move left / Move right for selected project clip.
 - Split parts reorder exactly like normal clips.
