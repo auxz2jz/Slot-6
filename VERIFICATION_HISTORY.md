@@ -558,3 +558,22 @@ New reliability evidence:
 
 Status:
 **v0.9.11 physically accepted.**
+
+
+## v0.9.12 candidate engineering checks
+
+Direct base:
+- physically accepted v0.9.11.
+
+Changes under test:
+- selected-clip Move left / Move right;
+- split parts reorder like normal clips;
+- timestamp-safe temporary ranged segments before edited Fast Join;
+- automatic non-monotonic DTS observation.
+
+Synthetic FFmpeg reproduction:
+- direct concat-demuxer inpoint/outpoint edited ranges produced many non-monotonic DTS corrections;
+- preparing the edited ranges as separate stream-copy MKV segments first, then concatenating those clean segments, produced zero non-monotonic DTS warnings in the same synthetic scenario.
+
+Status:
+**Candidate only. Android Studio compile/install and physical phone verification required.**
